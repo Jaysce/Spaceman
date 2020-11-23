@@ -12,6 +12,7 @@
 		E87334ED256B51CF0012586E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E87334EC256B51CF0012586E /* Assets.xcassets */; };
 		E87334F0256B51CF0012586E /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E87334EF256B51CF0012586E /* Preview Assets.xcassets */; };
 		E87334F3256B51CF0012586E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E87334F1256B51CF0012586E /* Main.storyboard */; };
+		E8733503256B532D0012586E /* StatusBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8733502256B532D0012586E /* StatusBar.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -23,6 +24,8 @@
 		E87334F2256B51CF0012586E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		E87334F4256B51CF0012586E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E87334F5256B51CF0012586E /* Spaceman.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Spaceman.entitlements; sourceTree = "<group>"; };
+		E87334FC256B52650012586E /* Spaceman-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Spaceman-Bridging-Header.h"; sourceTree = "<group>"; };
+		E8733502256B532D0012586E /* StatusBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusBar.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,6 +60,8 @@
 			children = (
 				E87334E8256B51CF0012586E /* AppDelegate.swift */,
 				E87334EA256B51CF0012586E /* ContentView.swift */,
+				E8733502256B532D0012586E /* StatusBar.swift */,
+				E87334FC256B52650012586E /* Spaceman-Bridging-Header.h */,
 				E87334EC256B51CF0012586E /* Assets.xcassets */,
 				E87334F1256B51CF0012586E /* Main.storyboard */,
 				E87334F4256B51CF0012586E /* Info.plist */,
@@ -144,6 +149,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E8733503256B532D0012586E /* StatusBar.swift in Sources */,
 				E87334EB256B51CF0012586E /* ContentView.swift in Sources */,
 				E87334E9256B51CF0012586E /* AppDelegate.swift in Sources */,
 			);
@@ -296,6 +302,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				PRODUCT_BUNDLE_IDENTIFIER = dev.jaysce.Spaceman;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Spaceman/Spaceman-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
@@ -318,6 +325,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				PRODUCT_BUNDLE_IDENTIFIER = dev.jaysce.Spaceman;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Spaceman/Spaceman-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
