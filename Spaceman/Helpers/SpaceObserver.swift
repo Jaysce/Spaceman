@@ -27,22 +27,20 @@ class SpaceObserver {
             name: NSWorkspace.activeSpaceDidChangeNotification,
             object: workspace
         )
-//
-//        NotificationCenter.default.addObserver(
-//            self,
-//            selector: #selector(updateSpaceInformation),
-//            name: NSApplication.didUpdateNotification,
-//            object: nil
-//        )
+
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(updateSpaceInformation),
+            name: NSApplication.didUpdateNotification,
+            object: nil
+        )
     }
     
     @objc public func updateSpaceInformation() {
         let displays = CGSCopyManagedDisplaySpaces(conn) as! [NSDictionary]
-//        let activeDisplay = CGSCopyActiveMenuBarDisplayIdentifier(conn) as? String
-//        let allSpaces: NSMutableArray = []
         var activeSpaceID = -1
         var spacesIndex = 0
-        var mySpaces: [Space] = []
+        var allSpaces: [Space] = []
         
         for d in displays {
             guard let currentSpaces = d["Current Space"] as? [String: Any],
@@ -68,11 +66,11 @@ class SpaceObserver {
                 space.isCurrentSpace = activeSpaceID == s["ManagedSpaceID"] as! Int
                 space.isFullScreen = s["TileLayoutManager"] as? [String: Any] != nil
                 
-                mySpaces.append(space)
+                allSpaces.append(space)
                 spacesIndex += 1
             }
         }
         
-        self.statusBar?.updateStatusBar()
+        self.statusBar?.updateStatusBar(spaces: allSpaces)
     }
 }
