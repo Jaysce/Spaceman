@@ -14,6 +14,7 @@
 		E87334F3256B51CF0012586E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E87334F1256B51CF0012586E /* Main.storyboard */; };
 		E8733503256B532D0012586E /* StatusBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8733502256B532D0012586E /* StatusBar.swift */; };
 		E8733507256B57400012586E /* SpaceObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8733506256B57400012586E /* SpaceObserver.swift */; };
+		E873350E256B5F0F0012586E /* Space.swift in Sources */ = {isa = PBXBuildFile; fileRef = E873350D256B5F0F0012586E /* Space.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,7 @@
 		E87334FC256B52650012586E /* Spaceman-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Spaceman-Bridging-Header.h"; sourceTree = "<group>"; };
 		E8733502256B532D0012586E /* StatusBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusBar.swift; sourceTree = "<group>"; };
 		E8733506256B57400012586E /* SpaceObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceObserver.swift; sourceTree = "<group>"; };
+		E873350D256B5F0F0012586E /* Space.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Space.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,6 +96,7 @@
 				E87334E8256B51CF0012586E /* AppDelegate.swift */,
 				E87334EA256B51CF0012586E /* ContentView.swift */,
 				E8733502256B532D0012586E /* StatusBar.swift */,
+				E873350D256B5F0F0012586E /* Space.swift */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -168,6 +171,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E873350E256B5F0F0012586E /* Space.swift in Sources */,
 				E8733503256B532D0012586E /* StatusBar.swift in Sources */,
 				E87334EB256B51CF0012586E /* ContentView.swift in Sources */,
 				E8733507256B57400012586E /* SpaceObserver.swift in Sources */,

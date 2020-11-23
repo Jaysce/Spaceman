@@ -12,10 +12,11 @@ import SwiftUI
 class AppDelegate: NSObject, NSApplicationDelegate {
 
     private let statusBar = StatusBar()
+    private let observer = SpaceObserver()
 
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
-        
+        observer.statusBar = statusBar
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {

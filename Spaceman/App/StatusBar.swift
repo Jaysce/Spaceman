@@ -31,4 +31,8 @@ class StatusBar {
         statusBarMenu.addItem(NSMenuItem(title: "Quit SpaceMan", action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q"))
         statusBarItem.menu = statusBarMenu
     }
+    
+    func updateStatusBar() {
+        print("Updating...")
+    }
 }
