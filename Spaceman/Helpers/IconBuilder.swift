@@ -12,6 +12,7 @@ class IconBuilder {
     private let ICON_SIZE = NSSize(width: 18, height: 12)
     private let GAP_WIDTH = CGFloat(5)
     private let DISPLAY_GAP_WIDTH = CGFloat(15)
+    private var DISPLAY_COUNT = 1
     
     func getIcon(for spaces: [Space]) -> NSImage {
         switch Preferences.shared.getDisplayType() {
@@ -46,7 +47,7 @@ class IconBuilder {
             return addNumbers(to: icons, for: spaces)
         }
         
-        return merge(icons)
+        return merge(displayHelper(iconImages: icons, spaces: spaces))
     }
     
     private func createNumberedSpaces(for spaces: [Space]) -> NSImage {
@@ -60,14 +61,14 @@ class IconBuilder {
             image.lockFocus()
             spaceNumber.drawVerticallyCentered(
                 in: textRect,
-                withAttributes: getStringAttributes(alpha: !s.isCurrentSpace ? 0.4 : 1)
+                withAttributes: getStringAttributes(alpha: !s.isCurrentSpace ? 0.4 : 1, fontSize: 12)
             )
             image.unlockFocus()
             
             icons.append(image)
         }
         
-        return merge(icons)
+        return merge(displayHelper(iconImages: icons, spaces: spaces))
     }
     
     private func addNumbers(to icons: [NSImage], for spaces: [Space]) -> NSImage {
@@ -77,8 +78,8 @@ class IconBuilder {
         for s in spaces {
             let textRect = NSRect(origin: CGPoint.zero, size: ICON_SIZE)
             let spaceNumber = NSString(string: String(s.spaceNumber))
-            let iconImage = NSImage(size: NSSize(width: ICON_SIZE.width, height: ICON_SIZE.height))
-            let numberImage = NSImage(size: NSSize(width: ICON_SIZE.width, height: ICON_SIZE.height))
+            let iconImage = NSImage(size: ICON_SIZE)
+            let numberImage = NSImage(size: ICON_SIZE)
             
             numberImage.lockFocus()
             spaceNumber.drawVerticallyCentered(in: textRect, withAttributes: getStringAttributes(alpha: 1))
@@ -102,25 +103,26 @@ class IconBuilder {
             index += 1
         }
         
-        return merge(newIcons)
+        return merge(displayHelper(iconImages: newIcons, spaces: spaces))
     }
     
-    private func merge(_ icons: [NSImage]) -> NSImage {
+    private func merge(_ icons: [(NSImage, Bool)]) -> NSImage {
         let combinedIconWidth = CGFloat(icons.count) * ICON_SIZE.width
         let accomodatingGapWidth = CGFloat(icons.count - 1) * GAP_WIDTH
-//        let accomodatingDisplayGapWidth = CGFloat(numberOfDisplays - 1) * DISPLAY_GAP_WIDTH
-        let totalWidth = combinedIconWidth + accomodatingGapWidth
+        let accomodatingDisplayGapWidth = CGFloat(DISPLAY_COUNT - 1) * DISPLAY_GAP_WIDTH
+        let totalWidth = combinedIconWidth + accomodatingGapWidth + accomodatingDisplayGapWidth
         let image = NSImage(size: NSSize(width: totalWidth, height: ICON_SIZE.height))
         
         image.lockFocus()
         var x = CGFloat.zero
         for icon in icons {
-            icon.draw(at: NSPoint(x: x, y: 0),
+            icon.0.draw(at: NSPoint(x: x, y: 0),
                       from: NSRect.zero,
                       operation: NSCompositingOperation.sourceOver,
                       fraction: 1.0
             )
-            x += ICON_SIZE.width + GAP_WIDTH
+            if icon.1 { x += ICON_SIZE.width + DISPLAY_GAP_WIDTH}
+            else { x += ICON_SIZE.width + GAP_WIDTH }
         }
         image.isTemplate = true
         image.unlockFocus()
@@ -128,13 +130,36 @@ class IconBuilder {
         return image
     }
     
-    private func getStringAttributes(alpha: CGFloat) -> [NSAttributedString.Key : Any] {
+    private func displayHelper(iconImages: [NSImage], spaces: [Space]) -> [(NSImage, Bool)] {
+        var tupleArray = [(NSImage, Bool)]()
+        var currentDisplayID = spaces[0].displayID
+        DISPLAY_COUNT = 1
+        
+        for index in 0 ..< spaces.count {
+            var nextSpaceIsOnDifferentDisplay = false
+            
+            if index + 1 < spaces.count {
+                let thisDispID = spaces[index + 1].displayID
+                if thisDispID != currentDisplayID {
+                    currentDisplayID = thisDispID
+                    DISPLAY_COUNT += 1
+                    nextSpaceIsOnDifferentDisplay = true
+                }
+            }
+            
+            tupleArray.append((iconImages[index], nextSpaceIsOnDifferentDisplay))
+        }
+        
+        return tupleArray
+    }
+    
+    private func getStringAttributes(alpha: CGFloat, fontSize: CGFloat = 10) -> [NSAttributedString.Key : Any] {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.alignment = .center
         
         return [
             .foregroundColor: NSColor.black.withAlphaComponent(alpha),
-            .font: NSFont.monospacedSystemFont(ofSize: 10, weight: .bold),
+            .font: NSFont.monospacedSystemFont(ofSize: fontSize, weight: .bold),
             .paragraphStyle: paragraphStyle
         ]
     }
