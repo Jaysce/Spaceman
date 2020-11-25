@@ -8,22 +8,22 @@
 import Foundation
 
 class Preferences {
-    static let shared = Preferences(displayType: .both)
-    private var displayType: DisplayType
+    static let shared = Preferences(displayType: SpacemanStyle(rawValue: UserDefaults.standard.integer(forKey: "displayStyle"))!)
+    private var displayType: SpacemanStyle
     
-    private init(displayType: DisplayType) {
+    private init(displayType: SpacemanStyle) {
         self.displayType = displayType
     }
     
-    func changeDisplayType(to displayType: DisplayType) {
+    func changeDisplayType(to displayType: SpacemanStyle) {
         self.displayType = displayType
     }
     
-    func getDisplayType() -> DisplayType {
+    func getDisplayType() -> SpacemanStyle {
         return displayType
     }
 }
 
-enum DisplayType {
-    case numbers, text, none, both
+enum SpacemanStyle: Int {
+    case none, numbers, both, text
 }
