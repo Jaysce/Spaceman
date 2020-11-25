@@ -10,7 +10,6 @@ import Foundation
 
 class SpaceObserver {
     private var workspace: NSWorkspace?
-    private let mainDisplay = "Main"
     private let conn = _CGSDefaultConnection()
     var statusBar: StatusBar?
     
@@ -50,7 +49,6 @@ class SpaceObserver {
                 continue
             }
             
-            // The active space for the current display in the loop
             activeSpaceID = currentSpaces["ManagedSpaceID"] as! Int
             
             if activeSpaceID == -1 {
@@ -60,7 +58,6 @@ class SpaceObserver {
                 return
             }
             
-            // Spaces for the current display in the loop
             for s in spaces {
                 var space = Space(displayID: displayID, spaceNumber: spacesIndex + 1, isCurrentSpace: false, isFullScreen: false)
                 space.isCurrentSpace = activeSpaceID == s["ManagedSpaceID"] as! Int

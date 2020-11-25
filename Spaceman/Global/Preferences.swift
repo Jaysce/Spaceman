@@ -8,7 +8,7 @@
 import Foundation
 
 class Preferences {
-    static let shared = Preferences(displayType: .numbers)
+    static let shared = Preferences(displayType: .both)
     private var displayType: DisplayType
     
     private init(displayType: DisplayType) {
@@ -25,5 +25,5 @@ class Preferences {
 }
 
 enum DisplayType {
-    case numbers, text, none
+    case numbers, text, none, both
 }

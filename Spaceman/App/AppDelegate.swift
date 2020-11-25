@@ -5,7 +5,6 @@
 //  Created by Sasindu Jayasinghe on 23/11/20.
 //
 
-import Cocoa
 import SwiftUI
 
 @main
@@ -17,6 +16,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         observer.statusBar = statusBar
+        NSApp.activate(ignoringOtherApps: true)
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {
