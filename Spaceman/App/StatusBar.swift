@@ -13,6 +13,7 @@ class StatusBar {
     private let statusBarMenu: NSMenu
     private let iconBuilder = IconBuilder()
     private var window: NSWindow!
+    var int = 1
     
     init() {
         statusBarItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
@@ -29,6 +30,9 @@ class StatusBar {
         if let statusBarButton = statusBarItem.button {
             statusBarButton.image = iconBuilder.getIcon(for: spaces)
         }
+        
+        print("Updating... \(int)")
+        int += 1
     }
     
     func addStatusBarMenuItems() {

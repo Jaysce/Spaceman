@@ -9,15 +9,21 @@ import AppKit
 import Foundation
 
 class IconBuilder {
-    private let ICON_SIZE = NSSize(width: 18, height: 12)
+    private var ICON_SIZE: NSSize!
     private let GAP_WIDTH = CGFloat(5)
     private let DISPLAY_GAP_WIDTH = CGFloat(15)
     private var DISPLAY_COUNT = 1
+    private let prefs = Preferences.shared
     
     func getIcon(for spaces: [Space]) -> NSImage {
+        ICON_SIZE = NSSize(width: 18, height: 12)
+        
         switch Preferences.shared.getDisplayType() {
         case .numbers:
             return createNumberedSpaces(for: spaces)
+        case .text:
+            ICON_SIZE = NSSize(width: 45, height: 12)
+            fallthrough
         default:
             return createSimpleSpaces(for: spaces)
         }
@@ -31,11 +37,11 @@ class IconBuilder {
             
             switch (s.isCurrentSpace, s.isFullScreen) {
             case (true, true):
-                iconResourceName = "SpaceManIconFullEn"
+                iconResourceName = prefs.getDisplayType() == .text ? "SpaceManIcon" : "SpaceManIconFullEn"
             case (true, false):
                 iconResourceName = "SpaceManIcon"
             case (false, true):
-                iconResourceName = "SpaceManIconFullDis"
+                iconResourceName = prefs.getDisplayType() == .text ? "SpaceManIconBorder" : "SpaceManIconFullEn"
             default:
                 iconResourceName = "SpaceManIconBorder"
             }
@@ -45,6 +51,9 @@ class IconBuilder {
         
         if Preferences.shared.getDisplayType() == .both {
             return addNumbers(to: icons, for: spaces)
+        }
+        else if Preferences.shared.getDisplayType() == .text {
+            return addText(to: icons, for: spaces)
         }
         
         return merge(displayHelper(iconImages: icons, spaces: spaces))
@@ -92,6 +101,41 @@ class IconBuilder {
                               fraction: 1.0
             )
             numberImage.draw(in: textRect,
+                             from: NSRect.zero,
+                             operation: NSCompositingOperation.destinationOut,
+                             fraction: 1.0
+            )
+            iconImage.isTemplate = true
+            iconImage.unlockFocus()
+            
+            newIcons.append(iconImage)
+            index += 1
+        }
+        
+        return merge(displayHelper(iconImages: newIcons, spaces: spaces))
+    }
+    
+    private func addText(to icons: [NSImage], for spaces: [Space]) -> NSImage {
+        var index = 0
+        var newIcons = [NSImage]()
+        
+        for s in spaces {
+            let textRect = NSRect(origin: CGPoint.zero, size: ICON_SIZE)
+            let spaceText = NSString(string: "\(s.spaceNumber): \(s.isFullScreen ? "FUL" : s.spaceName.uppercased())")
+            let iconImage = NSImage(size: ICON_SIZE)
+            let textImage = NSImage(size: ICON_SIZE)
+            
+            textImage.lockFocus()
+            spaceText.drawVerticallyCentered(in: textRect, withAttributes: getStringAttributes(alpha: 1))
+            textImage.unlockFocus()
+            
+            iconImage.lockFocus()
+            icons[index].draw(in: textRect,
+                              from: NSRect.zero,
+                              operation: NSCompositingOperation.sourceOver,
+                              fraction: 1.0
+            )
+            textImage.draw(in: textRect,
                              from: NSRect.zero,
                              operation: NSCompositingOperation.destinationOut,
                              fraction: 1.0

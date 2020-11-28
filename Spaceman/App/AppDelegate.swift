@@ -16,6 +16,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         observer.statusBar = statusBar
+        observer.updateSpaceInformation()
         NSApp.activate(ignoringOtherApps: true)
     }
 

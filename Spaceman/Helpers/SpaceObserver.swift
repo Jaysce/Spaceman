@@ -11,6 +11,7 @@ import Foundation
 class SpaceObserver {
     private var workspace: NSWorkspace?
     private let conn = _CGSDefaultConnection()
+    private var prefs = Preferences.shared
     var statusBar: StatusBar?
     
     init() {
@@ -26,6 +27,13 @@ class SpaceObserver {
             name: NSWorkspace.activeSpaceDidChangeNotification,
             object: workspace
         )
+        
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(updateSpaceInformation),
+            name: NSNotification.Name("ButtonPressed"),
+            object: nil
+        )
 
         NotificationCenter.default.addObserver(
             self,
@@ -40,6 +48,7 @@ class SpaceObserver {
         var activeSpaceID = -1
         var spacesIndex = 0
         var allSpaces: [Space] = []
+        var updatedDict = [String: DictVal]()
         
         for d in displays {
             guard let currentSpaces = d["Current Space"] as? [String: Any],
@@ -59,15 +68,30 @@ class SpaceObserver {
             }
             
             for s in spaces {
-                var space = Space(displayID: displayID, spaceNumber: spacesIndex + 1, isCurrentSpace: false, isFullScreen: false)
-                space.isCurrentSpace = activeSpaceID == s["ManagedSpaceID"] as! Int
-                space.isFullScreen = s["TileLayoutManager"] as? [String: Any] != nil
+                let dict = prefs.getDict()
+                let spaceID = String(s["ManagedSpaceID"] as! Int)
+                let spaceNumber: Int = spacesIndex + 1
+                let isCurrentSpace = activeSpaceID == s["ManagedSpaceID"] as! Int
+                let isFullScreen = s["TileLayoutManager"] as? [String: Any] != nil
                 
+                let space: Space
+                
+                // if key exists
+                if dict[spaceID] != nil {
+                    space = Space(displayID: displayID, spaceID: spaceID, spaceName: dict[spaceID]!.spaceName, spaceNumber: spaceNumber, isCurrentSpace: isCurrentSpace, isFullScreen: isFullScreen)
+                }
+                else {
+                    space = Space(displayID: displayID, spaceID: spaceID, spaceNumber: spaceNumber, isCurrentSpace: isCurrentSpace, isFullScreen: isFullScreen)
+                }
+                
+                let dv = DictVal(spaceNum: spaceNumber, spaceName: space.spaceName)
+                updatedDict[spaceID] = dv
                 allSpaces.append(space)
                 spacesIndex += 1
             }
         }
         
+        prefs.updateDictionary(with: updatedDict)
         self.statusBar?.updateStatusBar(spaces: allSpaces)
     }
 }
