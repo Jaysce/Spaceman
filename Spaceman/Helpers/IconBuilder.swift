@@ -41,7 +41,7 @@ class IconBuilder {
             case (true, false):
                 iconResourceName = "SpaceManIcon"
             case (false, true):
-                iconResourceName = prefs.getDisplayType() == .text ? "SpaceManIconBorder" : "SpaceManIconFullEn"
+                iconResourceName = prefs.getDisplayType() == .text ? "SpaceManIconBorder" : "SpaceManIconFullDis"
             default:
                 iconResourceName = "SpaceManIconBorder"
             }

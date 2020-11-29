@@ -34,13 +34,6 @@ class SpaceObserver {
             name: NSNotification.Name("ButtonPressed"),
             object: nil
         )
-
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(updateSpaceInformation),
-            name: NSApplication.didUpdateNotification,
-            object: nil
-        )
     }
     
     @objc public func updateSpaceInformation() {
