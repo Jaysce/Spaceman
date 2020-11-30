@@ -46,14 +46,14 @@ struct ContentView: View {
                     case 3:
                         defaults.set(SpacemanStyle.text.rawValue, forKey: "displayStyle")
                         prefs.changeDisplayType(to: .text)
+                        prefs.updateValue(for: sortedDict[selectedSpace].key, withSpaceNumber: sortedDict[selectedSpace].value.spaceNum, withSpaceName: text)
+                        defaults.set(try? PropertyListEncoder().encode(prefs.getDict()), forKey: "spaceNames")
                     default:
                         defaults.set(SpacemanStyle.both.rawValue, forKey: "displayStyle")
                         prefs.changeDisplayType(to: .both)
                     }
-                    
-                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
 
-                    prefs.updateValue(for: sortedDict[selectedSpace].key, withSpaceNumber: sortedDict[selectedSpace].value.spaceNum, withSpaceName: text)
+                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
                 }, label: {
                     Text("Update")
                 })

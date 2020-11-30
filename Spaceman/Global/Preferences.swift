@@ -10,10 +10,17 @@ import Foundation
 class Preferences {
     static let shared = Preferences(displayType: SpacemanStyle(rawValue: UserDefaults.standard.integer(forKey: "displayStyle"))!)
     private var displayType: SpacemanStyle
-    private var dict = [String: DictVal]()
+    private var dict: [String: DictVal]
     
     private init(displayType: SpacemanStyle) {
         self.displayType = displayType
+        
+        if let data = UserDefaults.standard.value(forKey:"spaceNames") as? Data {
+            let dict = try! PropertyListDecoder().decode(Dictionary<String, DictVal>.self, from: data)
+            self.dict = dict
+        } else {
+            self.dict = [String: DictVal]()
+        }
     }
     
     func changeDisplayType(to displayType: SpacemanStyle) {
@@ -49,7 +56,7 @@ enum SpacemanStyle: Int {
     case none, numbers, both, text
 }
 
-struct DictVal: Hashable {
+struct DictVal: Hashable, Codable {
     let spaceNum: Int
     let spaceName: String
 }
