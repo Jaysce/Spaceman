@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import LaunchAtLogin
 
 struct ContentView: View {
     let defaults = UserDefaults.standard
@@ -18,6 +19,7 @@ struct ContentView: View {
     var body: some View {
         ScrollView {
             VStack {
+                LaunchAtLogin.Toggle()
                 Picker(selection: $selectedStyle, label: Text("Style:"), content: {
                     Text("Block").tag(0)
                     Text("Numbers").tag(1)
