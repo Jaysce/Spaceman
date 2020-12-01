@@ -21,7 +21,7 @@ class StatusBar {
         addStatusBarMenuItems()
         
         window = NSWindow(
-            contentRect: NSRect(x: 0, y: 0, width: 480, height: 300),
+            contentRect: NSRect(x: 0, y: 0, width: 400, height: 200),
             styleMask: [.titled, .closable, .fullSizeContentView],
             backing: .buffered, defer: false)
     }
@@ -58,6 +58,7 @@ class StatusBar {
         window.center()
         window.setFrameAutosaveName("Main Window")
         window.contentView = NSHostingView(rootView: contentView)
+        window.title = "Spaceman Preferences"
         window.makeKeyAndOrderFront(nil)
         NSApplication.shared.activate(ignoringOtherApps: true)
     }

@@ -17,53 +17,63 @@ struct ContentView: View {
     @State private var text = ""
     
     var body: some View {
-        ScrollView {
-            VStack {
-                LaunchAtLogin.Toggle()
-                Picker(selection: $selectedStyle, label: Text("Style:"), content: {
-                    Text("Block").tag(0)
-                    Text("Numbers").tag(1)
-                    Text("Both").tag(2)
-                    Text("Text").tag(3)
-                })
-                .pickerStyle(RadioGroupPickerStyle())
+        VStack(alignment: .leading, spacing: 20, content: {
+            
+            Picker(selection: $selectedStyle, label: Text("Style: ").font(.headline), content: {
+                Text("Rectangles").tag(0)
+                Text("Numbers").tag(1)
+                Text("Rectangles with numbers").tag(2)
+                Text("Named spaces").tag(3)
+            })
+            .onReceive([self.selectedStyle].publisher.first()) { value in
+                var displayType = prefs.getDisplayType()
                 
-                HStack {
-                    Picker(selection: $selectedSpace, label: Text("Space Text:"), content: {
-                        ForEach(0..<sortedDict.count) { num in
-                            Text(String(sortedDict[num].value.spaceNum))
-                        }
-                    })
-                    TextField("Enter space name up to 3 letters", text: $text)
+                switch value {
+                case 0:
+                    defaults.set(SpacemanStyle.none.rawValue, forKey: "displayStyle")
+                    displayType = .none
+                case 1:
+                    defaults.set(SpacemanStyle.numbers.rawValue, forKey: "displayStyle")
+                    displayType = .numbers
+                case 3:
+                    defaults.set(SpacemanStyle.text.rawValue, forKey: "displayStyle")
+                    displayType = .text
+                default:
+                    defaults.set(SpacemanStyle.both.rawValue, forKey: "displayStyle")
+                    displayType = .both
                 }
                 
-                Button(action: {
-                    switch selectedStyle {
-                    case 0:
-                        defaults.set(SpacemanStyle.none.rawValue, forKey: "displayStyle")
-                        prefs.changeDisplayType(to: .none)
-                    case 1:
-                        defaults.set(SpacemanStyle.numbers.rawValue, forKey: "displayStyle")
-                        prefs.changeDisplayType(to: .numbers)
-                    case 3:
-                        defaults.set(SpacemanStyle.text.rawValue, forKey: "displayStyle")
-                        prefs.changeDisplayType(to: .text)
-                        prefs.updateValue(for: sortedDict[selectedSpace].key, withSpaceNumber: sortedDict[selectedSpace].value.spaceNum, withSpaceName: text)
-                        defaults.set(try? PropertyListEncoder().encode(prefs.getDict()), forKey: "spaceNames")
-                    default:
-                        defaults.set(SpacemanStyle.both.rawValue, forKey: "displayStyle")
-                        prefs.changeDisplayType(to: .both)
-                    }
-
-                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
-                }, label: {
-                    Text("Update")
-                })
-                .pickerStyle(RadioGroupPickerStyle())
+                prefs.changeDisplayType(to: displayType)
+                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
             }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-        }
-        
+            
+            HStack {
+                Picker(selection: $selectedSpace, label: Text("Space: ").font(.headline), content: {
+                    ForEach(0..<sortedDict.count) {
+                        Text(String(sortedDict[$0].value.spaceNum))
+                    }
+                })
+                TextField("Enter name...", text: $text)
+                
+                Button(action: {
+                    let key = sortedDict[selectedSpace].key
+                    let spaceNum = sortedDict[selectedSpace].value.spaceNum
+                    
+                    prefs.updateValue(for: key, withSpaceNumber: spaceNum, withSpaceName: text)
+                    defaults.set(try? PropertyListEncoder().encode(prefs.getDict()), forKey: "spaceNames")
+                    
+                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
+                    
+                }, label: {
+                    Text("Update name")
+                })
+            }
+            
+            LaunchAtLogin.Toggle() {
+                Text("Launch Spaceman at login").font(.headline)
+            }
+        })
+        .padding()
     }
 }
 
