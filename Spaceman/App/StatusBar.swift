@@ -9,33 +9,12 @@ import Foundation
 import SwiftUI
 
 class StatusBar {
-    private let statusBarItem: NSStatusItem
-    private let statusBarMenu: NSMenu
-    private let iconBuilder = IconBuilder()
-    private var window: NSWindow!
-    var int = 1
+    private let statusBarItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
+    private let statusBarMenu = NSMenu()
+    private var prefsWindow = PreferencesWindow()
+    var updateCounter = 1
     
     init() {
-        statusBarItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
-        statusBarMenu = NSMenu()
-        addStatusBarMenuItems()
-        
-        window = NSWindow(
-            contentRect: NSRect(x: 0, y: 0, width: 400, height: 200),
-            styleMask: [.titled, .closable, .fullSizeContentView],
-            backing: .buffered, defer: false)
-    }
-    
-    func updateStatusBar(spaces: [Space]) {
-        if let statusBarButton = statusBarItem.button {
-            statusBarButton.image = iconBuilder.getIcon(for: spaces)
-        }
-        
-        print("Updating... \(int)")
-        int += 1
-    }
-    
-    func addStatusBarMenuItems() {
         let about = NSMenuItem(title: "About Spaceman", action: nil, keyEquivalent: "")
         let pref = NSMenuItem(title: "Preferences...", action: #selector(showPreferencesWindow(_:)), keyEquivalent: "")
         pref.target = self
@@ -49,17 +28,17 @@ class StatusBar {
         statusBarItem.menu = statusBarMenu
     }
     
+    func updateStatusBar(withIcon icon: NSImage) {
+        if let statusBarButton = statusBarItem.button {
+            statusBarButton.image = icon
+        }
+        
+        print("Updating... \(updateCounter)")
+        updateCounter += 1
+    }
+    
     @objc func showPreferencesWindow(_ sender: AnyObject) {
-        let contentView = ContentView()
-        
-        // Create the window and set the content view.
-        
-        window.isReleasedWhenClosed = false
-        window.center()
-        window.setFrameAutosaveName("Main Window")
-        window.contentView = NSHostingView(rootView: contentView)
-        window.title = "Spaceman Preferences"
-        window.makeKeyAndOrderFront(nil)
+        prefsWindow.makeKeyAndOrderFront(nil)
         NSApplication.shared.activate(ignoringOtherApps: true)
     }
 }

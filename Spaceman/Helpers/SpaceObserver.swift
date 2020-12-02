@@ -9,19 +9,13 @@ import Cocoa
 import Foundation
 
 class SpaceObserver {
-    private var workspace: NSWorkspace?
+    private var workspace = NSWorkspace.shared
     private let conn = _CGSDefaultConnection()
     private var prefs = Preferences.shared
-    var statusBar: StatusBar?
+    weak var delegate: SpaceObserverDelegate?
     
     init() {
-        configureObservers()
-    }
-    
-    private func configureObservers() {
-        workspace = NSWorkspace.shared
-        
-        workspace?.notificationCenter.addObserver(
+        workspace.notificationCenter.addObserver(
             self,
             selector: #selector(updateSpaceInformation),
             name: NSWorkspace.activeSpaceDidChangeNotification,
@@ -85,6 +79,10 @@ class SpaceObserver {
         }
         
         prefs.updateDictionary(with: updatedDict)
-        self.statusBar?.updateStatusBar(spaces: allSpaces)
+        delegate?.didUpdateSpaces(spaces: allSpaces)
     }
+}
+
+protocol SpaceObserverDelegate: class {
+    func didUpdateSpaces(spaces: [Space])
 }

@@ -8,7 +8,7 @@
 import SwiftUI
 import LaunchAtLogin
 
-struct ContentView: View {
+struct PreferencesView: View {
     let defaults = UserDefaults.standard
     let prefs = Preferences.shared
     let sortedDict = Preferences.shared.getSortedDict()
@@ -80,6 +80,6 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        PreferencesView()
     }
 }
