@@ -9,12 +9,12 @@ import SwiftUI
 import LaunchAtLogin
 
 struct PreferencesView: View {
-    let defaults = UserDefaults.standard
-    let prefs = Preferences.shared
-    let sortedDict = Preferences.shared.getSortedDict()
-    @State private var selectedStyle = UserDefaults.standard.integer(forKey: "displayStyle")
+    @AppStorage("displayStyle") private var selectedStyle = 0
+    @AppStorage("spaceNames") private var data = Data()
     @State private var selectedSpace = 0
-    @State private var text = ""
+    @State private var spaceNamesDict = [String: SpaceNameInfo]()
+    @State private var sortedSpaceNamesDict = [Dictionary<String, SpaceNameInfo>.Element]()
+    @State private var spaceName = ""
     
     var body: some View {
         VStack(alignment: .leading, spacing: 20, content: {
@@ -25,43 +25,25 @@ struct PreferencesView: View {
                 Text("Rectangles with numbers").tag(2)
                 Text("Named spaces").tag(3)
             })
-            .onReceive([self.selectedStyle].publisher.first()) { value in
-                var displayType = prefs.getDisplayType()
-                
-                switch value {
-                case 0:
-                    defaults.set(SpacemanStyle.none.rawValue, forKey: "displayStyle")
-                    displayType = .none
-                case 1:
-                    defaults.set(SpacemanStyle.numbers.rawValue, forKey: "displayStyle")
-                    displayType = .numbers
-                case 3:
-                    defaults.set(SpacemanStyle.text.rawValue, forKey: "displayStyle")
-                    displayType = .text
-                default:
-                    defaults.set(SpacemanStyle.both.rawValue, forKey: "displayStyle")
-                    displayType = .both
-                }
-                
-                prefs.changeDisplayType(to: displayType)
+            .onChange(of: selectedStyle) { newValue in
+                self.selectedStyle = newValue
                 NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
             }
             
             HStack {
                 Picker(selection: $selectedSpace, label: Text("Space: ").font(.headline), content: {
-                    ForEach(0..<sortedDict.count) {
-                        Text(String(sortedDict[$0].value.spaceNum))
+                    ForEach(0..<sortedSpaceNamesDict.count, id: \.self) {
+                        Text(String(sortedSpaceNamesDict[$0].value.spaceNum))
                     }
                 })
-                TextField("Enter name...", text: $text)
+                TextField("Enter name...", text: $spaceName)
                 
                 Button(action: {
-                    let key = sortedDict[selectedSpace].key
-                    let spaceNum = sortedDict[selectedSpace].value.spaceNum
+                    let key = sortedSpaceNamesDict[selectedSpace].key
+                    let spaceNum = sortedSpaceNamesDict[selectedSpace].value.spaceNum
                     
-                    prefs.updateValue(for: key, withSpaceNumber: spaceNum, withSpaceName: text)
-                    defaults.set(try? PropertyListEncoder().encode(prefs.getDict()), forKey: "spaceNames")
-                    
+                    spaceNamesDict[key] = SpaceNameInfo(spaceNum: spaceNum, spaceName: spaceName)
+                    self.data = try! PropertyListEncoder().encode(spaceNamesDict)
                     NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
                     
                 }, label: {
@@ -74,6 +56,27 @@ struct PreferencesView: View {
             }
         })
         .padding()
+        .onAppear(perform: loadData)
+        .onChange(of: data) { newValue in
+            loadData()
+        }
+    }
+    
+    func loadData() {
+        guard let data = UserDefaults.standard.value(forKey:"spaceNames") as? Data else {
+            print("Failed to retrive data from UserDefaults (view)")
+            return
+        }
+        
+        print("Loading data from UserDefaults")
+        self.selectedSpace = 0
+        let decoded = try! PropertyListDecoder().decode(Dictionary<String, SpaceNameInfo>.self, from: data)
+        self.spaceNamesDict = decoded
+        let sorted = decoded.sorted { (first, second) -> Bool in
+            return first.value.spaceNum < second.value.spaceNum
+        }
+        
+        self.sortedSpaceNamesDict = sorted
     }
 }
 

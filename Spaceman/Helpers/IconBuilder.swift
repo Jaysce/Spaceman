@@ -13,12 +13,13 @@ class IconBuilder {
     private let GAP_WIDTH = CGFloat(5)
     private let DISPLAY_GAP_WIDTH = CGFloat(15)
     private var DISPLAY_COUNT = 1
-    private let prefs = Preferences.shared
+    private let defaults = UserDefaults.standard
     
     func getIcon(for spaces: [Space]) -> NSImage {
         ICON_SIZE = NSSize(width: 18, height: 12)
+        let spacemanStyle = SpacemanStyle(rawValue: defaults.integer(forKey: "displayStyle"))
         
-        switch Preferences.shared.getDisplayType() {
+        switch spacemanStyle {
         case .numbers:
             return createNumberedSpaces(for: spaces)
         case .text:
@@ -31,17 +32,18 @@ class IconBuilder {
     
     private func createSimpleSpaces(for spaces: [Space]) -> NSImage {
         var icons = [NSImage]()
+        let spacemanStyle = SpacemanStyle(rawValue: defaults.integer(forKey: "displayStyle"))
         
         for s in spaces {
             let iconResourceName: String
             
             switch (s.isCurrentSpace, s.isFullScreen) {
             case (true, true):
-                iconResourceName = prefs.getDisplayType() == .text ? "SpaceManIcon" : "SpaceManIconFullEn"
+                iconResourceName = spacemanStyle == .text ? "SpaceManIcon" : "SpaceManIconFullEn"
             case (true, false):
                 iconResourceName = "SpaceManIcon"
             case (false, true):
-                iconResourceName = prefs.getDisplayType() == .text ? "SpaceManIconBorder" : "SpaceManIconFullDis"
+                iconResourceName = spacemanStyle == .text ? "SpaceManIconBorder" : "SpaceManIconFullDis"
             default:
                 iconResourceName = "SpaceManIconBorder"
             }
@@ -49,10 +51,10 @@ class IconBuilder {
             icons.append(NSImage(imageLiteralResourceName: iconResourceName))
         }
         
-        if Preferences.shared.getDisplayType() == .both {
+        if spacemanStyle == .both {
             return addNumbers(to: icons, for: spaces)
         }
-        else if Preferences.shared.getDisplayType() == .text {
+        else if spacemanStyle == .text {
             return addText(to: icons, for: spaces)
         }
         

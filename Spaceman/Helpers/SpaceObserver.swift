@@ -11,7 +11,7 @@ import Foundation
 class SpaceObserver {
     private var workspace = NSWorkspace.shared
     private let conn = _CGSDefaultConnection()
-    private var prefs = Preferences.shared
+    private let defaults = UserDefaults.standard
     weak var delegate: SpaceObserverDelegate?
     
     init() {
@@ -35,7 +35,7 @@ class SpaceObserver {
         var activeSpaceID = -1
         var spacesIndex = 0
         var allSpaces: [Space] = []
-        var updatedDict = [String: DictVal]()
+        var updatedDict = [String: SpaceNameInfo]()
         
         for d in displays {
             guard let currentSpaces = d["Current Space"] as? [String: Any],
@@ -55,30 +55,32 @@ class SpaceObserver {
             }
             
             for s in spaces {
-                let dict = prefs.getDict()
                 let spaceID = String(s["ManagedSpaceID"] as! Int)
                 let spaceNumber: Int = spacesIndex + 1
                 let isCurrentSpace = activeSpaceID == s["ManagedSpaceID"] as! Int
                 let isFullScreen = s["TileLayoutManager"] as? [String: Any] != nil
+                var space = Space(displayID: displayID,
+                                  spaceID: spaceID,
+                                  spaceName: "N/A",
+                                  spaceNumber: spaceNumber,
+                                  isCurrentSpace: isCurrentSpace,
+                                  isFullScreen: isFullScreen)
                 
-                let space: Space
-                
-                // if key exists
-                if dict[spaceID] != nil {
-                    space = Space(displayID: displayID, spaceID: spaceID, spaceName: dict[spaceID]!.spaceName, spaceNumber: spaceNumber, isCurrentSpace: isCurrentSpace, isFullScreen: isFullScreen)
+                // Try to get data for spaceNames key
+                if let data = defaults.value(forKey:"spaceNames") as? Data {
+                    // Decode the data into dictionary (will not fail as data is not nil)
+                    let dict = try! PropertyListDecoder().decode(Dictionary<String, SpaceNameInfo>.self, from: data)
+                    space.spaceName = dict[spaceID] != nil ? dict[spaceID]!.spaceName : "N/A"
                 }
-                else {
-                    space = Space(displayID: displayID, spaceID: spaceID, spaceNumber: spaceNumber, isCurrentSpace: isCurrentSpace, isFullScreen: isFullScreen)
-                }
                 
-                let dv = DictVal(spaceNum: spaceNumber, spaceName: space.spaceName)
-                updatedDict[spaceID] = dv
+                let nameInfo = SpaceNameInfo(spaceNum: spaceNumber, spaceName: space.spaceName)
+                updatedDict[spaceID] = nameInfo
                 allSpaces.append(space)
                 spacesIndex += 1
             }
         }
         
-        prefs.updateDictionary(with: updatedDict)
+        defaults.set(try? PropertyListEncoder().encode(updatedDict), forKey: "spaceNames")
         delegate?.didUpdateSpaces(spaces: allSpaces)
     }
 }
