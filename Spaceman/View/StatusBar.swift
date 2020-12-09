@@ -15,7 +15,11 @@ class StatusBar {
     var updateCounter = 1
     
     init() {
-        let about = NSMenuItem(title: "About Spaceman", action: nil, keyEquivalent: "")
+        let about = NSMenuItem()
+        let aboutView = AboutView()
+        let view = NSHostingView(rootView: aboutView)
+        view.frame = NSRect(x: 0, y: 0, width: 220, height: 70)
+        about.view = view
         let pref = NSMenuItem(title: "Preferences...", action: #selector(showPreferencesWindow(_:)), keyEquivalent: "")
         pref.target = self
         let quit = NSMenuItem(title: "Quit Spaceman", action: #selector(NSApplication.terminate(_:)), keyEquivalent: "")

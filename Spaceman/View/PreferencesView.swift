@@ -15,31 +15,27 @@ struct PreferencesView: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 20, content: {
-            Picker(selection: $selectedStyle, label: Text("Style: ").font(.headline), content: {
+            Picker(selection: $selectedStyle, label: Text("Style: ").font(.headline)) {
                 Text("Rectangles").tag(0)
                 Text("Numbers").tag(1)
                 Text("Rectangles with numbers").tag(2)
                 Text("Named spaces").tag(3)
-            })
+            }
             .onChange(of: selectedStyle) { val in
                 selectedStyle = val
                 NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
             }
             HStack {
-                Picker(selection: $prefsVM.selectedSpace, label: Text("Space: ").font(.headline), content: {
+                Picker(selection: $prefsVM.selectedSpace, label: Text("Space: ").font(.headline)) {
                     ForEach(0..<prefsVM.sortedSpaceNamesDict.count, id: \.self) {
                         Text(String(prefsVM.sortedSpaceNamesDict[$0].value.spaceNum))
                     }
-                })
-                TextField("Enter name...", text: $prefsVM.spaceName)
+                }
+                TextField("Enter name...", text: $prefsVM.spaceName, onCommit: updateName )
                 
-                Button(action: {
-                    prefsVM.updateSpace()
-                    self.data = try! PropertyListEncoder().encode(prefsVM.spaceNamesDict)
-                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
-                }, label: {
-                    Text("Update name")
-                })
+                Button("Update name") {
+                    updateName()
+                }
             }
             LaunchAtLogin.Toggle() {
                 Text("Launch Spaceman at login").font(.headline)
@@ -50,6 +46,12 @@ struct PreferencesView: View {
         .onChange(of: data) { _ in
             prefsVM.loadData()
         }
+    }
+    
+    func updateName() {
+        prefsVM.updateSpace()
+        self.data = try! PropertyListEncoder().encode(prefsVM.spaceNamesDict)
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
     }
 }
 

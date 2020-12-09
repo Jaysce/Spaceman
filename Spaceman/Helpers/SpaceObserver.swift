@@ -9,7 +9,7 @@ import Cocoa
 import Foundation
 
 class SpaceObserver {
-    private var workspace = NSWorkspace.shared
+    private let workspace = NSWorkspace.shared
     private let conn = _CGSDefaultConnection()
     private let defaults = UserDefaults.standard
     weak var delegate: SpaceObserverDelegate?
@@ -34,7 +34,7 @@ class SpaceObserver {
         let displays = CGSCopyManagedDisplaySpaces(conn) as! [NSDictionary]
         var activeSpaceID = -1
         var spacesIndex = 0
-        var allSpaces: [Space] = []
+        var allSpaces = [Space]()
         var updatedDict = [String: SpaceNameInfo]()
         
         for d in displays {
