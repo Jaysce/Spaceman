@@ -19,15 +19,12 @@ class SpaceObserver {
             self,
             selector: #selector(updateSpaceInformation),
             name: NSWorkspace.activeSpaceDidChangeNotification,
-            object: workspace
-        )
-        
+            object: workspace)
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(updateSpaceInformation),
             name: NSNotification.Name("ButtonPressed"),
-            object: nil
-        )
+            object: nil)
     }
     
     @objc public func updateSpaceInformation() {
@@ -66,9 +63,7 @@ class SpaceObserver {
                                   isCurrentSpace: isCurrentSpace,
                                   isFullScreen: isFullScreen)
                 
-                // Try to get data for spaceNames key
                 if let data = defaults.value(forKey:"spaceNames") as? Data {
-                    // Decode the data into dictionary (will not fail as data is not nil)
                     let dict = try! PropertyListDecoder().decode(Dictionary<String, SpaceNameInfo>.self, from: data)
                     space.spaceName = dict[spaceID] != nil ? dict[spaceID]!.spaceName : "N/A"
                 }

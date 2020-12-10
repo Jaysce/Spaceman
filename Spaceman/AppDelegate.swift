@@ -12,11 +12,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     private let statusBar = StatusBar()
     private let observer = SpaceObserver()
-    private let iconBuilder = IconBuilder()
+    private let iconBuilder = IconCreator()
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         observer.delegate = self
-        observer.updateSpaceInformation() // initial update on launch
+        observer.updateSpaceInformation()
         NSApp.activate(ignoringOtherApps: true)
     }
 
