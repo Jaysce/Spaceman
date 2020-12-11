@@ -8,14 +8,17 @@
 import SwiftUI
 
 struct AboutView: View {
+    let spacemanRepo = "https://github.com/Jaysce/Spaceman"
     let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
 
     var body: some View {
         HStack {
-            Image(nsImage: NSImage(named: "AppIcon") ?? NSImage())
-                .resizable()
-                .scaledToFit()
-                .frame(width: 60, height: 60)
+            Link(destination: URL(string: spacemanRepo)!) {
+                Image(nsImage: NSImage(named: "AppIcon") ?? NSImage())
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 60, height: 60)
+            }
             VStack(alignment: .leading) {
                 Text("Spaceman").font(.title).fontWeight(.bold)
                 Text("Version: \(appVersion ?? "?")")

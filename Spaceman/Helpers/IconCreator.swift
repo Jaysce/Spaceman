@@ -48,8 +48,8 @@ class IconCreator {
             break
         }
         
-        let tuple = getIconsWithDisplayProps(icons: icons, spaces: spaces)
-        return merge(tuple)
+        let iconsWithDisplayProperties = getIconsWithDisplayProps(icons: icons, spaces: spaces)
+        return mergeIcons(iconsWithDisplayProperties)
     }
     
     private func createNumberedIcons(_ spaces: [Space]) -> [NSImage] {
@@ -171,7 +171,7 @@ class IconCreator {
         return iconsWithDisplayProperties
     }
     
-    func merge(_ iconsWithDisplayProperties: [(image: NSImage, isOnDifferentDisplay: Bool)]) -> NSImage {
+    func mergeIcons(_ iconsWithDisplayProperties: [(image: NSImage, nextSpaceOnDifferentDisplay: Bool)]) -> NSImage {
         let numIcons = iconsWithDisplayProperties.count
         let combinedIconWidth = CGFloat(numIcons) * iconSize.width
         let accomodatingGapWidth = CGFloat(numIcons - 1) * gapWidth
@@ -187,7 +187,7 @@ class IconCreator {
                 from: NSRect.zero,
                 operation: NSCompositingOperation.sourceOver,
                 fraction: 1.0)
-            if icon.isOnDifferentDisplay { x += iconSize.width + displayGapWidth}
+            if icon.nextSpaceOnDifferentDisplay { x += iconSize.width + displayGapWidth}
             else { x += iconSize.width + gapWidth }
         }
         image.isTemplate = true
