@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftUI
+import Sparkle
 
 class StatusBar {
     private let statusBarItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
@@ -19,6 +20,12 @@ class StatusBar {
         let view = NSHostingView(rootView: aboutView)
         view.frame = NSRect(x: 0, y: 0, width: 220, height: 70)
         about.view = view
+        
+        let updates = NSMenuItem(
+            title: "Check for updates...",
+            action: #selector(checkForUpdates(_:)),
+            keyEquivalent: "")
+        updates.target = self
         
         let pref = NSMenuItem(
             title: "Preferences...",
@@ -33,6 +40,7 @@ class StatusBar {
         
         statusBarMenu.addItem(about)
         statusBarMenu.addItem(NSMenuItem.separator())
+        statusBarMenu.addItem(updates)
         statusBarMenu.addItem(pref)
         statusBarMenu.addItem(quit)
         statusBarItem.menu = statusBarMenu
@@ -47,5 +55,10 @@ class StatusBar {
     @objc func showPreferencesWindow(_ sender: AnyObject) {
         prefsWindow.makeKeyAndOrderFront(nil)
         NSApplication.shared.activate(ignoringOtherApps: true)
+    }
+    
+    @objc func checkForUpdates(_ sender: AnyObject) {
+        let updater = SUUpdater.shared()
+        updater?.checkForUpdates(self)
     }
 }

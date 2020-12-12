@@ -19,7 +19,7 @@
 	<key>CFBundleShortVersionString</key>
 	<string>$(MARKETING_VERSION)</string>
 	<key>CFBundleVersion</key>
-	<string>1</string>
+	<string>0.91</string>
 	<key>LSApplicationCategoryType</key>
 	<string>public.app-category.utilities</string>
 	<key>LSMinimumSystemVersion</key>
@@ -30,5 +30,9 @@
 	<string>Main</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
+	<key>SUFeedURL</key>
+	<string>https://s3.amazonaws.com/dev.jaysce.spaceman/appcast.xml</string>
+	<key>SUPublicEDKey</key>
+	<string>eDkdnKWaZWZdQ3sGFiSOhwoaNDZKUEwg1aE6CZNl4Q8=</string>
 </dict>
 </plist>
