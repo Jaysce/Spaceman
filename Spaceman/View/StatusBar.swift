@@ -12,7 +12,6 @@ class StatusBar {
     private let statusBarItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
     private let statusBarMenu = NSMenu()
     private var prefsWindow = PreferencesWindow()
-    var updateCounter = 1
     
     init() {
         let about = NSMenuItem()
@@ -43,9 +42,6 @@ class StatusBar {
         if let statusBarButton = statusBarItem.button {
             statusBarButton.image = icon
         }
-        
-        print("Updating... \(updateCounter)")
-        updateCounter += 1
     }
     
     @objc func showPreferencesWindow(_ sender: AnyObject) {

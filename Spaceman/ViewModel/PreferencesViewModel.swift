@@ -16,11 +16,9 @@ class PreferencesViewModel: ObservableObject {
     
     func loadData() {
         guard let data = UserDefaults.standard.value(forKey:"spaceNames") as? Data else {
-            print("Failed to retrieve data from UserDefaults (view)")
             return
         }
         
-        print("Loading data from UserDefaults")
         self.selectedSpace = 0
         let decoded = try! PropertyListDecoder().decode(Dictionary<String, SpaceNameInfo>.self, from: data)
         self.spaceNamesDict = decoded
