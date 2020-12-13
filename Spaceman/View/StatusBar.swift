@@ -23,9 +23,9 @@ class StatusBar {
         
         let updates = NSMenuItem(
             title: "Check for updates...",
-            action: #selector(checkForUpdates(_:)),
+            action: #selector(SUUpdater.checkForUpdates(_:)),
             keyEquivalent: "")
-        updates.target = self
+        updates.target = SUUpdater.shared()
         
         let pref = NSMenuItem(
             title: "Preferences...",
@@ -55,10 +55,5 @@ class StatusBar {
     @objc func showPreferencesWindow(_ sender: AnyObject) {
         prefsWindow.makeKeyAndOrderFront(nil)
         NSApplication.shared.activate(ignoringOtherApps: true)
-    }
-    
-    @objc func checkForUpdates(_ sender: AnyObject) {
-        let updater = SUUpdater.shared()
-        updater?.checkForUpdates(self)
     }
 }

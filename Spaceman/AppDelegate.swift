@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import KeyboardShortcuts
 
 @main
 class AppDelegate: NSObject, NSApplicationDelegate {
@@ -18,6 +19,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         observer.delegate = self
         observer.updateSpaceInformation()
         NSApp.activate(ignoringOtherApps: true)
+        KeyboardShortcuts.onKeyUp(for: .refresh) { [] in
+            self.observer.updateSpaceInformation()
+        }
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {

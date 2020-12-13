@@ -7,6 +7,7 @@
 
 import SwiftUI
 import LaunchAtLogin
+import KeyboardShortcuts
 
 struct PreferencesView: View {
     @AppStorage("displayStyle") private var selectedStyle = 0
@@ -17,6 +18,7 @@ struct PreferencesView: View {
         VStack(alignment: .leading, spacing: 20, content: {
             StylePicker
             SpaceNameEditor.disabled(selectedStyle != 3 ? true : false)
+            ShortcutRecorder
             LaunchAtLogin.Toggle(){Text("Launch Spaceman at login").font(.headline)}
         })
         .padding()
@@ -51,6 +53,14 @@ struct PreferencesView: View {
             Button("Update name") {
                 updateName()
             }
+        }
+    }
+    
+    private var ShortcutRecorder: some View {
+        HStack {
+            Text("Force icon refresh shortcut:").font(.headline)
+            Spacer()
+            KeyboardShortcuts.Recorder(for: .refresh)
         }
     }
     

@@ -23,6 +23,7 @@
 		E8E2AEF8257CB4D700319BBC /* PreferencesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8E2AEF7257CB4D700319BBC /* PreferencesViewModel.swift */; };
 		E8E2AEFF257CB5AF00319BBC /* SpacemanStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8E2AEFE257CB5AF00319BBC /* SpacemanStyle.swift */; };
 		E8E2AF03257CB5CE00319BBC /* SpaceNameInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8E2AF02257CB5CE00319BBC /* SpaceNameInfo.swift */; };
+		E8E8D41C2585A80B00671AE9 /* KeyboardShortcuts in Frameworks */ = {isa = PBXBuildFile; productRef = E8E8D41B2585A80B00671AE9 /* KeyboardShortcuts */; };
 		E8EBF08C2575F8E4001BA74F /* LaunchAtLogin in Frameworks */ = {isa = PBXBuildFile; productRef = E8EBF08B2575F8E4001BA74F /* LaunchAtLogin */; };
 		E8EBF091257739ED001BA74F /* PreferencesWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8EBF090257739ED001BA74F /* PreferencesWindow.swift */; };
 /* End PBXBuildFile section */
@@ -70,6 +71,7 @@
 			files = (
 				E8EBF08C2575F8E4001BA74F /* LaunchAtLogin in Frameworks */,
 				E8565E9B25847EA200E5A47F /* Sparkle.framework in Frameworks */,
+				E8E8D41C2585A80B00671AE9 /* KeyboardShortcuts in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -186,6 +188,7 @@
 			name = Spaceman;
 			packageProductDependencies = (
 				E8EBF08B2575F8E4001BA74F /* LaunchAtLogin */,
+				E8E8D41B2585A80B00671AE9 /* KeyboardShortcuts */,
 			);
 			productName = Spaceman;
 			productReference = E87334E5256B51CF0012586E /* Spaceman.app */;
@@ -216,6 +219,7 @@
 			mainGroup = E87334DC256B51CF0012586E;
 			packageReferences = (
 				E8EBF08A2575F8E4001BA74F /* XCRemoteSwiftPackageReference "LaunchAtLogin" */,
+				E8E8D41A2585A80B00671AE9 /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */,
 			);
 			productRefGroup = E87334E6256B51CF0012586E /* Products */;
 			projectDirPath = "";
@@ -416,7 +420,7 @@
 				CODE_SIGN_ENTITLEMENTS = Spaceman/Spaceman.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 0.91;
+				CURRENT_PROJECT_VERSION = 0.92;
 				DEVELOPMENT_ASSET_PATHS = "\"Spaceman/Preview Content\"";
 				DEVELOPMENT_TEAM = P2Q7LG69J2;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -432,7 +436,7 @@
 					"@loader_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 0.91;
+				MARKETING_VERSION = 0.92;
 				PRODUCT_BUNDLE_IDENTIFIER = dev.jaysce.Spaceman;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Spaceman/Spaceman-Bridging-Header.h";
@@ -448,7 +452,7 @@
 				CODE_SIGN_ENTITLEMENTS = Spaceman/Spaceman.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 0.91;
+				CURRENT_PROJECT_VERSION = 0.92;
 				DEVELOPMENT_ASSET_PATHS = "\"Spaceman/Preview Content\"";
 				DEVELOPMENT_TEAM = P2Q7LG69J2;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -464,7 +468,7 @@
 					"@loader_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 0.91;
+				MARKETING_VERSION = 0.92;
 				PRODUCT_BUNDLE_IDENTIFIER = dev.jaysce.Spaceman;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Spaceman/Spaceman-Bridging-Header.h";
@@ -496,6 +500,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		E8E8D41A2585A80B00671AE9 /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/sindresorhus/KeyboardShortcuts";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.6.0;
+			};
+		};
 		E8EBF08A2575F8E4001BA74F /* XCRemoteSwiftPackageReference "LaunchAtLogin" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/sindresorhus/LaunchAtLogin";
@@ -507,6 +519,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		E8E8D41B2585A80B00671AE9 /* KeyboardShortcuts */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E8E8D41A2585A80B00671AE9 /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */;
+			productName = KeyboardShortcuts;
+		};
 		E8EBF08B2575F8E4001BA74F /* LaunchAtLogin */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = E8EBF08A2575F8E4001BA74F /* XCRemoteSwiftPackageReference "LaunchAtLogin" */;
