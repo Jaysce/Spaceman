@@ -33,7 +33,7 @@ The meaning of the icons from left to right are:
 
 The style and the name of a space can be changed in preferences (shown above). A space is named by selecting the space from the dropdown, typing a name up to 3 characters and clicking the 'Update name' button or pressing enter.
 
-You can force a refresh of the icon using a custom keyboard shortcut if the icon fails to update. See #2.
+You can force a refresh of the icon using a custom keyboard shortcut if the icon fails to update. See [#2](https://github.com/Jaysce/Spaceman/issues/2).
 
 ## Attributions
 - This project is based on [WhichSpace](https://github.com/gechr/WhichSpace)
