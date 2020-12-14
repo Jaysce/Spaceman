@@ -420,7 +420,7 @@
 				CODE_SIGN_ENTITLEMENTS = Spaceman/Spaceman.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 0.92;
+				CURRENT_PROJECT_VERSION = 0.93;
 				DEVELOPMENT_ASSET_PATHS = "\"Spaceman/Preview Content\"";
 				DEVELOPMENT_TEAM = P2Q7LG69J2;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -436,7 +436,7 @@
 					"@loader_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 0.92;
+				MARKETING_VERSION = 0.93;
 				PRODUCT_BUNDLE_IDENTIFIER = dev.jaysce.Spaceman;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Spaceman/Spaceman-Bridging-Header.h";
@@ -452,7 +452,7 @@
 				CODE_SIGN_ENTITLEMENTS = Spaceman/Spaceman.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 0.92;
+				CURRENT_PROJECT_VERSION = 0.93;
 				DEVELOPMENT_ASSET_PATHS = "\"Spaceman/Preview Content\"";
 				DEVELOPMENT_TEAM = P2Q7LG69J2;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -468,7 +468,7 @@
 					"@loader_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 0.92;
+				MARKETING_VERSION = 0.93;
 				PRODUCT_BUNDLE_IDENTIFIER = dev.jaysce.Spaceman;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Spaceman/Spaceman-Bridging-Header.h";
