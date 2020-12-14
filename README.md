@@ -8,7 +8,7 @@ Spaceman is a menu bar application for macOS that allows you to easily visualise
 ### Homebrew
 `TODO`
 ### GitHub
-`TODO`
+Go to the releases tab and download **Spaceman.dmg** from the latest release.
 ## Usage
 ![Spaceman Example](Images/Spaceman_Example.png)
 
