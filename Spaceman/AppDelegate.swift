@@ -12,15 +12,15 @@ import KeyboardShortcuts
 class AppDelegate: NSObject, NSApplicationDelegate {
 
     private let statusBar = StatusBar()
-    private let observer = SpaceObserver()
-    private let iconBuilder = IconCreator()
+    private let spaceObserver = SpaceObserver()
+    private let iconCreator = IconCreator()
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
-        observer.delegate = self
-        observer.updateSpaceInformation()
+        spaceObserver.delegate = self
+        spaceObserver.updateSpaceInformation()
         NSApp.activate(ignoringOtherApps: true)
         KeyboardShortcuts.onKeyUp(for: .refresh) { [] in
-            self.observer.updateSpaceInformation()
+            self.spaceObserver.updateSpaceInformation()
         }
     }
 
@@ -31,7 +31,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
 extension AppDelegate: SpaceObserverDelegate {
     func didUpdateSpaces(spaces: [Space]) {
-        let icon = iconBuilder.getIcon(for: spaces)
+        let icon = iconCreator.getIcon(for: spaces)
         statusBar.updateStatusBar(withIcon: icon)
     }
 }

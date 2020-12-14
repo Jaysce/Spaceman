@@ -149,7 +149,7 @@ class IconCreator {
     }
     
     func getIconsWithDisplayProps(icons: [NSImage], spaces: [Space]) -> [(NSImage, Bool)] {
-        var iconsWithDisplayProperties = [(icon: NSImage, isOnDifferentDisplay: Bool)]()
+        var iconsWithDisplayProperties = [(NSImage, Bool)]()
         var currentDisplayID = spaces[0].displayID
         displayCount = 1
         

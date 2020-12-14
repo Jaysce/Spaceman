@@ -15,9 +15,10 @@ struct PreferencesView: View {
     @ObservedObject private var prefsVM = PreferencesViewModel()
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 20, content: {
+        VStack(alignment: .leading, spacing: 10, content: {
             StylePicker
             SpaceNameEditor.disabled(selectedStyle != 3 ? true : false)
+            Divider()
             ShortcutRecorder
             LaunchAtLogin.Toggle(){Text("Launch Spaceman at login").font(.headline)}
         })
@@ -48,7 +49,12 @@ struct PreferencesView: View {
                     Text(String(prefsVM.sortedSpaceNamesDict[$0].value.spaceNum))
                 }
             }
-            TextField("Name (max 3 char.)", text: Binding(get: {prefsVM.spaceName}, set: {prefsVM.spaceName = $0.prefix(3).trimmingCharacters(in: .whitespacesAndNewlines)}), onCommit: updateName)
+            TextField(
+                "Name (max 3 char.)",
+                text: Binding(
+                    get: {prefsVM.spaceName},
+                    set: {prefsVM.spaceName = $0.prefix(3).trimmingCharacters(in: .whitespacesAndNewlines)}),
+                onCommit: updateName)
             
             Button("Update name") {
                 updateName()

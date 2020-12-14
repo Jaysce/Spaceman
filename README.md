@@ -5,7 +5,7 @@ Spaceman is a menu bar application for macOS that allows you to easily visualise
 **Spaceman requires macOS 11 Big Sur or greater.**
 
 ## Install
-### Hombrew
+### Homebrew
 `TODO`
 ### GitHub
 `TODO`
@@ -32,3 +32,11 @@ The meaning of the icons from left to right are:
 ![Spaceman Example](Images/Preferences.png)
 
 The style and the name of a space can be changed in preferences (shown above). A space is named by selecting the space from the dropdown, typing a name up to 3 characters and clicking the 'Update name' button or pressing enter.
+
+You can force a refresh of the icon using a custom keyboard shortcut if the icon fails to update. See #2.
+
+## Attributions
+- This project is based on [WhichSpace](https://github.com/gechr/WhichSpace)
+- This project uses [Sparkle](https://sparkle-project.org) for update delivery
+- This project makes use of [LaunchAtLogin](https://github.com/sindresorhus/LaunchAtLogin)
+- This project makes use of [KeyboardShortcuts](https://github.com/sindresorhus/KeyboardShortcuts)
