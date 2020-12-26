@@ -24,11 +24,11 @@ class IconCreator {
             let iconResourceName: String
             switch (s.isCurrentSpace, s.isFullScreen) {
             case (true, true):
-                iconResourceName = spacemanStyle == .text ? "SpaceManIcon" : "SpaceManIconFullEn"
+                iconResourceName = spacemanStyle == .text ? "NamedFullActive" : "SpaceManIconFullEn"
             case (true, false):
                 iconResourceName = "SpaceManIcon"
             case (false, true):
-                iconResourceName = spacemanStyle == .text ? "SpaceManIconBorder" : "SpaceManIconFullDis"
+                iconResourceName = spacemanStyle == .text ? "NamedFullInactive" : "SpaceManIconFullDis"
             default:
                 iconResourceName = "SpaceManIconBorder"
             }
@@ -42,7 +42,7 @@ class IconCreator {
         case .both:
             icons = createRectWithNumbersIcons(icons, spaces)
         case .text:
-            iconSize.width = 45
+            iconSize.width = 49
             icons = createNamedIcons(icons, spaces)
         default:
             break
@@ -117,7 +117,7 @@ class IconCreator {
         
         for s in spaces {
             let textRect = NSRect(origin: CGPoint.zero, size: iconSize)
-            let spaceText = NSString(string: "\(s.spaceNumber): \(s.isFullScreen ? "FUL" : s.spaceName.uppercased())")
+            let spaceText = NSString(string: "\(s.spaceNumber): \(s.spaceName.uppercased())")
             let iconImage = NSImage(size: iconSize)
             let textImage = NSImage(size: iconSize)
             

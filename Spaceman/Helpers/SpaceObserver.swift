@@ -65,7 +65,7 @@ class SpaceObserver {
                 
                 if let data = defaults.value(forKey:"spaceNames") as? Data {
                     let dict = try! PropertyListDecoder().decode(Dictionary<String, SpaceNameInfo>.self, from: data)
-                    space.spaceName = dict[spaceID] != nil ? dict[spaceID]!.spaceName : "N/A"
+                    space.spaceName = dict[spaceID] != nil ? dict[spaceID]!.spaceName : isFullScreen ? "FUL" : "N/A"
                 }
                 
                 let nameInfo = SpaceNameInfo(spaceNum: spaceNumber, spaceName: space.spaceName)
