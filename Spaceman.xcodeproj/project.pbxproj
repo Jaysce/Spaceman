@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E828E6552737CBA0007075E8 /* VisualEffectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E828E6542737CBA0007075E8 /* VisualEffectView.swift */; };
+		E828E6582737D2E4007075E8 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = E828E6572737D2E4007075E8 /* Constants.swift */; };
 		E8565E9B25847EA200E5A47F /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E8565E9A25847EA200E5A47F /* Sparkle.framework */; };
 		E8565E9E25847EE800E5A47F /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = E8565E9A25847EA200E5A47F /* Sparkle.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E87334E9256B51CF0012586E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E87334E8256B51CF0012586E /* AppDelegate.swift */; };
@@ -42,6 +44,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		E828E6542737CBA0007075E8 /* VisualEffectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualEffectView.swift; sourceTree = "<group>"; };
+		E828E6572737D2E4007075E8 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		E8565E9A25847EA200E5A47F /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Sparkle.framework; sourceTree = "<group>"; };
 		E87334E5256B51CF0012586E /* Spaceman.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Spaceman.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E87334E8256B51CF0012586E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -78,6 +82,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		E828E6562737D2CF007075E8 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				E828E6572737D2E4007075E8 /* Constants.swift */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
 		E8565E9925847E6100E5A47F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -110,6 +122,7 @@
 				E8E2AEF6257CB4AC00319BBC /* ViewModel */,
 				E8E2AEFC257CB51C00319BBC /* Model */,
 				E8733509256B575D0012586E /* Helpers */,
+				E828E6562737D2CF007075E8 /* Utilities */,
 				E8565E9925847E6100E5A47F /* Frameworks */,
 				E8733516256C6F3A0012586E /* Extensions.swift */,
 				E87334FC256B52650012586E /* Spaceman-Bridging-Header.h */,
@@ -146,6 +159,7 @@
 				E8C5AFF42580848100614F50 /* AboutView.swift */,
 				E8EBF090257739ED001BA74F /* PreferencesWindow.swift */,
 				E87334EA256B51CF0012586E /* PreferencesView.swift */,
+				E828E6542737CBA0007075E8 /* VisualEffectView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -279,6 +293,8 @@
 				E8E2AF03257CB5CE00319BBC /* SpaceNameInfo.swift in Sources */,
 				E8EBF091257739ED001BA74F /* PreferencesWindow.swift in Sources */,
 				E8E2AEFF257CB5AF00319BBC /* SpacemanStyle.swift in Sources */,
+				E828E6582737D2E4007075E8 /* Constants.swift in Sources */,
+				E828E6552737CBA0007075E8 /* VisualEffectView.swift in Sources */,
 				E8733517256C6F3A0012586E /* Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

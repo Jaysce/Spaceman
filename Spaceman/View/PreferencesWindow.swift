@@ -11,21 +11,13 @@ import AppKit
 class PreferencesWindow: NSWindow {
     init() {
         super.init(
-            contentRect: NSRect(x: 0, y: 0, width: 400, height: 200),
-            styleMask: [.titled, .closable, .fullSizeContentView],
+            contentRect: NSRect(x: 0, y: 0, width: 400, height: 300),
+            styleMask: [.titled, .fullSizeContentView],
             backing: .buffered,
             defer: false
         )
-        configureWindow()
-    }
-    
-    func configureWindow() {
-        let prefsView = PreferencesView()
-        
+        self.titlebarAppearsTransparent = true
+        self.isMovableByWindowBackground = true
         self.isReleasedWhenClosed = false
-        self.center()
-        self.setFrameAutosaveName("Main Window")
-        self.contentView = NSHostingView(rootView: prefsView)
-        self.title = "Spaceman Preferences"
     }
 }

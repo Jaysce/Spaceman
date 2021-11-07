@@ -89,6 +89,6 @@ class SpaceObserver {
     }
 }
 
-protocol SpaceObserverDelegate: class {
+protocol SpaceObserverDelegate: AnyObject {
     func didUpdateSpaces(spaces: [Space])
 }

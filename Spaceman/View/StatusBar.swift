@@ -10,11 +10,15 @@ import SwiftUI
 import Sparkle
 
 class StatusBar {
-    private let statusBarItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
-    private let statusBarMenu = NSMenu()
-    private var prefsWindow = PreferencesWindow()
+    private var statusBarItem: NSStatusItem!
+    private var statusBarMenu: NSMenu!
+    private var prefsWindow: PreferencesWindow!
     
     init() {
+        
+        statusBarItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
+        statusBarMenu = NSMenu()
+        
         let about = NSMenuItem()
         let aboutView = AboutView()
         let view = NSHostingView(rootView: aboutView)
@@ -53,6 +57,14 @@ class StatusBar {
     }
     
     @objc func showPreferencesWindow(_ sender: AnyObject) {
+        
+        if prefsWindow == nil {
+            prefsWindow = PreferencesWindow()
+            let hostedPrefsView = NSHostingView(rootView: PreferencesView(parentWindow: prefsWindow))
+            prefsWindow.contentView = hostedPrefsView
+        }
+        
+        prefsWindow.center()
         prefsWindow.makeKeyAndOrderFront(nil)
         NSApplication.shared.activate(ignoringOtherApps: true)
     }
