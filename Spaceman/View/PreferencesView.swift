@@ -17,52 +17,24 @@ struct PreferencesView: View {
     @AppStorage("spaceNames") private var data = Data()
     @ObservedObject private var prefsVM = PreferencesViewModel()
     
+    // MARK: - Main Body
     var body: some View {
         
         VStack(spacing: 0) {
             ZStack {
                 VisualEffectView(material: .sidebar, blendingMode: .behindWindow)
-                CloseButton(parentWindow: parentWindow)
-                AppInfo()
+                closeButton
+                appInfo
             }
-            .frame(maxWidth: .infinity, maxHeight: 60)
+            .frame(maxWidth: .infinity, minHeight: 60, maxHeight: 60, alignment: .center)
+            .offset(y: 1) // Looked like it was off center
             
             Divider()
-            
-            GeometryReader { geo in
-                AnyView(
-                    VStack(alignment: .leading, spacing: 0) {
                         
-                        // General
-                        VStack(alignment: .leading) {
-                            Text("General")
-                                .font(.title2)
-                                .fontWeight(.semibold)
-                            LaunchAtLogin.Toggle(){Text("Launch Spaceman at login")}
-                            ShortcutRecorder
-                        }
-                        .padding()
-                        .frame(width: geo.size.width, height: geo.size.height / 2, alignment: .topLeading)
-                        
-                        Divider()
-                        
-                        // Spaces
-                        VStack(alignment: .leading) {
-                            Text("Spaces")
-                                .font(.title2)
-                                .fontWeight(.semibold)
-                            StylePicker
-                            SpaceNameEditor.disabled(selectedStyle != 3 ? true : false)
-                        }
-                        .padding()
-                        .frame(width: geo.size.width, height: geo.size.height / 2, alignment: .topLeading)
-                        
-                    }
-                )
-            }
-            
+            preferencePanes
         }
         .ignoresSafeArea()
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
         .onAppear(perform: prefsVM.loadData)
         .onChange(of: data) { _ in
             prefsVM.loadData()
@@ -70,72 +42,104 @@ struct PreferencesView: View {
         
     }
     
-    struct CloseButton: View {
-        
-        weak var parentWindow: PreferencesWindow!
-        
-        var body: some View {
-            VStack {
-                Spacer()
-                HStack {
-                    Button {
-                        parentWindow.close()
-                    } label: {
-                        Image(systemName: "xmark.circle.fill")
-                    }
-                    .buttonStyle(BorderlessButtonStyle())
-                    .padding(.leading, 12)
-                    Spacer()
+    // MARK: - Close Button
+    private var closeButton: some View {
+        VStack {
+            Spacer()
+            HStack {
+                Button {
+                    parentWindow.close()
+                } label: {
+                    Image(systemName: "xmark.circle.fill")
                 }
+                .buttonStyle(BorderlessButtonStyle())
+                .padding(.leading, 12)
                 Spacer()
             }
+            Spacer()
         }
-        
     }
     
-    struct AppInfo: View {
-        
-        var body: some View {
-            HStack(spacing: 8) {
-                HStack {
-                    Image(nsImage: NSImage(named: "AppIcon") ?? NSImage())
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 40, height: 40)
-                    VStack(alignment: .leading) {
-                        Text("Spaceman").font(.headline)
-                        Text("Version \(Constants.AppInfo.appVersion ?? "?")")
-                            .font(.subheadline)
-                            .foregroundColor(.secondary)
-                    }
-                }
-                .padding(.leading)
-                
-                Spacer()
-                
-                HStack {
-                    Button {
-                        NSWorkspace.shared.open(Constants.AppInfo.repo)
-                    } label: {
-                        Text("GitHub").font(.system(size: 12))
-                    }
-                    .buttonStyle(LinkButtonStyle())
-                    
-                    Button {
-                        NSWorkspace.shared.open(Constants.AppInfo.website)
-                    } label: {
-                        Text("Website").font(.system(size: 12))
-                    }
-                    .buttonStyle(LinkButtonStyle())
-                    .disabled(true)
+    // MARK: - App Info
+    private var appInfo: some View {
+        HStack(spacing: 8) {
+            HStack {
+                Image(nsImage: NSImage(named: "AppIcon") ?? NSImage())
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 40, height: 40)
+                VStack(alignment: .leading) {
+                    Text("Spaceman").font(.headline)
+                    Text("Version \(Constants.AppInfo.appVersion ?? "?")")
+                        .font(.subheadline)
+                        .foregroundColor(.secondary)
                 }
             }
-            .padding(.horizontal, 18)
+            .padding(.leading)
+            
+            Spacer()
+            
+            HStack {
+                Button {
+                    NSWorkspace.shared.open(Constants.AppInfo.repo)
+                } label: {
+                    Text("GitHub").font(.system(size: 12))
+                }
+                .buttonStyle(LinkButtonStyle())
+                
+                Button {
+                    NSWorkspace.shared.open(Constants.AppInfo.website)
+                } label: {
+                    Text("Website").font(.system(size: 12))
+                }
+                .buttonStyle(LinkButtonStyle())
+                .disabled(true)
+            }
         }
-        
+        .padding(.horizontal, 18)
     }
     
-    private var StylePicker: some View {
+    // MARK: - Preference Panes
+    private var preferencePanes: some View {
+        VStack(alignment: .leading, spacing: 0) {
+            
+            // General Pane
+            VStack(alignment: .leading) {
+                Text("General")
+                    .font(.title2)
+                    .fontWeight(.semibold)
+                LaunchAtLogin.Toggle(){Text("Launch Spaceman at login")}
+                shortcutRecorder
+            }
+            .padding()
+            
+            Divider()
+            
+            // Spaces Pane
+            VStack(alignment: .leading) {
+                Text("Spaces")
+                    .font(.title2)
+                    .fontWeight(.semibold)
+                Toggle("Use single icon indicator", isOn: .constant(false)) // TODO: Implement this
+                spacesStylePicker
+                spaceNameEditor.disabled(selectedStyle != 3 ? true : false)
+            }
+            .padding()
+            
+        }
+    }
+    
+    // MARK: - Shortcut Recorder
+    private var shortcutRecorder: some View {
+        HStack {
+            Text("Force icon refresh shortcut")
+            Spacer()
+            KeyboardShortcuts.Recorder(for: .refresh)
+        }
+    }
+    
+    // MARK: - Style Picker
+    private var spacesStylePicker: some View {
         Picker(selection: $selectedStyle, label: Text("Style")) {
             Text("Rectangles").tag(0)
             Text("Numbers").tag(1)
@@ -148,7 +152,8 @@ struct PreferencesView: View {
         }
     }
     
-    private var SpaceNameEditor: some View {
+    // MARK: - Space Name Editor
+    private var spaceNameEditor: some View {
         HStack {
             Picker(selection: $prefsVM.selectedSpace, label: Text("Space")) {
                 ForEach(0..<prefsVM.sortedSpaceNamesDict.count, id: \.self) {
@@ -168,15 +173,8 @@ struct PreferencesView: View {
         }
     }
     
-    private var ShortcutRecorder: some View {
-        HStack {
-            Text("Force icon refresh shortcut")
-            Spacer()
-            KeyboardShortcuts.Recorder(for: .refresh)
-        }
-    }
-    
-    func updateName() {
+    // MARK: - Update Name Method
+    private func updateName() {
         prefsVM.updateSpace()
         self.data = try! PropertyListEncoder().encode(prefsVM.spaceNamesDict)
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
