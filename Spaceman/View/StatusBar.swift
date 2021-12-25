@@ -19,6 +19,10 @@ class StatusBar {
         statusBarItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
         statusBarMenu = NSMenu()
         
+        prefsWindow = PreferencesWindow()
+        let hostedPrefsView = NSHostingView(rootView: PreferencesView(parentWindow: prefsWindow))
+        prefsWindow.contentView = hostedPrefsView
+        
         let about = NSMenuItem()
         let aboutView = AboutView()
         let view = NSHostingView(rootView: aboutView)

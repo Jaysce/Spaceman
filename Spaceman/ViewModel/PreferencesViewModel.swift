@@ -9,10 +9,21 @@ import Foundation
 import SwiftUI
 
 class PreferencesViewModel: ObservableObject {
+    @AppStorage("autoRefreshSpaces") private var autoRefreshSpaces = false
     @Published var selectedSpace = 0
     @Published var spaceName = ""
-    var spaceNamesDict = [String: SpaceNameInfo]()
-    var sortedSpaceNamesDict = [Dictionary<String, SpaceNameInfo>.Element]()
+    var spaceNamesDict: [String: SpaceNameInfo]!
+    var sortedSpaceNamesDict: [Dictionary<String, SpaceNameInfo>.Element]!
+    var timer: Timer!
+    
+    init() {
+        selectedSpace = 0
+        spaceName = ""
+        spaceNamesDict = [String: SpaceNameInfo]()
+        sortedSpaceNamesDict = [Dictionary<String, SpaceNameInfo>.Element]()
+        timer = Timer()
+        if autoRefreshSpaces { startTimer() }
+    }
     
     func loadData() {
         guard let data = UserDefaults.standard.value(forKey:"spaceNames") as? Data else {
@@ -34,5 +45,18 @@ class PreferencesViewModel: ObservableObject {
         let key = sortedSpaceNamesDict[selectedSpace].key
         let spaceNum = sortedSpaceNamesDict[selectedSpace].value.spaceNum
         spaceNamesDict[key] = SpaceNameInfo(spaceNum: spaceNum, spaceName: spaceName.isEmpty ? "N/A" : spaceName)
+    }
+    
+    func startTimer() {
+        timer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(refreshSpaces), userInfo: nil, repeats: true)
+    }
+    
+    func pauseTiemr() {
+        timer.invalidate()
+    }
+    
+    @objc func refreshSpaces() {
+        print("Updating spaces")
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
     }
 }

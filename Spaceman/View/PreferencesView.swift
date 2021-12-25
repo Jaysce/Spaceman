@@ -15,7 +15,8 @@ struct PreferencesView: View {
     
     @AppStorage("displayStyle") private var selectedStyle = 0
     @AppStorage("spaceNames") private var data = Data()
-    @ObservedObject private var prefsVM = PreferencesViewModel()
+    @AppStorage("autoRefreshSpaces") private var autoRefreshSpaces = false
+    @StateObject private var prefsVM = PreferencesViewModel()
     
     // MARK: - Main Body
     var body: some View {
@@ -108,9 +109,20 @@ struct PreferencesView: View {
                     .font(.title2)
                     .fontWeight(.semibold)
                 LaunchAtLogin.Toggle(){Text("Launch Spaceman at login")}
-                shortcutRecorder
+                Toggle("Refresh spaces in background", isOn: $autoRefreshSpaces)
+                shortcutRecorder.disabled(autoRefreshSpaces ? true : false)
             }
             .padding()
+            .onChange(of: autoRefreshSpaces) { enabled in
+                if enabled {
+                    prefsVM.startTimer()
+                    KeyboardShortcuts.disable(.refresh)
+                }
+                else {
+                    prefsVM.pauseTiemr()
+                    KeyboardShortcuts.enable(.refresh)
+                }
+            }
             
             Divider()
             
