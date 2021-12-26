@@ -119,7 +119,7 @@ struct PreferencesView: View {
                     KeyboardShortcuts.disable(.refresh)
                 }
                 else {
-                    prefsVM.pauseTiemr()
+                    prefsVM.pauseTimer()
                     KeyboardShortcuts.enable(.refresh)
                 }
             }
@@ -131,7 +131,7 @@ struct PreferencesView: View {
                 Text("Spaces")
                     .font(.title2)
                     .fontWeight(.semibold)
-                Toggle("Use single icon indicator", isOn: .constant(false)) // TODO: Implement this
+//                Toggle("Use single icon indicator", isOn: .constant(false)) // TODO: Implement this
                 spacesStylePicker
                 spaceNameEditor.disabled(selectedStyle != 3 ? true : false)
             }

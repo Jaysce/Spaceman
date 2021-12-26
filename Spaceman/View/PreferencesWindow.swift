@@ -11,7 +11,7 @@ import AppKit
 class PreferencesWindow: NSWindow {
     init() {
         super.init(
-            contentRect: NSRect(x: 0, y: 0, width: 400, height: 340),
+            contentRect: NSRect(x: 0, y: 0, width: 400, height: 314),
             styleMask: [.titled, .fullSizeContentView],
             backing: .buffered,
             defer: false

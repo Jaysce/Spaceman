@@ -51,7 +51,7 @@ class PreferencesViewModel: ObservableObject {
         timer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(refreshSpaces), userInfo: nil, repeats: true)
     }
     
-    func pauseTiemr() {
+    func pauseTimer() {
         timer.invalidate()
     }
     
