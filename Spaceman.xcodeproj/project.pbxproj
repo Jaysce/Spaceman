@@ -75,13 +75,6 @@
 			path = Utilities;
 			sourceTree = "<group>";
 		};
-		E8565E9925847E6100E5A47F /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Frameworks;
-			sourceTree = "<group>";
-		};
 		E87334DC256B51CF0012586E = {
 			isa = PBXGroup;
 			children = (
@@ -107,7 +100,6 @@
 				E8E2AEFC257CB51C00319BBC /* Model */,
 				E8733509256B575D0012586E /* Helpers */,
 				E828E6562737D2CF007075E8 /* Utilities */,
-				E8565E9925847E6100E5A47F /* Frameworks */,
 				E8733516256C6F3A0012586E /* Extensions.swift */,
 				E87334FC256B52650012586E /* Spaceman-Bridging-Header.h */,
 				E87334EC256B51CF0012586E /* Assets.xcassets */,
@@ -427,10 +419,7 @@
 				DEVELOPMENT_TEAM = P2Q7LG69J2;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Spaceman/Frameworks",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = Spaceman/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -459,10 +448,7 @@
 				DEVELOPMENT_TEAM = P2Q7LG69J2;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Spaceman/Frameworks",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = Spaceman/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
