@@ -12,6 +12,7 @@ struct Space {
     var spaceID: String
     var spaceName: String
     var spaceNumber: Int
+    var desktopNumber: Int?
     var isCurrentSpace: Bool
     var isFullScreen: Bool
 }

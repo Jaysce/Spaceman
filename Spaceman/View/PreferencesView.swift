@@ -133,7 +133,7 @@ struct PreferencesView: View {
                     .fontWeight(.semibold)
 //                Toggle("Use single icon indicator", isOn: .constant(false)) // TODO: Implement this
                 spacesStylePicker
-                spaceNameEditor.disabled(selectedStyle != 3 ? true : false)
+                spaceNameEditor.disabled(selectedStyle != SpacemanStyle.text.rawValue ? true : false)
             }
             .padding()
             
@@ -152,10 +152,11 @@ struct PreferencesView: View {
     // MARK: - Style Picker
     private var spacesStylePicker: some View {
         Picker(selection: $selectedStyle, label: Text("Style")) {
-            Text("Rectangles").tag(0)
-            Text("Numbers").tag(1)
-            Text("Rectangles with numbers").tag(2)
-            Text("Named spaces").tag(3)
+            Text("Rectangles").tag(SpacemanStyle.none.rawValue)
+            Text("Numbers").tag(SpacemanStyle.numbers.rawValue)
+            Text("Rectangles with numbers").tag(SpacemanStyle.numbersAndRects.rawValue)
+            Text("Rectangles with desktop numbers").tag(SpacemanStyle.desktopNumbersAndRects.rawValue)
+            Text("Named spaces").tag(SpacemanStyle.text.rawValue)
         }
         .onChange(of: selectedStyle) { val in
             selectedStyle = val

@@ -8,5 +8,5 @@
 import Foundation
 
 enum SpacemanStyle: Int {
-    case none, numbers, both, text
+    case none, numbers, numbersAndRects, desktopNumbersAndRects, text
 }
