@@ -39,8 +39,10 @@ class IconCreator {
         switch spacemanStyle {
         case .numbers:
             icons = createNumberedIcons(spaces)
-        case .both:
-            icons = createRectWithNumbersIcons(icons, spaces)
+        case .numbersAndRects:
+            icons = createRectWithNumbersIcons(icons, spaces, desktopsOnly: false)
+        case .desktopNumbersAndRects:
+            icons = createRectWithNumbersIcons(icons, spaces, desktopsOnly: true)
         case .text:
             iconSize.width = 49
             icons = createNamedIcons(icons, spaces)
@@ -74,21 +76,24 @@ class IconCreator {
         return newIcons
     }
     
-    private func createRectWithNumbersIcons(_ icons: [NSImage], _ spaces: [Space]) -> [NSImage] {
+    private func createRectWithNumbersIcons(_ icons: [NSImage], _ spaces: [Space], desktopsOnly: Bool) -> [NSImage] {
         var index = 0
         var newIcons = [NSImage]()
         
         for s in spaces {
             let textRect = NSRect(origin: CGPoint.zero, size: iconSize)
-            let spaceNumber = NSString(string: String(s.spaceNumber))
+            let number = desktopsOnly ? s.desktopNumber : s.spaceNumber
             let iconImage = NSImage(size: iconSize)
             let numberImage = NSImage(size: iconSize)
-            
-            numberImage.lockFocus()
-            spaceNumber.drawVerticallyCentered(
-                in: textRect,
-                withAttributes: getStringAttributes(alpha: 1))
-            numberImage.unlockFocus()
+
+            if (number != nil) {
+                numberImage.lockFocus()
+                let spaceNumber = NSString(string: String(number!))
+                spaceNumber.drawVerticallyCentered(
+                    in: textRect,
+                    withAttributes: getStringAttributes(alpha: 1))
+                numberImage.unlockFocus()
+            }
             
             iconImage.lockFocus()
             icons[index].draw(

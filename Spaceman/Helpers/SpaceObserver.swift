@@ -50,16 +50,24 @@ class SpaceObserver {
                 }
                 return
             }
-            
+
+            var lastDesktopNumber = 0
+
             for s in spaces {
                 let spaceID = String(s["ManagedSpaceID"] as! Int)
                 let spaceNumber: Int = spacesIndex + 1
                 let isCurrentSpace = activeSpaceID == s["ManagedSpaceID"] as! Int
                 let isFullScreen = s["TileLayoutManager"] as? [String: Any] != nil
+                var desktopNumber : Int?
+                if !isFullScreen {
+                    lastDesktopNumber += 1
+                    desktopNumber = lastDesktopNumber
+                }
                 var space = Space(displayID: displayID,
                                   spaceID: spaceID,
                                   spaceName: "N/A",
                                   spaceNumber: spaceNumber,
+                                  desktopNumber: desktopNumber,
                                   isCurrentSpace: isCurrentSpace,
                                   isFullScreen: isFullScreen)
                 
