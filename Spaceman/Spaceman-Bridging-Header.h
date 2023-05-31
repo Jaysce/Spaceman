@@ -11,7 +11,7 @@
 #import <Foundation/Foundation.h>
 
 int _CGSDefaultConnection();
-id CGSCopyManagedDisplaySpaces(int conn);
+CFArrayRef CGSCopyManagedDisplaySpaces(int conn);
 id CGSCopyActiveMenuBarDisplayIdentifier(int conn);
 
 #endif /* Spaceman_Bridging_Header_h */
