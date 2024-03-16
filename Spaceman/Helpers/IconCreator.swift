@@ -166,7 +166,7 @@ class IconCreator {
             
             var nextSpaceIsOnDifferentDisplay = false
             
-            if index + 1 < spaces.count {
+            if !shouldBypassInactiveSpaces && index + 1 < spaces.count {
                 let thisDispID = spaces[index + 1].displayID
                 if thisDispID != currentDisplayID {
                     currentDisplayID = thisDispID
