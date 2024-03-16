@@ -16,6 +16,7 @@ struct PreferencesView: View {
     @AppStorage("displayStyle") private var selectedStyle = 0
     @AppStorage("spaceNames") private var data = Data()
     @AppStorage("autoRefreshSpaces") private var autoRefreshSpaces = false
+    @AppStorage("hideInactiveSpaces") private var hideInactiveSpaces = false
     @StateObject private var prefsVM = PreferencesViewModel()
     
     // MARK: - Main Body
@@ -110,6 +111,8 @@ struct PreferencesView: View {
                     .fontWeight(.semibold)
                 LaunchAtLogin.Toggle(){Text("Launch Spaceman at login")}
                 Toggle("Refresh spaces in background", isOn: $autoRefreshSpaces)
+                Toggle("Only show active spaces", isOn: $hideInactiveSpaces)
+                    .disabled(selectedStyle == 0) // Rectangles style
                 shortcutRecorder.disabled(autoRefreshSpaces ? true : false)
             }
             .padding()
@@ -122,6 +125,9 @@ struct PreferencesView: View {
                     prefsVM.pauseTimer()
                     KeyboardShortcuts.enable(.refresh)
                 }
+            }
+            .onChange(of: hideInactiveSpaces) { _ in
+                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
             }
             
             Divider()
@@ -159,6 +165,10 @@ struct PreferencesView: View {
             Text("Named spaces").tag(SpacemanStyle.text.rawValue)
         }
         .onChange(of: selectedStyle) { val in
+            if val == 0 { // Rectangles style
+                hideInactiveSpaces = false
+            }
+            
             selectedStyle = val
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
         }

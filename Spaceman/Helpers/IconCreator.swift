@@ -158,7 +158,12 @@ class IconCreator {
         var currentDisplayID = spaces[0].displayID
         displayCount = 1
         
+        let shouldBypassInactiveSpaces = defaults.bool(forKey: "hideInactiveSpaces")
         for index in 0 ..< spaces.count {
+            if shouldBypassInactiveSpaces && !spaces[index].isCurrentSpace {
+                continue
+            }
+            
             var nextSpaceIsOnDifferentDisplay = false
             
             if index + 1 < spaces.count {
