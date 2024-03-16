@@ -111,8 +111,6 @@ struct PreferencesView: View {
                     .fontWeight(.semibold)
                 LaunchAtLogin.Toggle(){Text("Launch Spaceman at login")}
                 Toggle("Refresh spaces in background", isOn: $autoRefreshSpaces)
-                Toggle("Only show active spaces", isOn: $hideInactiveSpaces)
-                    .disabled(selectedStyle == 0) // Rectangles style
                 shortcutRecorder.disabled(autoRefreshSpaces ? true : false)
             }
             .padding()
@@ -126,9 +124,6 @@ struct PreferencesView: View {
                     KeyboardShortcuts.enable(.refresh)
                 }
             }
-            .onChange(of: hideInactiveSpaces) { _ in
-                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
-            }
             
             Divider()
             
@@ -140,9 +135,15 @@ struct PreferencesView: View {
 //                Toggle("Use single icon indicator", isOn: .constant(false)) // TODO: Implement this
                 spacesStylePicker
                 spaceNameEditor.disabled(selectedStyle != SpacemanStyle.text.rawValue ? true : false)
+                
+                Toggle("Only show active spaces", isOn: $hideInactiveSpaces)
+                    .disabled(selectedStyle == 0) // Rectangles style
             }
             .padding()
-            
+            .onChange(of: hideInactiveSpaces) { _ in
+                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
+            }
+
         }
     }
     
@@ -157,6 +158,7 @@ struct PreferencesView: View {
     
     // MARK: - Style Picker
     private var spacesStylePicker: some View {
+        
         Picker(selection: $selectedStyle, label: Text("Style")) {
             Text("Rectangles").tag(SpacemanStyle.none.rawValue)
             Text("Numbers").tag(SpacemanStyle.numbers.rawValue)
