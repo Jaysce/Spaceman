@@ -34,5 +34,11 @@
 	<string>https://s3.amazonaws.com/dev.jaysce.spaceman/appcast.xml</string>
 	<key>SUPublicEDKey</key>
 	<string>eDkdnKWaZWZdQ3sGFiSOhwoaNDZKUEwg1aE6CZNl4Q8=</string>
+	<key>CFBundleDisplayName</key>
+	<string></string>
+	<key>NSAppleScriptEnabled</key>
+	<true/>
+	<key>OSAScriptingDefinition</key>
+	<string>Scriptable.sdef</string>
 </dict>
 </plist>

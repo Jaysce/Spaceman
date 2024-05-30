@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4C02BD6D2C0894DC00F07491 /* Scriptable.sdef in Resources */ = {isa = PBXBuildFile; fileRef = 4C02BD6C2C0894DC00F07491 /* Scriptable.sdef */; };
+		4C02BD6F2C0894F500F07491 /* RefreshCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C02BD6E2C0894F500F07491 /* RefreshCommand.swift */; };
 		E828E6552737CBA0007075E8 /* VisualEffectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E828E6542737CBA0007075E8 /* VisualEffectView.swift */; };
 		E828E6582737D2E4007075E8 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = E828E6572737D2E4007075E8 /* Constants.swift */; };
 		E87334E9256B51CF0012586E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E87334E8256B51CF0012586E /* AppDelegate.swift */; };
@@ -30,6 +32,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4C02BD6C2C0894DC00F07491 /* Scriptable.sdef */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Scriptable.sdef; sourceTree = "<group>"; };
+		4C02BD6E2C0894F500F07491 /* RefreshCommand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RefreshCommand.swift; sourceTree = "<group>"; };
 		E828E6542737CBA0007075E8 /* VisualEffectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualEffectView.swift; sourceTree = "<group>"; };
 		E828E6572737D2E4007075E8 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		E87334E5256B51CF0012586E /* Spaceman.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Spaceman.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -94,6 +98,7 @@
 		E87334E7256B51CF0012586E /* Spaceman */ = {
 			isa = PBXGroup;
 			children = (
+				4C02BD6C2C0894DC00F07491 /* Scriptable.sdef */,
 				E87334E8256B51CF0012586E /* AppDelegate.swift */,
 				E8E2AEF5257CB4A500319BBC /* View */,
 				E8E2AEF6257CB4AC00319BBC /* ViewModel */,
@@ -122,6 +127,7 @@
 		E8733509256B575D0012586E /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				4C02BD6E2C0894F500F07491 /* RefreshCommand.swift */,
 				E8733506256B57400012586E /* SpaceObserver.swift */,
 				E8733510256B779B0012586E /* IconCreator.swift */,
 			);
@@ -226,6 +232,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4C02BD6D2C0894DC00F07491 /* Scriptable.sdef in Resources */,
 				E87334F3256B51CF0012586E /* Main.storyboard in Resources */,
 				E87334F0256B51CF0012586E /* Preview Assets.xcassets in Resources */,
 				E87334ED256B51CF0012586E /* Assets.xcassets in Resources */,
@@ -261,6 +268,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E873350E256B5F0F0012586E /* Space.swift in Sources */,
+				4C02BD6F2C0894F500F07491 /* RefreshCommand.swift in Sources */,
 				E8E2AEF8257CB4D700319BBC /* PreferencesViewModel.swift in Sources */,
 				E8733503256B532D0012586E /* StatusBar.swift in Sources */,
 				E87334EB256B51CF0012586E /* PreferencesView.swift in Sources */,
@@ -329,6 +337,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -391,6 +400,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
