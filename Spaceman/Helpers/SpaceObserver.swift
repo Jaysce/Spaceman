@@ -40,7 +40,6 @@ class SpaceObserver {
         }
         let uuid = CFUUIDCreateFromString(kCFAllocatorDefault, uuidString as CFString)
         let dId = CGDisplayGetDisplayIDFromUUID(uuid)
-        print(dId)
         let bounds = CGDisplayBounds(dId);
         return CGPoint(x: bounds.origin.x + bounds.size.width/2, y: bounds.origin.y + bounds.size.height/2)
     }
