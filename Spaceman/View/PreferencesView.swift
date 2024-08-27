@@ -16,6 +16,7 @@ struct PreferencesView: View {
     @AppStorage("displayStyle") private var selectedStyle = 0
     @AppStorage("spaceNames") private var data = Data()
     @AppStorage("autoRefreshSpaces") private var autoRefreshSpaces = false
+    @AppStorage("hideInactiveSpaces") private var hideInactiveSpaces = false
     @StateObject private var prefsVM = PreferencesViewModel()
     
     // MARK: - Main Body
@@ -134,9 +135,15 @@ struct PreferencesView: View {
 //                Toggle("Use single icon indicator", isOn: .constant(false)) // TODO: Implement this
                 spacesStylePicker
                 spaceNameEditor.disabled(selectedStyle != SpacemanStyle.text.rawValue ? true : false)
+                
+                Toggle("Only show active spaces", isOn: $hideInactiveSpaces)
+                    .disabled(selectedStyle == 0) // Rectangles style
             }
             .padding()
-            
+            .onChange(of: hideInactiveSpaces) { _ in
+                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
+            }
+
         }
     }
     
@@ -151,6 +158,7 @@ struct PreferencesView: View {
     
     // MARK: - Style Picker
     private var spacesStylePicker: some View {
+        
         Picker(selection: $selectedStyle, label: Text("Style")) {
             Text("Rectangles").tag(SpacemanStyle.none.rawValue)
             Text("Numbers").tag(SpacemanStyle.numbers.rawValue)
@@ -159,6 +167,10 @@ struct PreferencesView: View {
             Text("Named spaces").tag(SpacemanStyle.text.rawValue)
         }
         .onChange(of: selectedStyle) { val in
+            if val == 0 { // Rectangles style
+                hideInactiveSpaces = false
+            }
+            
             selectedStyle = val
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
         }
