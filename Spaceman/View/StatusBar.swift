@@ -13,10 +13,12 @@ class StatusBar {
     private var statusBarItem: NSStatusItem!
     private var statusBarMenu: NSMenu!
     private var prefsWindow: PreferencesWindow!
+    private var spaceSwitcher: SpaceSwitcher!
     
     private var didRun: Bool = false // FIXME
 
     init() {
+        spaceSwitcher = SpaceSwitcher()
         statusBarItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
         statusBarMenu = NSMenu()
         statusBarMenu.autoenablesItems = false
@@ -55,7 +57,7 @@ class StatusBar {
         statusBarMenu.addItem(about)
         statusBarMenu.addItem(NSMenuItem.separator())
         for space in spaces {
-            statusBarMenu.addItem(makeSwitchDesktopItem(space))
+            statusBarMenu.addItem(makeSwitchToSpaceItem(space: space))
         }
         statusBarMenu.addItem(NSMenuItem.separator())
         statusBarMenu.addItem(updates)
@@ -89,11 +91,11 @@ class StatusBar {
         NSApplication.shared.activate(ignoringOtherApps: true)
     }
     
-    func makeSwitchDesktopItem(_ space: Space) -> NSMenuItem {
+    func makeSwitchToSpaceItem(space: Space) -> NSMenuItem {
         let title = space.spaceName
         let item = NSMenuItem(
             title: title,
-            action: #selector(switchToDesktop(_:)),
+            action: #selector(switchToSpace(_:)),
             keyEquivalent: "")
         item.target = self
         item.tag = space.spaceNumber
@@ -101,38 +103,11 @@ class StatusBar {
         return item
     }
     
-    @objc func switchToDesktop(_ sender: NSMenuItem) {
-        let desktopNumber = sender.tag
-        print("Called switchToDesktop \(desktopNumber)")
-
-        if (desktopNumber < 1 || desktopNumber > 9) {
+    @objc func switchToSpace(_ sender: NSMenuItem) {
+        let spaceNumber = sender.tag
+        if (spaceNumber < 1 || spaceNumber > 10) {
             return
         }
-        
-        let keyCode = 17 + desktopNumber
-        let script = "tell application \"System Events\" to key code \(keyCode) using {control down, command down}"
-        let task = Process()
-        task.launchPath = "/usr/bin/osascript"
-        task.arguments = ["-e", script]
-
-        do {
-            // Launch the task. We may run into an execution error:
-            // "System Events got an error: osascript is not allowed to send keystrokes"
-            try task.run()
-            task.waitUntilExit()
-            if (task.terminationStatus > 0) {
-                alert(msg: "Error: osascript exited with code \(task.terminationStatus)")
-            }
-        } catch {
-            alert(msg: "Error launching osascript: \(error)")
-        }
-    }
-
-    func alert(msg: String) {
-        let alert = NSAlert.init()
-        alert.messageText = "Spaceman"
-        alert.informativeText = msg
-        alert.addButton(withTitle: "Dismiss")
-        alert.runModal()
+        spaceSwitcher.switchToSpace(spaceNumber: spaceNumber)
     }
 }
