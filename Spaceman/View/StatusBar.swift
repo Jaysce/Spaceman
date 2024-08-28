@@ -14,12 +14,16 @@ class StatusBar {
     private var statusBarMenu: NSMenu!
     private var prefsWindow: PreferencesWindow!
     
+    private var didRun: Bool = false // FIXME
+
     init() {
-        
         statusBarItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
         statusBarMenu = NSMenu()
         statusBarMenu.autoenablesItems = false
-        
+        makeStatusBar(spaces: [])
+    }
+
+    func makeStatusBar(spaces: [Space]) {
         prefsWindow = PreferencesWindow()
         let hostedPrefsView = NSHostingView(rootView: PreferencesView(parentWindow: prefsWindow))
         prefsWindow.contentView = hostedPrefsView
@@ -47,20 +51,29 @@ class StatusBar {
             action: #selector(NSApplication.terminate(_:)),
             keyEquivalent: "")
         
+        statusBarMenu.removeAllItems()
         statusBarMenu.addItem(about)
         statusBarMenu.addItem(NSMenuItem.separator())
-        statusBarMenu.addItem(makeSwitchDesktopItem(1))
-        statusBarMenu.addItem(makeSwitchDesktopItem(9, false))
+        for space in spaces {
+            statusBarMenu.addItem(makeSwitchDesktopItem(space))
+        }
         statusBarMenu.addItem(NSMenuItem.separator())
         statusBarMenu.addItem(updates)
         statusBarMenu.addItem(pref)
         statusBarMenu.addItem(quit)
+
         statusBarItem.menu = statusBarMenu
     }
     
-    func updateStatusBar(withIcon icon: NSImage) {
+    func updateStatusBar(withIcon icon: NSImage, withSpaces spaces: [Space]) {
+        // update icon
         if let statusBarButton = statusBarItem.button {
             statusBarButton.image = icon
+        }
+        // update menu
+        if spaces.count > 0 && !didRun {
+            makeStatusBar(spaces: spaces)
+            didRun = true
         }
     }
 
@@ -76,21 +89,22 @@ class StatusBar {
         NSApplication.shared.activate(ignoringOtherApps: true)
     }
     
-    func makeSwitchDesktopItem(_ num: Int, _ isEnabled: Bool = true) -> NSMenuItem {
-        let title = num == 1 ? "One" : "Other"
+    func makeSwitchDesktopItem(_ space: Space) -> NSMenuItem {
+        let title = space.spaceName
         let item = NSMenuItem(
             title: title,
             action: #selector(switchToDesktop(_:)),
             keyEquivalent: "")
         item.target = self
-        item.tag = num
-        item.isEnabled = isEnabled
+        item.tag = space.spaceNumber
+        item.isEnabled = !space.isCurrentSpace
         return item
     }
     
     @objc func switchToDesktop(_ sender: NSMenuItem) {
         let desktopNumber = sender.tag
         print("Called switchToDesktop \(desktopNumber)")
+
         if (desktopNumber < 1 || desktopNumber > 9) {
             return
         }
@@ -102,10 +116,23 @@ class StatusBar {
         task.arguments = ["-e", script]
 
         do {
-            // Launch the task
+            // Launch the task. We may run into an execution error:
+            // "System Events got an error: osascript is not allowed to send keystrokes"
             try task.run()
+            task.waitUntilExit()
+            if (task.terminationStatus > 0) {
+                alert(msg: "Error: osascript exited with code \(task.terminationStatus)")
+            }
         } catch {
-            print("Error launching task: \(error)")
+            alert(msg: "Error launching osascript: \(error)")
         }
+    }
+
+    func alert(msg: String) {
+        let alert = NSAlert.init()
+        alert.messageText = "Spaceman"
+        alert.informativeText = msg
+        alert.addButton(withTitle: "Dismiss")
+        alert.runModal()
     }
 }
