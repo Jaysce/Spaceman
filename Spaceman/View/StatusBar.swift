@@ -14,10 +14,12 @@ class StatusBar {
     private var statusBarMenu: NSMenu!
     private var prefsWindow: PreferencesWindow!
     private var spaceSwitcher: SpaceSwitcher!
+    private var config: Config!
     
     private var didRun: Bool = false // FIXME
 
     init() {
+        config = Config()
         spaceSwitcher = SpaceSwitcher()
         statusBarItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
         statusBarMenu = NSMenu()
@@ -93,10 +95,12 @@ class StatusBar {
     
     func makeSwitchToSpaceItem(space: Space) -> NSMenuItem {
         let title = space.spaceName
+        let mask = config.getModifiersAsFlags()
         let item = NSMenuItem(
             title: title,
             action: #selector(switchToSpace(_:)),
-            keyEquivalent: "")
+            keyEquivalent: String(space.spaceNumber))
+        item.keyEquivalentModifierMask = mask
         item.target = self
         item.tag = space.spaceNumber
         item.isEnabled = !space.isCurrentSpace

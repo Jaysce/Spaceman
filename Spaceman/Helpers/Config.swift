@@ -7,6 +7,7 @@
 //  See https://apple.stackexchange.com/questions/36943/how-do-i-automate-a-key-press-in-applescript
 
 import Foundation
+import SwiftUI
 
 var modifiers: String = "control,command"
 var schema: String = "toprow"
@@ -89,5 +90,24 @@ class Config {
     
     func getModifiers() -> String {
         return modifiers.split(separator: ",").map { "\($0) down" }.joined(separator: ",")
+    }
+
+    func getModifiersAsFlags() -> NSEvent.ModifierFlags {
+        var mask = NSEvent.ModifierFlags()
+        for modifier in modifiers.split(separator: ",") {
+            switch (modifier) {
+            case "shift":
+                mask = mask.union(NSEvent.ModifierFlags.shift)
+            case "control":
+                mask = mask.union(NSEvent.ModifierFlags.control)
+            case "command":
+                mask = mask.union(NSEvent.ModifierFlags.command)
+            case "option":
+                mask = mask.union(NSEvent.ModifierFlags.option)
+            default:
+                print("Unknown modifier \(modifier)")
+            }
+        }
+        return mask
     }
 }
