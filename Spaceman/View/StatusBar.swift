@@ -15,19 +15,15 @@ class StatusBar {
     private var prefsWindow: PreferencesWindow!
     private var spaceSwitcher: SpaceSwitcher!
     private var config: Config!
-    
-    private var didRun: Bool = false // FIXME
 
     init() {
         config = Config()
         spaceSwitcher = SpaceSwitcher()
+        
         statusBarItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
         statusBarMenu = NSMenu()
         statusBarMenu.autoenablesItems = false
-        makeStatusBar(spaces: [])
-    }
-
-    func makeStatusBar(spaces: [Space]) {
+        
         prefsWindow = PreferencesWindow()
         let hostedPrefsView = NSHostingView(rootView: PreferencesView(parentWindow: prefsWindow))
         prefsWindow.contentView = hostedPrefsView
@@ -55,29 +51,31 @@ class StatusBar {
             action: #selector(NSApplication.terminate(_:)),
             keyEquivalent: "")
         
-        statusBarMenu.removeAllItems()
         statusBarMenu.addItem(about)
         statusBarMenu.addItem(NSMenuItem.separator())
-        for space in spaces {
-            statusBarMenu.addItem(makeSwitchToSpaceItem(space: space))
-        }
         statusBarMenu.addItem(NSMenuItem.separator())
         statusBarMenu.addItem(updates)
         statusBarMenu.addItem(pref)
         statusBarMenu.addItem(quit)
-
         statusBarItem.menu = statusBarMenu
     }
-    
+
     func updateStatusBar(withIcon icon: NSImage, withSpaces spaces: [Space]) {
         // update icon
         if let statusBarButton = statusBarItem.button {
             statusBarButton.image = icon
         }
         // update menu
-        if spaces.count > 0 && !didRun {
-            makeStatusBar(spaces: spaces)
-            didRun = true
+        if spaces.count > 0 {
+            var removeCandidateItem = statusBarMenu.items[2]
+            while (!removeCandidateItem.isSeparatorItem) {
+                statusBarMenu.removeItem(removeCandidateItem)
+                removeCandidateItem = statusBarMenu.items[2]
+            }
+            for space in spaces.reversed() {
+                let switchItem = makeSwitchToSpaceItem(space: space)
+                statusBarMenu.insertItem(switchItem, at: 2)
+            }
         }
     }
 
@@ -92,21 +90,31 @@ class StatusBar {
         prefsWindow.makeKeyAndOrderFront(nil)
         NSApplication.shared.activate(ignoringOtherApps: true)
     }
-    
+
     func makeSwitchToSpaceItem(space: Space) -> NSMenuItem {
         let title = space.spaceName
         let mask = config.getModifiersAsFlags()
+        var shortcutKey = ""
+        if space.spaceNumber < 10 {
+            shortcutKey = String(space.spaceNumber)
+        } else if space.spaceNumber == 10 {
+            shortcutKey = "0"
+        }
+        
         let item = NSMenuItem(
             title: title,
             action: #selector(switchToSpace(_:)),
-            keyEquivalent: String(space.spaceNumber))
+            keyEquivalent: shortcutKey)
         item.keyEquivalentModifierMask = mask
         item.target = self
         item.tag = space.spaceNumber
-        item.isEnabled = !space.isCurrentSpace
+        if space.isCurrentSpace {
+            item.isEnabled = !space.isCurrentSpace
+            //item.badge = NSMenuItemBadge(string: "Current") // MacOS >= 14
+        }
         return item
     }
-    
+
     @objc func switchToSpace(_ sender: NSMenuItem) {
         let spaceNumber = sender.tag
         if (spaceNumber < 1 || spaceNumber > 10) {
