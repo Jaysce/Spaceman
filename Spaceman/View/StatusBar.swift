@@ -18,6 +18,7 @@ class StatusBar {
         
         statusBarItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
         statusBarMenu = NSMenu()
+        statusBarMenu.autoenablesItems = false
         
         prefsWindow = PreferencesWindow()
         let hostedPrefsView = NSHostingView(rootView: PreferencesView(parentWindow: prefsWindow))
@@ -48,6 +49,9 @@ class StatusBar {
         
         statusBarMenu.addItem(about)
         statusBarMenu.addItem(NSMenuItem.separator())
+        statusBarMenu.addItem(makeSwitchDesktopItem(1))
+        statusBarMenu.addItem(makeSwitchDesktopItem(9, false))
+        statusBarMenu.addItem(NSMenuItem.separator())
         statusBarMenu.addItem(updates)
         statusBarMenu.addItem(pref)
         statusBarMenu.addItem(quit)
@@ -59,9 +63,8 @@ class StatusBar {
             statusBarButton.image = icon
         }
     }
-    
+
     @objc func showPreferencesWindow(_ sender: AnyObject) {
-        
         if prefsWindow == nil {
             prefsWindow = PreferencesWindow()
             let hostedPrefsView = NSHostingView(rootView: PreferencesView(parentWindow: prefsWindow))
@@ -71,5 +74,38 @@ class StatusBar {
         prefsWindow.center()
         prefsWindow.makeKeyAndOrderFront(nil)
         NSApplication.shared.activate(ignoringOtherApps: true)
+    }
+    
+    func makeSwitchDesktopItem(_ num: Int, _ isEnabled: Bool = true) -> NSMenuItem {
+        let title = num == 1 ? "One" : "Other"
+        let item = NSMenuItem(
+            title: title,
+            action: #selector(switchToDesktop(_:)),
+            keyEquivalent: "")
+        item.target = self
+        item.tag = num
+        item.isEnabled = isEnabled
+        return item
+    }
+    
+    @objc func switchToDesktop(_ sender: NSMenuItem) {
+        let desktopNumber = sender.tag
+        print("Called switchToDesktop \(desktopNumber)")
+        if (desktopNumber < 1 || desktopNumber > 9) {
+            return
+        }
+        
+        let keyCode = 17 + desktopNumber
+        let script = "tell application \"System Events\" to key code \(keyCode) using {control down, command down}"
+        let task = Process()
+        task.launchPath = "/usr/bin/osascript"
+        task.arguments = ["-e", script]
+
+        do {
+            // Launch the task
+            try task.run()
+        } catch {
+            print("Error launching task: \(error)")
+        }
     }
 }
