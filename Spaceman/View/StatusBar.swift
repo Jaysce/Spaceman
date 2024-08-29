@@ -15,6 +15,7 @@ class StatusBar {
     private var prefsWindow: PreferencesWindow!
     private var spaceSwitcher: SpaceSwitcher!
     private var shortcutHelper: ShortcutHelper!
+    private let defaults = UserDefaults.standard
 
     init() {
         shortcutHelper = ShortcutHelper()
@@ -92,12 +93,13 @@ class StatusBar {
     }
 
     func makeSwitchToSpaceItem(space: Space) -> NSMenuItem {
-        let title = space.spaceName
+        let spaceNumber = space.spaceNumber
+        let title = defaults.bool(forKey: "spaceNumberInMenu") ? "\(spaceNumber) : \(space.spaceName)" : space.spaceName
         let mask = shortcutHelper.getModifiersAsFlags()
         var shortcutKey = ""
-        if space.spaceNumber < 10 {
-            shortcutKey = String(space.spaceNumber)
-        } else if space.spaceNumber == 10 {
+        if spaceNumber < 10 {
+            shortcutKey = String(spaceNumber)
+        } else if spaceNumber == 10 {
             shortcutKey = "0"
         }
         
@@ -107,7 +109,7 @@ class StatusBar {
             keyEquivalent: shortcutKey)
         item.keyEquivalentModifierMask = mask
         item.target = self
-        item.tag = space.spaceNumber
+        item.tag = spaceNumber
         if space.isCurrentSpace {
             item.isEnabled = !space.isCurrentSpace
             //item.badge = NSMenuItemBadge(string: "Current") // MacOS >= 14
