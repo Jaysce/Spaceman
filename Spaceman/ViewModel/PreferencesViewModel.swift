@@ -44,7 +44,7 @@ class PreferencesViewModel: ObservableObject {
     func updateSpace() {
         let key = sortedSpaceNamesDict[selectedSpace].key
         let spaceNum = sortedSpaceNamesDict[selectedSpace].value.spaceNum
-        spaceNamesDict[key] = SpaceNameInfo(spaceNum: spaceNum, spaceName: spaceName.isEmpty ? "N/A" : spaceName)
+        spaceNamesDict[key] = SpaceNameInfo(spaceNum: spaceNum, spaceName: spaceName.isEmpty ? "-" : spaceName)
     }
     
     func startTimer() {

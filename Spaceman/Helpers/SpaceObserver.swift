@@ -65,7 +65,7 @@ class SpaceObserver {
                 }
                 var space = Space(displayID: displayID,
                                   spaceID: spaceID,
-                                  spaceName: "N/A",
+                                  spaceName: "-",
                                   spaceNumber: spaceNumber,
                                   desktopNumber: desktopNumber,
                                   isCurrentSpace: isCurrentSpace,
@@ -79,9 +79,9 @@ class SpaceObserver {
                     if let pid = s["pid"] as? pid_t,
                        let app = NSRunningApplication(processIdentifier: pid),
                        let name = app.localizedName {
-                        space.spaceName = name.prefix(3).uppercased()
+                        space.spaceName = name.prefix(4).uppercased()
                     } else {
-                        space.spaceName = "FUL"
+                        space.spaceName = "FULL"
                     }
                 }
                 

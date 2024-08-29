@@ -94,7 +94,9 @@ class StatusBar {
 
     func makeSwitchToSpaceItem(space: Space) -> NSMenuItem {
         let spaceNumber = space.spaceNumber
-        let title = defaults.bool(forKey: "spaceNumberInMenu") ? "\(spaceNumber) : \(space.spaceName)" : space.spaceName
+        let spaceName = space.spaceName
+        let spaceNumberInMenu = defaults.bool(forKey: "spaceNumberInMenu")
+        let title = spaceNumberInMenu ? "\(spaceNumber) : \(spaceName)" : spaceName
         let mask = shortcutHelper.getModifiersAsFlags()
         var shortcutKey = ""
         if spaceNumber < 10 {

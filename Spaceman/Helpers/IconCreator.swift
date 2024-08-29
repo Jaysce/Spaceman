@@ -8,15 +8,19 @@
 import AppKit
 import Foundation
 
+let WIDTH_SMALL = 18
+let WIDTH_LARGE = 49
+let HEIGHT = 12
+
 class IconCreator {
     private let defaults = UserDefaults.standard
-    private var iconSize = NSSize(width: 18, height: 12)
+    private var iconSize = NSSize(width: WIDTH_SMALL, height: HEIGHT)
     private let gapWidth = CGFloat(5)
     private let displayGapWidth = CGFloat(15)
     private var displayCount = 1
     
     func getIcon(for spaces: [Space]) -> NSImage {
-        iconSize.width = 18
+        iconSize.width = CGFloat(WIDTH_SMALL)
         let spacemanStyle = SpacemanStyle(rawValue: defaults.integer(forKey: "displayStyle"))
         var icons = [NSImage]()
         
@@ -44,7 +48,7 @@ class IconCreator {
         case .desktopNumbersAndRects:
             icons = createRectWithNumbersIcons(icons, spaces, desktopsOnly: true)
         case .text:
-            iconSize.width = 49
+            iconSize.width = CGFloat(WIDTH_LARGE)
             icons = createNamedIcons(icons, spaces)
         default:
             break
@@ -121,10 +125,16 @@ class IconCreator {
         var newIcons = [NSImage]()
         
         for s in spaces {
-            let textRect = NSRect(origin: CGPoint.zero, size: iconSize)
+            
             let spaceText = NSString(string: "\(s.spaceNumber): \(s.spaceName.uppercased())")
-            let iconImage = NSImage(size: iconSize)
-            let textImage = NSImage(size: iconSize)
+            let textSize = spaceText.size(withAttributes: getStringAttributes(alpha: 1))
+            let textWithMarginSize = NSMakeSize(textSize.width + 4, CGFloat(HEIGHT))
+            
+            // Check if the text width exceeds the icon's width
+            let textImageSize = textSize.width > iconSize.width ? textWithMarginSize : iconSize
+            let iconImage = NSImage(size: textImageSize)
+            let textImage = NSImage(size: textImageSize)
+            let textRect = NSRect(origin: CGPoint.zero, size: textImageSize)
             
             textImage.lockFocus()
             spaceText.drawVerticallyCentered(
@@ -183,7 +193,9 @@ class IconCreator {
     
     func mergeIcons(_ iconsWithDisplayProperties: [(image: NSImage, nextSpaceOnDifferentDisplay: Bool)]) -> NSImage {
         let numIcons = iconsWithDisplayProperties.count
-        let combinedIconWidth = CGFloat(numIcons) * iconSize.width
+        let combinedIconWidth = CGFloat(iconsWithDisplayProperties.reduce(0) { (result, icon) in
+            result + icon.image.size.width
+        })
         let accomodatingGapWidth = CGFloat(numIcons - 1) * gapWidth
         let accomodatingDisplayGapWidth = CGFloat(displayCount - 1) * displayGapWidth
         let totalWidth = combinedIconWidth + accomodatingGapWidth + accomodatingDisplayGapWidth
@@ -197,8 +209,8 @@ class IconCreator {
                 from: NSRect.zero,
                 operation: NSCompositingOperation.sourceOver,
                 fraction: 1.0)
-            if icon.nextSpaceOnDifferentDisplay { x += iconSize.width + displayGapWidth}
-            else { x += iconSize.width + gapWidth }
+            if icon.nextSpaceOnDifferentDisplay { x += icon.image.size.width + displayGapWidth}
+            else { x += icon.image.size.width + gapWidth }
         }
         image.isTemplate = true
         image.unlockFocus()
