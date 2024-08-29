@@ -30,7 +30,6 @@ class PreferencesViewModel: ObservableObject {
             return
         }
         
-        self.selectedSpace = 0
         let decoded = try! PropertyListDecoder().decode(Dictionary<String, SpaceNameInfo>.self, from: data)
         self.spaceNamesDict = decoded
         
