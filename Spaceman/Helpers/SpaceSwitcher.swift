@@ -9,18 +9,18 @@ import Foundation
 import SwiftUI
 
 class SpaceSwitcher {
-    private var config: Config!
+    private var shortcutHelper: ShortcutHelper!
 
     init() {
-        config = Config()
+        shortcutHelper = ShortcutHelper()
     }
     
     func switchToSpace(spaceNumber: Int) {
-        let keyCode = config.getKeyCode(spaceNumber: spaceNumber)
+        let keyCode = shortcutHelper.getKeyCode(spaceNumber: spaceNumber)
         if keyCode < 0 {
             return
         }
-        let modifiers = config.getModifiers()
+        let modifiers = shortcutHelper.getModifiers()
 
         print("Called switchToSpace \(spaceNumber), sending keycode \(keyCode)")
 

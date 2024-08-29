@@ -14,10 +14,10 @@ class StatusBar {
     private var statusBarMenu: NSMenu!
     private var prefsWindow: PreferencesWindow!
     private var spaceSwitcher: SpaceSwitcher!
-    private var config: Config!
+    private var shortcutHelper: ShortcutHelper!
 
     init() {
-        config = Config()
+        shortcutHelper = ShortcutHelper()
         spaceSwitcher = SpaceSwitcher()
         
         statusBarItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
@@ -93,7 +93,7 @@ class StatusBar {
 
     func makeSwitchToSpaceItem(space: Space) -> NSMenuItem {
         let title = space.spaceName
-        let mask = config.getModifiersAsFlags()
+        let mask = shortcutHelper.getModifiersAsFlags()
         var shortcutKey = ""
         if space.spaceNumber < 10 {
             shortcutKey = String(space.spaceNumber)

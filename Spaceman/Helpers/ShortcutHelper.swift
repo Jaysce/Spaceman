@@ -1,5 +1,5 @@
 //
-//  Config.swift
+//  ShortcutHelper.swift
 //  Spaceman
 //
 //  Created by René Uittenbogaard on 28/08/2024.
@@ -9,7 +9,7 @@
 import Foundation
 import SwiftUI
 
-class Config {
+class ShortcutHelper {
     
     private let defaults = UserDefaults.standard
 
