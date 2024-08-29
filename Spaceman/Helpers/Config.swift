@@ -9,10 +9,10 @@
 import Foundation
 import SwiftUI
 
-var modifiers: String = "control,command"
-var schema: String = "toprow"
-
 class Config {
+    
+    private let defaults = UserDefaults.standard
+
     /**
      * Uses the number keys on the top row of the keyboard
      */
@@ -78,6 +78,7 @@ class Config {
     }
     
     func getKeyCode(spaceNumber: Int) -> Int {
+        let schema = defaults.string(forKey: "schema")
         switch (schema) {
         case "toprow":
             return getKeyCodeTopRow(spaceNumber: spaceNumber)
@@ -89,24 +90,35 @@ class Config {
     }
     
     func getModifiers() -> String {
-        return modifiers.split(separator: ",").map { "\($0) down" }.joined(separator: ",")
+        var modifiers: [String] = []
+        if defaults.bool(forKey: "withShift") {
+            modifiers.append("shift down")
+        }
+        if defaults.bool(forKey: "withControl") {
+            modifiers.append("control down")
+        }
+        if defaults.bool(forKey: "withOption") {
+            modifiers.append("option down")
+        }
+        if defaults.bool(forKey: "withCommand") {
+            modifiers.append("command down")
+        }
+        return modifiers.joined(separator: ",")
     }
 
     func getModifiersAsFlags() -> NSEvent.ModifierFlags {
         var mask = NSEvent.ModifierFlags()
-        for modifier in modifiers.split(separator: ",") {
-            switch (modifier) {
-            case "shift":
-                mask = mask.union(NSEvent.ModifierFlags.shift)
-            case "control":
-                mask = mask.union(NSEvent.ModifierFlags.control)
-            case "command":
-                mask = mask.union(NSEvent.ModifierFlags.command)
-            case "option":
-                mask = mask.union(NSEvent.ModifierFlags.option)
-            default:
-                print("Unknown modifier \(modifier)")
-            }
+        if defaults.bool(forKey: "withShift") {
+            mask = mask.union(NSEvent.ModifierFlags.shift)
+        }
+        if defaults.bool(forKey: "withControl") {
+            mask = mask.union(NSEvent.ModifierFlags.control)
+        }
+        if defaults.bool(forKey: "withOption") {
+            mask = mask.union(NSEvent.ModifierFlags.option)
+        }
+        if defaults.bool(forKey: "withCommand") {
+            mask = mask.union(NSEvent.ModifierFlags.command)
         }
         return mask
     }
