@@ -36,7 +36,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 extension AppDelegate: SpaceObserverDelegate {
     func didUpdateSpaces(spaces: [Space]) {
         let icon = iconCreator.getIcon(for: spaces)
-        statusBar.updateStatusBar(withIcon: icon)
+        statusBar.updateStatusBar(withIcon: icon, withSpaces: spaces)
     }
 }
 

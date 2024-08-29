@@ -5,8 +5,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/sindresorhus/KeyboardShortcuts",
       "state" : {
-        "revision" : "81e72f4787f2d642d788594834f42431f079e505",
-        "version" : "0.6.0"
+        "revision" : "f09de800a4f05d66fe2a9924c81a932454a9f39a",
+        "version" : "0.7.1"
       }
     },
     {
@@ -14,8 +14,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/sindresorhus/LaunchAtLogin",
       "state" : {
-        "revision" : "0f39982b9d6993eef253b81219d3c39ba1e680f3",
-        "version" : "4.0.0"
+        "revision" : "e8171b3e38a2816f579f58f3dac1522aa39efe41",
+        "version" : "4.2.0"
       }
     },
     {
@@ -23,8 +23,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/sparkle-project/Sparkle",
       "state" : {
-        "revision" : "7918c1c8fc68baa37917eeaa67286b077ad5e393",
-        "version" : "1.27.1"
+        "revision" : "10d96f2b9b9905b0f529f09e517219d4e20125c0",
+        "version" : "1.27.3"
       }
     }
   ],
