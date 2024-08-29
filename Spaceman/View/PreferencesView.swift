@@ -236,7 +236,7 @@ struct PreferencesView: View {
                 text: Binding(
                     get: {prefsVM.spaceName},
                     set: {prefsVM.spaceName = $0.prefix(4).trimmingCharacters(in: .whitespacesAndNewlines)}),
-                onCommit: updateName)
+                onCommit: {}) // removed `updateName` callback so as to avoid unwanted writes
             
             Button("Update name") {
                 updateName()
