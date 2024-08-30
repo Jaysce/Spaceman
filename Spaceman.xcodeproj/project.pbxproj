@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		E70587F32C80A5DA00D9B729 /* ShortcutHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = E70587F22C80A5DA00D9B729 /* ShortcutHelper.swift */; };
+		E70587F52C827E5600D9B729 /* exportOptions.plist in Resources */ = {isa = PBXBuildFile; fileRef = E70587F42C827E5600D9B729 /* exportOptions.plist */; };
 		E7A066232C7F65F1002DFC52 /* SpaceSwitcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7A066222C7F65F1002DFC52 /* SpaceSwitcher.swift */; };
 		E828E6552737CBA0007075E8 /* VisualEffectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E828E6542737CBA0007075E8 /* VisualEffectView.swift */; };
 		E828E6582737D2E4007075E8 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = E828E6572737D2E4007075E8 /* Constants.swift */; };
@@ -33,6 +34,7 @@
 
 /* Begin PBXFileReference section */
 		E70587F22C80A5DA00D9B729 /* ShortcutHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShortcutHelper.swift; sourceTree = "<group>"; };
+		E70587F42C827E5600D9B729 /* exportOptions.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = exportOptions.plist; sourceTree = "<group>"; };
 		E7A066222C7F65F1002DFC52 /* SpaceSwitcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceSwitcher.swift; sourceTree = "<group>"; };
 		E828E6542737CBA0007075E8 /* VisualEffectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualEffectView.swift; sourceTree = "<group>"; };
 		E828E6572737D2E4007075E8 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
@@ -105,6 +107,7 @@
 				E8733509256B575D0012586E /* Helpers */,
 				E828E6562737D2CF007075E8 /* Utilities */,
 				E8733516256C6F3A0012586E /* Extensions.swift */,
+				E70587F42C827E5600D9B729 /* exportOptions.plist */,
 				E87334FC256B52650012586E /* Spaceman-Bridging-Header.h */,
 				E87334EC256B51CF0012586E /* Assets.xcassets */,
 				E87334F1256B51CF0012586E /* Main.storyboard */,
@@ -236,6 +239,7 @@
 				E87334F3256B51CF0012586E /* Main.storyboard in Resources */,
 				E87334F0256B51CF0012586E /* Preview Assets.xcassets in Resources */,
 				E87334ED256B51CF0012586E /* Assets.xcassets in Resources */,
+				E70587F52C827E5600D9B729 /* exportOptions.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -435,12 +439,13 @@
 				ENABLE_PREVIEWS = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = Spaceman/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = "1.2.3-R";
+				MARKETING_VERSION = "1.2.4-R";
 				PRODUCT_BUNDLE_IDENTIFIER = dev.jaysce.Spaceman;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -467,12 +472,13 @@
 				ENABLE_PREVIEWS = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = Spaceman/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = "1.2.3-R";
+				MARKETING_VERSION = "1.2.4-R";
 				PRODUCT_BUNDLE_IDENTIFIER = dev.jaysce.Spaceman;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

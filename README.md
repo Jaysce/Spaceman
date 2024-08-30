@@ -10,12 +10,6 @@ Also, the menu enables switching between spaces.
 
 ## Install
 
-### Homebrew
-
-```
-brew install spaceman
-```
-
 ### GitHub
 
 Go to the releases tab and download **Spaceman.dmg** from the latest release.
@@ -26,10 +20,11 @@ Go to the releases tab and download **Spaceman.dmg** from the latest release.
 
 The above image shows the possible icons that you will see depending on the style you choose.
 
-There are 4 styles to choose from, from top to bottom:
+There are five styles to choose from, from top to bottom:
 - Rectangles
 - Numbers
 - Rectangles with Numbers
+- Rectangles with Desktop Numbers
 - Named Spaces
 
 The meaning of the icons from left to right are:
