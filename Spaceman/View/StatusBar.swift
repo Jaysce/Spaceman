@@ -92,8 +92,16 @@ class StatusBar {
         NSApplication.shared.activate(ignoringOtherApps: true)
     }
 
+    func narrowNumber(num: Int) -> String {
+        if (num > 20 || num < 1) {
+            return "\(num)."
+        }
+        return ["","⒈","⒉","⒊","⒋","⒌","⒍","⒎","⒏","⒐","⒑","⒒","⒓","⒔","⒕","⒖","⒗","⒘","⒙","⒚","⒛"][num]
+    }
+
     func makeSwitchToSpaceItem(space: Space) -> NSMenuItem {
         let spaceNumber = space.spaceNumber
+        //let spaceNumberStr = narrowNumber(num: spaceNumber) // Not sure if UTF-8 font is available everywhere
         let spaceName = space.spaceName
         let showSpaceNumberInMenu = defaults.bool(forKey: "showSpaceNumberInMenu")
         
