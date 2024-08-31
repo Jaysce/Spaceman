@@ -165,12 +165,6 @@ struct PreferencesView: View {
                 }
                 .pickerStyle(.radioGroup)
                 .disabled(false)
-            }
-            .padding()
-            .onChange(of: schema) { _ in
-                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
-            }
-            VStack(alignment: .leading) {
                 HStack(alignment: .top) {
                     Text("With modifiers")
                     Spacer()
@@ -188,6 +182,9 @@ struct PreferencesView: View {
             }
             .padding()
             .padding(.bottom, 40)
+            .onChange(of: schema) { _ in
+                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
+            }
             .onChange(of: [withShift, withControl, withCommand, withOption]) { _ in
                 NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
             }
