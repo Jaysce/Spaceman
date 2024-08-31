@@ -17,7 +17,7 @@ struct PreferencesView: View {
     @AppStorage("spaceNames") private var data = Data()
     @AppStorage("autoRefreshSpaces") private var autoRefreshSpaces = false
     @AppStorage("hideInactiveSpaces") private var hideInactiveSpaces = false
-    @AppStorage("spaceNumberInMenu") private var spaceNumberInMenu = true
+    @AppStorage("showSpaceNumberInMenu") private var showSpaceNumberInMenu = true
     @AppStorage("schema") private var schema = "toprow"
     @AppStorage("withShift") private var withShift = false
     @AppStorage("withControl") private var withControl = true
@@ -144,11 +144,11 @@ struct PreferencesView: View {
                 
                 Toggle("Only show active spaces", isOn: $hideInactiveSpaces)
                     .disabled(selectedStyle == 0) // Rectangles style
-                Toggle("Show space numbers in menu", isOn: $spaceNumberInMenu)
+                Toggle("Show space numbers in menu", isOn: $showSpaceNumberInMenu)
                 
             }
             .padding()
-            .onChange(of: [hideInactiveSpaces, spaceNumberInMenu]) { _ in
+            .onChange(of: [hideInactiveSpaces, showSpaceNumberInMenu]) { _ in
                 NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
             }
             
@@ -165,12 +165,6 @@ struct PreferencesView: View {
                 }
                 .pickerStyle(.radioGroup)
                 .disabled(false)
-            }
-            .padding()
-            .onChange(of: schema) { _ in
-                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
-            }
-            VStack(alignment: .leading) {
                 HStack(alignment: .top) {
                     Text("With modifiers")
                     Spacer()
@@ -188,6 +182,9 @@ struct PreferencesView: View {
             }
             .padding()
             .padding(.bottom, 40)
+            .onChange(of: schema) { _ in
+                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
+            }
             .onChange(of: [withShift, withControl, withCommand, withOption]) { _ in
                 NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
             }
