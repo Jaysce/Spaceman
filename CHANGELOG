@@ -1,0 +1,7 @@
+1.2.4-R: Added Makefile for commandline-driven distribution
+1.2.3-R: Fix space number jump in properties dialog after refresh
+1.2.2-R: Fix saving of space name other than using "Update name" button
+1.2.1-R: Better support for space names consisting of four characters
+1.2.0-R: Show space numbers in menu
+1.1.1-R: Desktop switcher using menu options
+
