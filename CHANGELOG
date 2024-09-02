@@ -1,3 +1,4 @@
+1.2.5-R: Improved preferences layout; updated documentation
 1.2.4-R: Added Makefile for commandline-driven distribution
 1.2.3-R: Fix space number jump in properties dialog after refresh
 1.2.2-R: Fix saving of space name other than using "Update name" button
