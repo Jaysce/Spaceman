@@ -38,6 +38,10 @@ class PreferencesViewModel: ObservableObject {
         }
         
         sortedSpaceNamesDict = sorted
+        if (selectedSpace >= sortedSpaceNamesDict.count) {
+            selectedSpace = 0
+        }
+        spaceName = sortedSpaceNamesDict[selectedSpace].value.spaceName
     }
     
     func updateSpace() {
@@ -55,7 +59,6 @@ class PreferencesViewModel: ObservableObject {
     }
     
     @objc func refreshSpaces() {
-        print("Updating spaces")
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
     }
 }
