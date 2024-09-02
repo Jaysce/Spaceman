@@ -154,40 +154,45 @@ struct PreferencesView: View {
             
             Divider()
             
-            // Switching Pane
-            VStack(alignment: .leading) {
-                Text("Switching Spaces")
-                    .font(.title2)
-                    .fontWeight(.semibold)
-                Picker("Shortcut keys", selection: $schema) {
-                    Text("number keys on top row").tag("toprow")
-                    Text("numeric keypad").tag("numpad")
-                }
-                .pickerStyle(.radioGroup)
-                .disabled(false)
-                HStack(alignment: .top) {
-                    Text("With modifiers")
-                    Spacer()
-                    VStack(alignment: .leading) {
-                        Toggle("Shift", isOn: $withShift)
-                        Toggle("Control", isOn: $withControl)
-                    }
-                    Spacer()
-                    VStack(alignment: .leading) {
-                        Toggle("Option", isOn: $withOption)
-                        Toggle("Command", isOn: $withCommand)
-                    }
-                    Spacer()
-                }
-            }
-            .padding()
+            switchingPane
             .padding(.bottom, 40)
-            .onChange(of: schema) { _ in
-                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
+        }
+    }
+    
+    // MARK: - Switching pane
+    private var switchingPane: some View {
+        // Switching Pane
+        VStack(alignment: .leading) {
+            Text("Switching Spaces")
+                .font(.title2)
+                .fontWeight(.semibold)
+            Picker("Shortcut keys", selection: $schema) {
+                Text("number keys on top row").tag("toprow")
+                Text("numeric keypad").tag("numpad")
             }
-            .onChange(of: [withShift, withControl, withCommand, withOption]) { _ in
-                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
+            .pickerStyle(.radioGroup)
+            .disabled(false)
+            HStack(alignment: .top) {
+                Text("With modifiers")
+                Spacer()
+                VStack(alignment: .leading) {
+                    Toggle("Shift", isOn: $withShift)
+                    Toggle("Control", isOn: $withControl)
+                }
+                Spacer()
+                VStack(alignment: .leading) {
+                    Toggle("Option", isOn: $withOption)
+                    Toggle("Command", isOn: $withCommand)
+                }
+                Spacer()
             }
+        }
+        .padding()
+        .onChange(of: schema) { _ in
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
+        }
+        .onChange(of: [withShift, withControl, withCommand, withOption]) { _ in
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
         }
     }
     
