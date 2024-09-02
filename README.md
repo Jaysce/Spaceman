@@ -76,3 +76,13 @@ For this to work successfully, the following things need to be configured:
 - This project uses [Sparkle](https://sparkle-project.org) for update delivery
 - This project makes use of [LaunchAtLogin](https://github.com/sindresorhus/LaunchAtLogin)
 - This project makes use of [KeyboardShortcuts](https://github.com/sindresorhus/KeyboardShortcuts)
+- Authors:
+  - [Sasindu Jayasinghe](https://github.com/Jaysce/Spaceman)
+  - [René Uittenbogaard](https://github.com/ruittenb/Spaceman)
+- Contributions by:
+  - [Dmitry Poznyak](https://github.com/Dpoznyak)
+  - [Grzegorz Milka](https://github.com/gregorias)
+  - [aaplmath](https://github.com/aaplmath)
+  - [lxsavage](https://github.com/lxsavage/Spaceman)
+  - [Yakirlog](https://github.com/yakirlog/Spaceman)
+
