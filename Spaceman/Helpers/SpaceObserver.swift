@@ -12,6 +12,7 @@ class SpaceObserver {
     private let workspace = NSWorkspace.shared
     private let conn = _CGSDefaultConnection()
     private let defaults = UserDefaults.standard
+    private var spaceNameCache: [String] = Array(repeating: "-", count: 5)
     weak var delegate: SpaceObserverDelegate?
     
     init() {
@@ -63,9 +64,14 @@ class SpaceObserver {
                     lastDesktopNumber += 1
                     desktopNumber = lastDesktopNumber
                 }
+                while spaceNumber >= spaceNameCache.count {
+                    // Make sure that the cache is large enough
+                    spaceNameCache.append(contentsOf: Array(repeating: "-", count: 5))
+                }
+                let spaceName = spaceNameCache[spaceNumber]
                 var space = Space(displayID: displayID,
                                   spaceID: spaceID,
-                                  spaceName: "-",
+                                  spaceName: spaceName,
                                   spaceNumber: spaceNumber,
                                   desktopNumber: desktopNumber,
                                   isCurrentSpace: isCurrentSpace,
@@ -84,6 +90,7 @@ class SpaceObserver {
                         space.spaceName = "FULL"
                     }
                 }
+                spaceNameCache[spaceNumber] = space.spaceName
                 
                 let nameInfo = SpaceNameInfo(spaceNum: spaceNumber, spaceName: space.spaceName)
                 updatedDict[spaceID] = nameInfo
