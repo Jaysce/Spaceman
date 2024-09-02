@@ -82,7 +82,8 @@ For this to work successfully, the following things need to be configured:
 - Contributions by:
   - [Dmitry Poznyak](https://github.com/Dpoznyak)
   - [Grzegorz Milka](https://github.com/gregorias)
+  - [Michael Lehenauer](https://github.com/mike-jl/Spaceman)
+  - [Logan Savage](https://github.com/lxsavage/Spaceman)
+  - [Yakir Lugasy](https://github.com/yakirlog/Spaceman)
   - [aaplmath](https://github.com/aaplmath)
-  - [lxsavage](https://github.com/lxsavage/Spaceman)
-  - [Yakirlog](https://github.com/yakirlog/Spaceman)
 
