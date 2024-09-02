@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionary SYSTEM "file://localhost/System/Library/DTDs/sdef.dtd">
+
+<dictionary title="App Scripting Terminology">
+    
+    <suite name="Spaceman Suite" code="smsu" description="Spaceman Scripts">
+        
+        <command name="refresh" code="smsurcmd" description="Refresh Spaceman">
+            <cocoa class="Spaceman.RefreshCommand" />
+        </command>
+        
+    </suite>
+    
+</dictionary>
