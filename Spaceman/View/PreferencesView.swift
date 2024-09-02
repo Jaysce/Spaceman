@@ -138,7 +138,6 @@ struct PreferencesView: View {
                 Text("Spaces")
                     .font(.title2)
                     .fontWeight(.semibold)
-//                Toggle("Use single icon indicator", isOn: .constant(false)) // TODO: Implement this
                 spacesStylePicker
                 spaceNameEditor //.disabled(selectedStyle != SpacemanStyle.text.rawValue ? true : false)
                 
@@ -232,6 +231,9 @@ struct PreferencesView: View {
                 ForEach(0..<prefsVM.sortedSpaceNamesDict.count, id: \.self) {
                     Text(String(prefsVM.sortedSpaceNamesDict[$0].value.spaceNum))
                 }
+            }
+            .onChange(of: prefsVM.selectedSpace) { val in
+                prefsVM.spaceName = prefsVM.sortedSpaceNamesDict[val].value.spaceName
             }
             TextField(
                 "Name (max 4 char.)",
