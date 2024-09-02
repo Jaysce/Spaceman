@@ -69,6 +69,13 @@ For this to work successfully, the following things need to be configured:
 
 <a href="url"><img src="Images/Preferences-3b.png" height="auto" width="auto" style="border-radius:10px"></a>
 
+## Remote Refresh
+
+The list of spaces can also be refreshed using Applescript:
+
+```sh
+$ osascript -e 'tell application "Spaceman" to refresh'
+```
 
 ## Attributions
 
