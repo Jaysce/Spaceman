@@ -17,7 +17,7 @@ class PreferencesViewModel: ObservableObject {
     var timer: Timer!
     
     init() {
-        selectedSpace = 0
+        selectedSpace = -1
         spaceName = ""
         spaceNamesDict = [String: SpaceNameInfo]()
         sortedSpaceNamesDict = [Dictionary<String, SpaceNameInfo>.Element]()
@@ -38,10 +38,10 @@ class PreferencesViewModel: ObservableObject {
         }
         
         sortedSpaceNamesDict = sorted
-        if (selectedSpace >= sortedSpaceNamesDict.count) {
+        if (selectedSpace < 0 || selectedSpace >= sortedSpaceNamesDict.count) {
             selectedSpace = 0
+            spaceName = sortedSpaceNamesDict[selectedSpace].value.spaceName
         }
-        spaceName = sortedSpaceNamesDict[selectedSpace].value.spaceName
     }
     
     func updateSpace() {
