@@ -233,8 +233,13 @@ struct PreferencesView: View {
                 }
             }
             .onChange(of: prefsVM.selectedSpace) { val in
-                prefsVM.spaceName = prefsVM.sortedSpaceNamesDict[val].value.spaceName
+                if (prefsVM.sortedSpaceNamesDict.count > val) {
+                    prefsVM.spaceName = prefsVM.sortedSpaceNamesDict[val].value.spaceName
+                } else {
+                    prefsVM.spaceName = "-"
+                }
             }
+            
             TextField(
                 "Name (max 4 char.)",
                 text: Binding(

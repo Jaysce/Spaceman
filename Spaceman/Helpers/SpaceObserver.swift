@@ -7,12 +7,13 @@
 
 import Cocoa
 import Foundation
+import SwiftUI
 
 class SpaceObserver {
     private let workspace = NSWorkspace.shared
     private let conn = _CGSDefaultConnection()
     private let defaults = UserDefaults.standard
-    private var spaceNameCache: [String] = Array(repeating: "-", count: 5)
+    private let spaceNameCache = SpaceNameCache()
     weak var delegate: SpaceObserverDelegate?
     
     init() {
@@ -64,11 +65,11 @@ class SpaceObserver {
                     lastDesktopNumber += 1
                     desktopNumber = lastDesktopNumber
                 }
-                while spaceNumber >= spaceNameCache.count {
+                while spaceNumber >= spaceNameCache.cache.count {
                     // Make sure that the cache is large enough
-                    spaceNameCache.append(contentsOf: Array(repeating: "-", count: 5))
+                    spaceNameCache.extend()
                 }
-                let spaceName = spaceNameCache[spaceNumber]
+                let spaceName = spaceNameCache.cache[spaceNumber]
                 var space = Space(displayID: displayID,
                                   spaceID: spaceID,
                                   spaceName: spaceName,
@@ -90,7 +91,7 @@ class SpaceObserver {
                         space.spaceName = "FULL"
                     }
                 }
-                spaceNameCache[spaceNumber] = space.spaceName
+                spaceNameCache.cache[spaceNumber] = space.spaceName
                 
                 let nameInfo = SpaceNameInfo(spaceNum: spaceNumber, spaceName: space.spaceName)
                 updatedDict[spaceID] = nameInfo

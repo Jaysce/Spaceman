@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		E70587F32C80A5DA00D9B729 /* ShortcutHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = E70587F22C80A5DA00D9B729 /* ShortcutHelper.swift */; };
 		E70587F52C827E5600D9B729 /* exportOptions.plist in Resources */ = {isa = PBXBuildFile; fileRef = E70587F42C827E5600D9B729 /* exportOptions.plist */; };
+		E70587F72C864C8A00D9B729 /* SpaceNameCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = E70587F62C864C8A00D9B729 /* SpaceNameCache.swift */; };
 		E7A066232C7F65F1002DFC52 /* SpaceSwitcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7A066222C7F65F1002DFC52 /* SpaceSwitcher.swift */; };
 		E828E6552737CBA0007075E8 /* VisualEffectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E828E6542737CBA0007075E8 /* VisualEffectView.swift */; };
 		E828E6582737D2E4007075E8 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = E828E6572737D2E4007075E8 /* Constants.swift */; };
@@ -35,6 +36,7 @@
 /* Begin PBXFileReference section */
 		E70587F22C80A5DA00D9B729 /* ShortcutHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShortcutHelper.swift; sourceTree = "<group>"; };
 		E70587F42C827E5600D9B729 /* exportOptions.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = exportOptions.plist; sourceTree = "<group>"; };
+		E70587F62C864C8A00D9B729 /* SpaceNameCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceNameCache.swift; sourceTree = "<group>"; };
 		E7A066222C7F65F1002DFC52 /* SpaceSwitcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceSwitcher.swift; sourceTree = "<group>"; };
 		E828E6542737CBA0007075E8 /* VisualEffectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualEffectView.swift; sourceTree = "<group>"; };
 		E828E6572737D2E4007075E8 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
@@ -129,10 +131,10 @@
 		E8733509256B575D0012586E /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				E8733510256B779B0012586E /* IconCreator.swift */,
 				E70587F22C80A5DA00D9B729 /* ShortcutHelper.swift */,
 				E8733506256B57400012586E /* SpaceObserver.swift */,
 				E7A066222C7F65F1002DFC52 /* SpaceSwitcher.swift */,
-				E8733510256B779B0012586E /* IconCreator.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -153,6 +155,7 @@
 			isa = PBXGroup;
 			children = (
 				E8E2AEF7257CB4D700319BBC /* PreferencesViewModel.swift */,
+				E70587F62C864C8A00D9B729 /* SpaceNameCache.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -279,6 +282,7 @@
 				E8C5AFF52580848100614F50 /* AboutView.swift in Sources */,
 				E8733507256B57400012586E /* SpaceObserver.swift in Sources */,
 				E70587F32C80A5DA00D9B729 /* ShortcutHelper.swift in Sources */,
+				E70587F72C864C8A00D9B729 /* SpaceNameCache.swift in Sources */,
 				E8733511256B779B0012586E /* IconCreator.swift in Sources */,
 				E87334E9256B51CF0012586E /* AppDelegate.swift in Sources */,
 				E8E2AF03257CB5CE00319BBC /* SpaceNameInfo.swift in Sources */,
