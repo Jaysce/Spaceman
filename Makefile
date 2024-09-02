@@ -2,7 +2,9 @@
 PROJECT = Spaceman
 ARCHIVE = build/$(PROJECT).xcarchive
 APP = build/$(PROJECT).app
-IMAGE = build/$(PROJECT).dmg
+PBXPROJ = $(PROJECT).xcodeproj/project.pbxproj
+VERSION = $(shell awk -F'[";]' '/MARKETING_VERSION/ { print $$2; exit }' $(PBXPROJ))
+IMAGE = build/$(PROJECT)-$(VERSION).dmg
 
 .DEFAULT_GOAL := help
 
@@ -14,7 +16,7 @@ help: ## Print help for each target
 build: ## Make the archive file
 	make $(ARCHIVE)
 
-$(ARCHIVE): $(PROJECT).xcodeproj/project.pbxproj
+$(ARCHIVE): $(PBXPROJ)
 	xcodebuild -workspace $(PROJECT).xcodeproj/project.xcworkspace -scheme $(PROJECT) -configuration Release clean archive -archivePath $(ARCHIVE)
 
 .PHONY: export
@@ -23,13 +25,18 @@ export: ## Make the app file
 
 $(APP): $(ARCHIVE)
 	xcodebuild -exportArchive -archivePath $(ARCHIVE) -exportOptionsPlist $(PROJECT)/exportOptions.plist -exportPath build
+	touch $(APP)
 
 .PHONY: image
 image: ## Make the dmg image file
 	make $(IMAGE)
 
 $(IMAGE): $(APP)
-	hdiutil create -volname $(PROJECT) -srcfolder $(APP) -ov -format UDZO $(IMAGE)
+	hdiutil create          \
+		-volname $(PROJECT) \
+		-srcfolder $(APP)   \
+		-format UDZO        \
+		-ov $(IMAGE)
 
 all: image ## Make all of the above
 
