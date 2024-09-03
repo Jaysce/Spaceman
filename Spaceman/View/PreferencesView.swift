@@ -109,51 +109,56 @@ struct PreferencesView: View {
     private var preferencePanes: some View {
         VStack(alignment: .leading, spacing: 0) {
             
-            // General Pane
-            VStack(alignment: .leading) {
-                Text("General")
-                    .font(.title2)
-                    .fontWeight(.semibold)
-                LaunchAtLogin.Toggle(){Text("Launch Spaceman at login")}
-                Toggle("Refresh spaces in background", isOn: $autoRefreshSpaces)
-                shortcutRecorder.disabled(autoRefreshSpaces ? true : false)
-            }
-            .padding()
-            .onChange(of: autoRefreshSpaces) { enabled in
-                if enabled {
-                    prefsVM.startTimer()
-                    KeyboardShortcuts.disable(.refresh)
-                }
-                else {
-                    prefsVM.pauseTimer()
-                    KeyboardShortcuts.enable(.refresh)
-                }
-            }
-            
+            generalPane
             Divider()
-            
-            // Spaces Pane
-            VStack(alignment: .leading) {
-                Text("Spaces")
-                    .font(.title2)
-                    .fontWeight(.semibold)
-                spacesStylePicker
-                spaceNameEditor //.disabled(selectedStyle != SpacemanStyle.text.rawValue ? true : false)
-                
-                Toggle("Only show active spaces", isOn: $hideInactiveSpaces)
-                    .disabled(selectedStyle == 0) // Rectangles style
-            }
-            .padding()
-            .onChange(of: hideInactiveSpaces) { _ in
-                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
-            }
-            
+            spacesPane
             Divider()
-            
             switchingPane
             .padding(.bottom, 40)
         }
     }
+
+    // MARK: - General pane
+    private var generalPane: some View {
+        VStack(alignment: .leading) {
+            Text("General")
+                .font(.title2)
+                .fontWeight(.semibold)
+            LaunchAtLogin.Toggle(){Text("Launch Spaceman at login")}
+            Toggle("Refresh spaces in background", isOn: $autoRefreshSpaces)
+            shortcutRecorder.disabled(autoRefreshSpaces ? true : false)
+        }
+        .padding()
+        .onChange(of: autoRefreshSpaces) { enabled in
+            if enabled {
+                prefsVM.startTimer()
+                KeyboardShortcuts.disable(.refresh)
+            }
+            else {
+                prefsVM.pauseTimer()
+                KeyboardShortcuts.enable(.refresh)
+            }
+        }
+    }
+
+    // MARK: - Spaces pane
+    private var spacesPane: some View {
+        VStack(alignment: .leading) {
+            Text("Spaces")
+                .font(.title2)
+                .fontWeight(.semibold)
+            spacesStylePicker
+            spaceNameEditor //.disabled(selectedStyle != SpacemanStyle.text.rawValue ? true : false)
+            
+            Toggle("Only show active spaces", isOn: $hideInactiveSpaces)
+                .disabled(selectedStyle == 0) // Rectangles style
+        }
+        .padding()
+        .onChange(of: hideInactiveSpaces) { _ in
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
+        }
+    }
+
     
     // MARK: - Switching pane
     private var switchingPane: some View {
