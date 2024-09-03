@@ -87,7 +87,7 @@ $ osascript -e 'tell application "Spaceman" to refresh'
   - [Sasindu Jayasinghe](https://github.com/Jaysce/Spaceman)
   - [René Uittenbogaard](https://github.com/ruittenb/Spaceman)
 - Contributions by:
-  - [Dmitry Poznyak](https://github.com/Dpoznyak)
+  - [Dmitry Poznyak](https://github.com/triangular-sneaky/Spaceman)
   - [Grzegorz Milka](https://github.com/gregorias)
   - [Michael Lehenauer](https://github.com/mike-jl/Spaceman)
   - [Logan Savage](https://github.com/lxsavage/Spaceman)
