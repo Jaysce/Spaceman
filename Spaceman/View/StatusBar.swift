@@ -110,7 +110,6 @@ class StatusBar {
             icons: [icon],
             index: 0,
             space: space,
-            desktopsOnly: false /* TODO FIXME */,
             fraction: 0.6)
         let item = NSMenuItem(
             title: spaceName,

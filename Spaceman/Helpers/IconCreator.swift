@@ -44,9 +44,7 @@ class IconCreator {
         case .numbers:
             icons = createNumberedIcons(spaces)
         case .numbersAndRects:
-            icons = createRectWithNumbersIcons(icons, spaces, desktopsOnly: false)
-        case .desktopNumbersAndRects:
-            icons = createRectWithNumbersIcons(icons, spaces, desktopsOnly: true)
+            icons = createRectWithNumbersIcons(icons, spaces)
         case .text:
             iconSize.width = CGFloat(WIDTH_LARGE)
             icons = createNamedIcons(icons, spaces)
@@ -63,11 +61,14 @@ class IconCreator {
         
         for s in spaces {
             let textRect = NSRect(origin: CGPoint.zero, size: iconSize)
-            let spaceNumber = NSString(string: String(s.spaceNumber))
+            let restartNumberingByDesktop = defaults.bool(forKey: "restartNumberingByDesktop")
+            let number = restartNumberingByDesktop ? s.desktopNumber : s.spaceNumber
+            let textNumber = NSString(string: number != nil ? String(number!) : "?")
+            
             let image = NSImage(size: iconSize)
             
             image.lockFocus()
-            spaceNumber.drawVerticallyCentered(
+            textNumber.drawVerticallyCentered(
                 in: textRect,
                 withAttributes: getStringAttributes(
                     alpha: !s.isCurrentSpace ? 0.4 : 1,
@@ -79,20 +80,20 @@ class IconCreator {
         return newIcons
     }
     
-    func createRectWithNumberIcon(icons: [NSImage], index: Int, space: Space, desktopsOnly: Bool, fraction: Float = 1.0) -> NSImage {
+    func createRectWithNumberIcon(icons: [NSImage], index: Int, space: Space, fraction: Float = 1.0) -> NSImage {
         let textRect = NSRect(origin: CGPoint.zero, size: iconSize)
-        let number = desktopsOnly ? space.desktopNumber : space.spaceNumber
+        let restartNumberingByDesktop = defaults.bool(forKey: "restartNumberingByDesktop")
+        let number = restartNumberingByDesktop ? space.desktopNumber : space.spaceNumber
+        let textNumber = NSString(string: number != nil ? String(number!) : "?")
+        
         let iconImage = NSImage(size: iconSize)
         let numberImage = NSImage(size: iconSize)
         
-        if (number != nil) {
-            numberImage.lockFocus()
-            let spaceNumber = NSString(string: String(number!))
-            spaceNumber.drawVerticallyCentered(
-                in: textRect,
-                withAttributes: getStringAttributes(alpha: 1))
-            numberImage.unlockFocus()
-        }
+        numberImage.lockFocus()
+        textNumber.drawVerticallyCentered(
+            in: textRect,
+            withAttributes: getStringAttributes(alpha: 1))
+        numberImage.unlockFocus()
         
         iconImage.lockFocus()
         icons[index].draw(
@@ -110,11 +111,11 @@ class IconCreator {
         return iconImage
     }
 
-    private func createRectWithNumbersIcons(_ icons: [NSImage], _ spaces: [Space], desktopsOnly: Bool) -> [NSImage] {
+    private func createRectWithNumbersIcons(_ icons: [NSImage], _ spaces: [Space]) -> [NSImage] {
         var index = 0
         var newIcons = [NSImage]()
         for s in spaces {
-            let iconImage = createRectWithNumberIcon(icons: icons, index: index, space: s, desktopsOnly: desktopsOnly)
+            let iconImage = createRectWithNumberIcon(icons: icons, index: index, space: s)
             newIcons.append(iconImage)
             index += 1
         }
