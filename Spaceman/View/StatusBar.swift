@@ -67,16 +67,17 @@ class StatusBar {
             statusBarButton.image = icon
         }
         // update menu
-        if spaces.count > 0 {
-            var removeCandidateItem = statusBarMenu.items[2]
-            while (!removeCandidateItem.isSeparatorItem) {
-                statusBarMenu.removeItem(removeCandidateItem)
-                removeCandidateItem = statusBarMenu.items[2]
-            }
-            for space in spaces.reversed() {
-                let switchItem = makeSwitchToSpaceItem(space: space)
-                statusBarMenu.insertItem(switchItem, at: 2)
-            }
+        guard spaces.count > 0 else {
+            return
+        }
+        var removeCandidateItem = statusBarMenu.items[2]
+        while (!removeCandidateItem.isSeparatorItem) {
+            statusBarMenu.removeItem(removeCandidateItem)
+            removeCandidateItem = statusBarMenu.items[2]
+        }
+        for space in spaces.reversed() {
+            let switchItem = makeSwitchToSpaceItem(space: space)
+            statusBarMenu.insertItem(switchItem, at: 2)
         }
     }
 
@@ -93,7 +94,7 @@ class StatusBar {
     }
 
     func narrowNumber(num: Int) -> String {
-        if (num > 20 || num < 1) {
+        guard (num >= 1 && num <= 20) else {
             return "\(num)."
         }
         return ["","⒈","⒉","⒊","⒋","⒌","⒍","⒎","⒏","⒐","⒑","⒒","⒓","⒔","⒕","⒖","⒗","⒘","⒙","⒚","⒛"][num]
@@ -130,7 +131,7 @@ class StatusBar {
 
     @objc func switchToSpace(_ sender: NSMenuItem) {
         let spaceNumber = sender.tag
-        if (spaceNumber < 1 || spaceNumber > 10) {
+        guard (spaceNumber >= 1 && spaceNumber <= 10) else {
             return
         }
         spaceSwitcher.switchToSpace(spaceNumber: spaceNumber)
