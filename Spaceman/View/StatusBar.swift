@@ -93,17 +93,9 @@ class StatusBar {
         NSApplication.shared.activate(ignoringOtherApps: true)
     }
 
-    func narrowNumber(num: Int) -> String {
-        guard (num >= 1 && num <= 20) else {
-            return "\(num)."
-        }
-        return ["","⒈","⒉","⒊","⒋","⒌","⒍","⒎","⒏","⒐","⒑","⒒","⒓","⒔","⒕","⒖","⒗","⒘","⒙","⒚","⒛"][num]
-    }
-
     func makeSwitchToSpaceItem(space: Space) -> NSMenuItem {
         let spaceNumber = space.spaceNumber
         let spaceName = space.spaceName
-        let showSpaceNumberInMenu = defaults.bool(forKey: "showSpaceNumberInMenu")
         
         let mask = shortcutHelper.getModifiersAsFlags()
         var shortcutKey = ""
