@@ -200,7 +200,7 @@ struct PreferencesView: View {
     // MARK: - Shortcut Recorder
     private var shortcutRecorder: some View {
         HStack {
-            Text("Force icon refresh shortcut")
+            Text("Force refresh shortcut")
             Spacer()
             KeyboardShortcuts.Recorder(for: .refresh)
         }
@@ -210,7 +210,7 @@ struct PreferencesView: View {
     private var spacesStylePicker: some View {
         
         Picker(selection: $selectedStyle, label: Text("Style")) {
-            Text("Rectangles").tag(SpacemanStyle.none.rawValue)
+            Text("Rectangles").tag(SpacemanStyle.rects.rawValue)
             Text("Numbers").tag(SpacemanStyle.numbers.rawValue)
             Text("Rectangles with numbers").tag(SpacemanStyle.numbersAndRects.rawValue)
             Text("Rectangles with desktop numbers").tag(SpacemanStyle.desktopNumbersAndRects.rawValue)
