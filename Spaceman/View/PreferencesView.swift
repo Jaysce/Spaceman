@@ -17,6 +17,7 @@ struct PreferencesView: View {
     @AppStorage("spaceNames") private var data = Data()
     @AppStorage("autoRefreshSpaces") private var autoRefreshSpaces = false
     @AppStorage("hideInactiveSpaces") private var hideInactiveSpaces = false
+    @AppStorage("restartNumberingByDesktop") private var restartNumberingByDesktop = false
     @AppStorage("schema") private var schema = "toprow"
     @AppStorage("withShift") private var withShift = false
     @AppStorage("withControl") private var withControl = true
@@ -152,6 +153,7 @@ struct PreferencesView: View {
             
             Toggle("Only show active spaces", isOn: $hideInactiveSpaces)
                 .disabled(selectedStyle == 0) // Rectangles style
+            Toggle("Restart space numbering by desktop", isOn: $restartNumberingByDesktop)
         }
         .padding()
         .onChange(of: hideInactiveSpaces) { _ in
@@ -213,7 +215,6 @@ struct PreferencesView: View {
             Text("Rectangles").tag(SpacemanStyle.rects.rawValue)
             Text("Numbers").tag(SpacemanStyle.numbers.rawValue)
             Text("Rectangles with numbers").tag(SpacemanStyle.numbersAndRects.rawValue)
-            Text("Rectangles with desktop numbers").tag(SpacemanStyle.desktopNumbersAndRects.rawValue)
             Text("Named spaces").tag(SpacemanStyle.text.rawValue)
         }
         .onChange(of: selectedStyle) { val in
