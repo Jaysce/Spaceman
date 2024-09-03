@@ -22,8 +22,6 @@ class SpaceSwitcher {
         }
         let modifiers = shortcutHelper.getModifiers()
 
-        print("Called switchToSpace \(spaceNumber), sending keycode \(keyCode)")
-
         let pipe = Pipe()
         let file = pipe.fileHandleForReading
         
