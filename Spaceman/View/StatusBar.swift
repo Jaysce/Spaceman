@@ -105,8 +105,13 @@ class StatusBar {
             shortcutKey = "0"
         }
         
-        let icon = NSImage(imageLiteralResourceName: "NamedFullInactive")
-        let menuIcon = IconCreator().createRectWithNumberIcon(icons: [icon], index: 0, space: space, desktopsOnly: false) // TODO FIXME
+        let icon = NSImage(imageLiteralResourceName: "SpaceManIcon")
+        let menuIcon = IconCreator().createRectWithNumberIcon(
+            icons: [icon],
+            index: 0,
+            space: space,
+            desktopsOnly: false /* TODO FIXME */,
+            fraction: 0.6)
         let item = NSMenuItem(
             title: spaceName,
             action: #selector(switchToSpace(_:)),

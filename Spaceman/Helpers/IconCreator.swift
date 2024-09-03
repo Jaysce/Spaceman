@@ -79,7 +79,7 @@ class IconCreator {
         return newIcons
     }
     
-    func createRectWithNumberIcon(icons: [NSImage], index: Int, space: Space, desktopsOnly: Bool) -> NSImage {
+    func createRectWithNumberIcon(icons: [NSImage], index: Int, space: Space, desktopsOnly: Bool, fraction: Float = 1.0) -> NSImage {
         let textRect = NSRect(origin: CGPoint.zero, size: iconSize)
         let number = desktopsOnly ? space.desktopNumber : space.spaceNumber
         let iconImage = NSImage(size: iconSize)
@@ -99,7 +99,7 @@ class IconCreator {
             in: textRect,
             from: NSRect.zero,
             operation: NSCompositingOperation.sourceOver,
-            fraction: 1.0)
+            fraction: CGFloat(fraction))
         numberImage.draw(
             in: textRect,
             from: NSRect.zero,
