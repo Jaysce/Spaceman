@@ -29,10 +29,48 @@ class SpaceObserver {
             object: nil)
     }
     
+    func display1IsLeft(display1: NSDictionary, display2: NSDictionary) -> Bool {
+        let d1Center = getDisplayCenter(display: display1)
+        let d2Center = getDisplayCenter(display: display2)
+        return d1Center.x < d2Center.x
+    }
+    
+    func getDisplayCenter(display: NSDictionary) -> CGPoint {
+        guard let uuidString = display["Display Identifier"] as? String
+        else {
+            return CGPoint(x: 0, y: 0)
+        }
+        let uuid = CFUUIDCreateFromString(kCFAllocatorDefault, uuidString as CFString)
+        let dId = CGDisplayGetDisplayIDFromUUID(uuid)
+        let bounds = CGDisplayBounds(dId);
+        return CGPoint(x: bounds.origin.x + bounds.size.width/2, y: bounds.origin.y + bounds.size.height/2)
+    }
+    
     @objc public func updateSpaceInformation() {
-        let displays = CGSCopyManagedDisplaySpaces(conn)!.takeRetainedValue() as! [NSDictionary]
+        var displays = CGSCopyManagedDisplaySpaces(conn)!.takeRetainedValue() as! [NSDictionary]
+
+        // create dict with correct sorting before changing it
+        var displayNumber: [String: Int] = [:]
+        var spacesIndex = 1
+        for d in displays {
+            guard let spaces = d["Spaces"] as? [[String: Any]]
+            else {
+                continue
+            }
+            
+            for s in spaces {
+                let spaceID = String(s["ManagedSpaceID"] as! Int)
+                displayNumber[spaceID] = spacesIndex
+                spacesIndex += 1
+            }
+        }
+        
+        // sort displays based on location
+        displays.sort(by: {
+            display1IsLeft(display1: $0, display2: $1)
+        })
+        
         var activeSpaceID = -1
-        var spacesIndex = 0
         var allSpaces = [Space]()
         var updatedDict = [String: SpaceNameInfo]()
         
@@ -57,7 +95,7 @@ class SpaceObserver {
 
             for s in spaces {
                 let spaceID = String(s["ManagedSpaceID"] as! Int)
-                let spaceNumber: Int = spacesIndex + 1
+                let spaceNumber = displayNumber[spaceID]!
                 let isCurrentSpace = activeSpaceID == s["ManagedSpaceID"] as! Int
                 let isFullScreen = s["TileLayoutManager"] as? [String: Any] != nil
                 var desktopNumber : Int?
@@ -96,7 +134,6 @@ class SpaceObserver {
                 let nameInfo = SpaceNameInfo(spaceNum: spaceNumber, spaceName: space.spaceName)
                 updatedDict[spaceID] = nameInfo
                 allSpaces.append(space)
-                spacesIndex += 1
             }
         }
         
