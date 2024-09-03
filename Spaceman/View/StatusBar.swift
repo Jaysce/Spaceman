@@ -102,11 +102,9 @@ class StatusBar {
 
     func makeSwitchToSpaceItem(space: Space) -> NSMenuItem {
         let spaceNumber = space.spaceNumber
-        //let spaceNumberStr = narrowNumber(num: spaceNumber) // Not sure if UTF-8 font is available everywhere
         let spaceName = space.spaceName
         let showSpaceNumberInMenu = defaults.bool(forKey: "showSpaceNumberInMenu")
         
-        let title = showSpaceNumberInMenu ? "\(spaceNumber) : \(spaceName)" : spaceName
         let mask = shortcutHelper.getModifiersAsFlags()
         var shortcutKey = ""
         if spaceNumber < 10 {
@@ -115,13 +113,16 @@ class StatusBar {
             shortcutKey = "0"
         }
         
+        let icon = NSImage(imageLiteralResourceName: "NamedFullInactive")
+        let menuIcon = IconCreator().createRectWithNumberIcon(icons: [icon], index: 0, space: space, desktopsOnly: false) // TODO FIXME
         let item = NSMenuItem(
-            title: title,
+            title: spaceName,
             action: #selector(switchToSpace(_:)),
             keyEquivalent: shortcutKey)
         item.keyEquivalentModifierMask = mask
         item.target = self
         item.tag = spaceNumber
+        item.image = menuIcon
         if space.isCurrentSpace {
             item.isEnabled = !space.isCurrentSpace
             //item.badge = NSMenuItemBadge(string: "Current") // MacOS >= 14
