@@ -17,7 +17,6 @@ struct PreferencesView: View {
     @AppStorage("spaceNames") private var data = Data()
     @AppStorage("autoRefreshSpaces") private var autoRefreshSpaces = false
     @AppStorage("hideInactiveSpaces") private var hideInactiveSpaces = false
-    @AppStorage("showSpaceNumberInMenu") private var showSpaceNumberInMenu = true
     @AppStorage("schema") private var schema = "toprow"
     @AppStorage("withShift") private var withShift = false
     @AppStorage("withControl") private var withControl = true
@@ -143,11 +142,9 @@ struct PreferencesView: View {
                 
                 Toggle("Only show active spaces", isOn: $hideInactiveSpaces)
                     .disabled(selectedStyle == 0) // Rectangles style
-                Toggle("Show space numbers in menu", isOn: $showSpaceNumberInMenu)
-                
             }
             .padding()
-            .onChange(of: [hideInactiveSpaces, showSpaceNumberInMenu]) { _ in
+            .onChange(of: hideInactiveSpaces) { _ in
                 NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
             }
             
