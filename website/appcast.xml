@@ -1,0 +1,28 @@
+    <?xml version="1.0" standalone="yes"?>
+    <rss xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle" version="2.0">
+        <channel>
+            <title>Spaceman</title>
+            <item>
+                <title>1.5.5-R: Better support for restarting numbering by desktop</title>
+                <description>
+                    <![CDATA[
+                        <ul>
+                        <li>1.5.5-R: Support for restarting numbering in menu and numbers-only rendering</li>
+<li>1.5.4-R: Minor refactoring</li>
+<li>1.5.3-R: Tweaked menu icon opacity</li>
+                        </ul>
+                    ]]>
+                </description>
+                <pubDate>Wed, 04 Sep 2024 00:39:23 +0200</pubDate>
+                <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
+                <enclosure
+                    url="https://github.com/ruittenb/Spaceman/releases/download/v1.5.5-R/Spaceman-1.5.5-R.dmg"
+                    sparkle:version="1.5.5-R"
+                    sparkle:shortVersionString="1.5.5-R"
+                    length="2433595"
+                    type="application/octet-stream"
+                    ERROR:
+                />
+            </item>
+        </channel>
+    </rss>

@@ -31,9 +31,9 @@
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
 	<key>SUFeedURL</key>
-	<string>https://s3.amazonaws.com/dev.jaysce.spaceman/appcast.xml</string>
+	<string>https://ruittenb.github.io/Spaceman/appcast.xml</string>
 	<key>SUPublicEDKey</key>
-	<string>eDkdnKWaZWZdQ3sGFiSOhwoaNDZKUEwg1aE6CZNl4Q8=</string>
+	<string>hxbpNVrkExVi+v7OqbFnp+avkoB7w4UV4ALgxvm9pSI=</string>
 	<key>CFBundleDisplayName</key>
 	<string></string>
 	<key>NSAppleScriptEnabled</key>
