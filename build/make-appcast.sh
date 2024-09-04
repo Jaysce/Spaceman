@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
 
+GITROOT=$(git rev-parse --show-toplevel)
 AUTHOR=ruittenb
 PROJECT=Spaceman
-PBXPROJ=../$PROJECT.xcodeproj/project.pbxproj
+PBXPROJ=$GITROOT/$PROJECT.xcodeproj/project.pbxproj
 URL=https://api.github.com/repos/$AUTHOR/$PROJECT/releases/latest
 
 ############################################################################
