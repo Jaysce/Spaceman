@@ -44,8 +44,9 @@ all: image ## Make all of the above
 
 .PHONY: publish
 publish: ## Publish the main branch website on Github Pages
-	cp README.md website
+	git checkout main
 	build/make-appcast.sh > website/appcast.xml
+	-git commit website -m "Updated appcast xml"
 	git subtree push --prefix website origin main:github-pages
 
 .PHONY: publish-force
@@ -53,5 +54,5 @@ publish: ## Publish the main branch website on Github Pages
 # git push -f origin github-pages:github-pages       # force push the github-pages branch to origin
 publish-force: ## Publish the main branch website on Github Pages (force push)
 	git checkout main && \
-		git push --force origin `git subtree split --prefix website main`:github-pages
+		git push --force-with-lease origin `git subtree split --prefix website main`:github-pages
 
