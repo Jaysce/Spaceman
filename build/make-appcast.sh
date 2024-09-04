@@ -29,8 +29,8 @@ print_xml() {
             <sparkle:minimumSystemVersion>${minimumSystemVersion}</sparkle:minimumSystemVersion>
             <enclosure
                 url="https://github.com/${AUTHOR}/${PROJECT}/releases/download/v${version}/${imageFile}"
-                sparkle:version="${version}"
-                sparkle:shortVersionString="${version}"
+                sparkle:version="${numericVersion}"
+                sparkle:shortVersionString="${friendlyVersion}"
                 type="application/octet-stream"
                 ${signatureAndLength}
             />
@@ -59,6 +59,8 @@ gather_data() {
     description=$(printf "$body" | awk '{ gsub("\r", ""); print "<li>" $0 "</li>" }')
     pubDate=$(gdate -R -d "$publishedAt")
     version=${vversion#v}
+    friendlyVersion=${version}
+    numericVersion=${version%-R}
     minimumSystemVersion=$(awk -F'[=; ]{1,}' '/MACOSX_DEPLOYMENT_TARGET/ { print $2; exit }' "$PBXPROJ")
 
     signatureAndLength=$("$sparkle_dir"/sign_update "$BUILDDIR/$imageFile" | awk '{ print $2 "\n" $1 }')

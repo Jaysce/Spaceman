@@ -17,7 +17,7 @@
             <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
             <enclosure
                 url="https://github.com/ruittenb/Spaceman/releases/download/v1.5.5-R/Spaceman-1.5.5-R.dmg"
-                sparkle:version="1.5.5-R"
+                sparkle:version="1.5.5"
                 sparkle:shortVersionString="1.5.5-R"
                 type="application/octet-stream"
                 length="2433595"
