@@ -56,13 +56,11 @@ class SpaceSwitcher {
     }
     
     func switchUsingLocation(widths: [CGFloat], horizontal: CGFloat) {
-        print("size: \(widths.count)")
         var index = 0
-        while horizontal > widths[index] {
-            print("current index: \(index) width: \(widths[index])")
+        while index < widths.count && horizontal > widths[index] {
             index += 1
         }
-        print("Found: index:\(index)")
+        print("Found: switching to desktop: \(index)")
     }
     
     func alert(msg: String) {

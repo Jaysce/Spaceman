@@ -71,23 +71,23 @@ class StatusBar: NSObject, NSMenuDelegate {
     }
     
     @objc func handleClick(_ sender: NSStatusBarButton) {
-        let event = NSApp.currentEvent!
+        
+        guard let event = NSApp.currentEvent else {
+            return
+        }
         
         if event.type == .rightMouseDown {
-            print("Right click: set menu")
             // Show the menu on right-click
             statusBarItem.menu = statusBarMenu
             statusBarItem.button?.performClick(nil)
             statusBarItem.menu = nil  // Clear the menu after showing it
-            
-            //statusBarItem.button?.isHighlighted = true
-            //statusBarMenu.popUp(positioning: nil, at: NSEvent.mouseLocation, in: nil)
-            //statusBarItem.button?.isHighlighted = false
         } else {
-            print("Left click \(event.locationInWindow)")
+            let locationInButton = sender.convert(event.locationInWindow, from: statusBarItem.button)
+            print("Left click win:\(event.locationInWindow); but:\(locationInButton)")
+
             spaceSwitcher.switchUsingLocation(
                 widths: iconCreator.widths,
-                horizontal: event.locationInWindow.x)
+                horizontal: locationInButton.x)
         }
     }
     
