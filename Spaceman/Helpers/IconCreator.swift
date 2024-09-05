@@ -8,6 +8,14 @@
 import AppKit
 import Foundation
 
+// 23 = 277 px ; button distance
+// 18 = 219 px ; button width
+// 10 = 120 px ; left margin
+//  5 =  60 px ; gap
+// 2.5=  30 px ; semi gap
+// 7.5=  90 px ; void left
+
+
 let WIDTH_SMALL = 18
 let WIDTH_LARGE = 49
 let HEIGHT = 12
