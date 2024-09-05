@@ -42,19 +42,24 @@ all: image ## Make all of the above
 
 ##@ Publishing
 
+.PHONY: tag
+tag: ## Tag the current HEAD with the version from the XCode project
+	git tag v$(VERSION)
+	git push --tags
+
 .PHONY: appcast
-appcast: ## Prepare appcast before publishing
+appcast: ## Prepare appcast for publishing
 	git checkout main
 	build/make-appcast.sh > website/appcast.xml
 
 .PHONY: publish
-publish: ## Publish the main branch website on Github Pages
+publish: ## Publish the main branch appcast on Github Pages
 	git subtree push --prefix website origin main:github-pages
 
 .PHONY: publish-force
 # git subtree split --prefix website -b github-pages # create a local github-pages branch containing the splitted output folder
 # git push -f origin github-pages:github-pages       # force push the github-pages branch to origin
-publish-force: ## Publish the main branch website on Github Pages (force push)
+publish-force: ## Publish the main branch appcast on Github Pages (force push)
 	git checkout main
 	git push --force-with-lease origin `git subtree split --prefix website main`:github-pages
 
