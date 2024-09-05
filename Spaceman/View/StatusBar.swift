@@ -83,11 +83,16 @@ class StatusBar: NSObject, NSMenuDelegate {
             //statusBarItem.button?.isHighlighted = false
         } else {
             print("Left click \(event.locationInWindow)")
-            // Navigate
+            spaceSwitcher.switchUsingLocation(horizontal: event.locationInWindow.x)
         }
     }
     
-    // NSMenuDelegate method to detect when the menu is closed
+    // NSMenuDelegate method
+    func menuNeedsUpdate(_ menu: NSMenu) {
+        print("menuNeedsUpdate")
+    }
+    
+    // NSMenuDelegate method
     func menuDidClose(_ menu: NSMenu) {
         print("menuDidClose")
         // Manually deactivate the status bar item to reset its state

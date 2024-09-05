@@ -14,7 +14,7 @@ class SpaceSwitcher {
     init() {
         shortcutHelper = ShortcutHelper()
     }
-    
+
     func switchToSpace(spaceNumber: Int) {
         let keyCode = shortcutHelper.getKeyCode(spaceNumber: spaceNumber)
         if keyCode < 0 {
@@ -54,6 +54,12 @@ class SpaceSwitcher {
             alert(msg: "Error launching task: \(error)")
         }
     }
+    
+    func switchUsingLocation(horizontal: Int) {
+        let widths = IconCreator().widths
+    }
+    
+    
     
     func alert(msg: String) {
         var settingsTitle: String
