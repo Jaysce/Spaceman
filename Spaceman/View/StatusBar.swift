@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 import Sparkle
 
-class StatusBar {
+class StatusBar: NSObject, NSMenuDelegate {
     private var statusBarItem: NSStatusItem!
     private var statusBarMenu: NSMenu!
     private var prefsWindow: PreferencesWindow!
@@ -17,13 +17,16 @@ class StatusBar {
     private var shortcutHelper: ShortcutHelper!
     private let defaults = UserDefaults.standard
 
-    init() {
+    override init() {
+        super.init()
+        
         shortcutHelper = ShortcutHelper()
         spaceSwitcher = SpaceSwitcher()
         
         statusBarItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
         statusBarMenu = NSMenu()
         statusBarMenu.autoenablesItems = false
+        statusBarMenu.delegate = self
         
         prefsWindow = PreferencesWindow()
         let hostedPrefsView = NSHostingView(rootView: PreferencesView(parentWindow: prefsWindow))
@@ -58,9 +61,38 @@ class StatusBar {
         statusBarMenu.addItem(updates)
         statusBarMenu.addItem(pref)
         statusBarMenu.addItem(quit)
-        statusBarItem.menu = statusBarMenu
+        //statusBarItem.menu = statusBarMenu
+        
+        statusBarItem.button?.sendAction(on: [.rightMouseDown, .leftMouseDown])
+        statusBarItem.button?.action = #selector(handleClick)
+        statusBarItem.button?.target = self
     }
-
+    
+    @objc func handleClick(_ sender: NSStatusBarButton) {
+        let event = NSApp.currentEvent!
+        
+        if event.type == .rightMouseDown {
+            print("Right click: set menu")
+            // Show the menu on right-click
+            statusBarItem.menu = statusBarMenu
+            statusBarItem.button?.performClick(nil)
+            statusBarItem.menu = nil  // Clear the menu after showing it
+            
+            //statusBarItem.button?.isHighlighted = true
+            //statusBarMenu.popUp(positioning: nil, at: NSEvent.mouseLocation, in: nil)
+            //statusBarItem.button?.isHighlighted = false
+        } else {
+            print("Left click \(event.locationInWindow)")
+            // Navigate
+        }
+    }
+    
+    // NSMenuDelegate method to detect when the menu is closed
+    func menuDidClose(_ menu: NSMenu) {
+        print("menuDidClose")
+        // Manually deactivate the status bar item to reset its state
+    }
+    
     func updateStatusBar(withIcon icon: NSImage, withSpaces spaces: [Space]) {
         // update icon
         if let statusBarButton = statusBarItem.button {
