@@ -227,13 +227,12 @@ class IconCreator {
             } else {
                 x += icon.image.size.width + gapWidth
             }
-            widths.append(x)
+            widths.append(x + 4) /* TODO FIXME left margin */
         }
         image.isTemplate = true
         image.unlockFocus()
         widths.removeLast()
         
-        print("Widths: \(widths)")
         return image
     }
 

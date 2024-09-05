@@ -75,7 +75,6 @@ class StatusBar: NSObject, NSMenuDelegate {
         guard let event = NSApp.currentEvent else {
             return
         }
-        
         if event.type == .rightMouseDown {
             // Show the menu on right-click
             statusBarItem.menu = statusBarMenu
@@ -89,17 +88,6 @@ class StatusBar: NSObject, NSMenuDelegate {
                 widths: iconCreator.widths,
                 horizontal: locationInButton.x)
         }
-    }
-    
-    // NSMenuDelegate method
-    func menuNeedsUpdate(_ menu: NSMenu) {
-        print("menuNeedsUpdate")
-    }
-    
-    // NSMenuDelegate method
-    func menuDidClose(_ menu: NSMenu) {
-        print("menuDidClose")
-        // Manually deactivate the status bar item to reset its state
     }
     
     func updateStatusBar(withIcon icon: NSImage, withSpaces spaces: [Space]) {

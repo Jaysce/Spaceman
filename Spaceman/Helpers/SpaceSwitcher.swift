@@ -60,7 +60,8 @@ class SpaceSwitcher {
         while index < widths.count && horizontal > widths[index] {
             index += 1
         }
-        print("Found: switching to desktop: \(index)")
+        //print("Found: switching to desktop: \(index)")
+        switchToSpace(spaceNumber: index)
     }
     
     func alert(msg: String) {
