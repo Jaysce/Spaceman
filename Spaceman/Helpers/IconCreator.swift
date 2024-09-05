@@ -19,6 +19,8 @@ class IconCreator {
     private let displayGapWidth = CGFloat(15)
     private var displayCount = 1
     
+    public var widths: [CGFloat] = []
+    
     func getIcon(for spaces: [Space]) -> NSImage {
         iconSize.width = CGFloat(WIDTH_SMALL)
         let spacemanStyle = SpacemanStyle(rawValue: defaults.integer(forKey: "displayStyle"))
@@ -205,18 +207,25 @@ class IconCreator {
         
         image.lockFocus()
         var x = CGFloat.zero
+        widths = [x]
         for icon in iconsWithDisplayProperties {
             icon.image.draw(
                 at: NSPoint(x: x, y: 0),
                 from: NSRect.zero,
                 operation: NSCompositingOperation.sourceOver,
                 fraction: 1.0)
-            if icon.nextSpaceOnDifferentDisplay { x += icon.image.size.width + displayGapWidth}
-            else { x += icon.image.size.width + gapWidth }
+            if icon.nextSpaceOnDifferentDisplay {
+                x += icon.image.size.width + displayGapWidth
+            } else {
+                x += icon.image.size.width + gapWidth
+            }
+            widths.append(x)
         }
         image.isTemplate = true
         image.unlockFocus()
-
+        widths.removeLast()
+        
+        print("Widths: \(widths)")
         return image
     }
 

@@ -16,6 +16,8 @@ class StatusBar: NSObject, NSMenuDelegate {
     private var spaceSwitcher: SpaceSwitcher!
     private var shortcutHelper: ShortcutHelper!
     private let defaults = UserDefaults.standard
+    
+    public var iconCreator: IconCreator!
 
     override init() {
         super.init()
@@ -83,7 +85,9 @@ class StatusBar: NSObject, NSMenuDelegate {
             //statusBarItem.button?.isHighlighted = false
         } else {
             print("Left click \(event.locationInWindow)")
-            spaceSwitcher.switchUsingLocation(horizontal: event.locationInWindow.x)
+            spaceSwitcher.switchUsingLocation(
+                widths: iconCreator.widths,
+                horizontal: event.locationInWindow.x)
         }
     }
     

@@ -10,18 +10,21 @@ import KeyboardShortcuts
 
 final class AppDelegate: NSObject, NSApplicationDelegate {
 
+    private var iconCreator: IconCreator!
     private var statusBar: StatusBar!
     private var spaceObserver: SpaceObserver!
-    private var iconCreator: IconCreator!
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
-        
-        statusBar = StatusBar()
-        spaceObserver = SpaceObserver()
+
         iconCreator = IconCreator()
+
+        statusBar = StatusBar()
+        statusBar.iconCreator = iconCreator
         
+        spaceObserver = SpaceObserver()
         spaceObserver.delegate = self
         spaceObserver.updateSpaceInformation()
+        
         NSApp.activate(ignoringOtherApps: true)
         KeyboardShortcuts.onKeyUp(for: .refresh) { [] in
             self.spaceObserver.updateSpaceInformation()

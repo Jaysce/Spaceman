@@ -55,11 +55,15 @@ class SpaceSwitcher {
         }
     }
     
-    func switchUsingLocation(horizontal: Int) {
-        let widths = IconCreator().widths
+    func switchUsingLocation(widths: [CGFloat], horizontal: CGFloat) {
+        print("size: \(widths.count)")
+        var index = 0
+        while horizontal > widths[index] {
+            print("current index: \(index) width: \(widths[index])")
+            index += 1
+        }
+        print("Found: index:\(index)")
     }
-    
-    
     
     func alert(msg: String) {
         var settingsTitle: String
