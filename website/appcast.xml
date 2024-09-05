@@ -3,25 +3,23 @@
     <channel>
         <title>Spaceman</title>
         <item>
-            <title>1.5.5-R: Better support for restarting numbering by desktop</title>
+            <title>1.5.6-R: Add button for opening System Settings</title>
             <description>
                 <![CDATA[
                     <ul>
-                    <li>1.5.5-R: Support for restarting numbering in menu and numbers-only rendering</li>
-<li>1.5.4-R: Minor refactoring</li>
-<li>1.5.3-R: Tweaked menu icon opacity</li>
+                    <li>1.5.6-R: Add button for opening System Settings panel from dialog</li>
                     </ul>
                 ]]>
             </description>
-            <pubDate>Wed, 04 Sep 2024 00:39:23 +0200</pubDate>
+            <pubDate>Thu, 05 Sep 2024 12:56:58 +0200</pubDate>
             <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
             <enclosure
-                url="https://github.com/ruittenb/Spaceman/releases/download/v1.5.5-R/Spaceman-1.5.5-R.dmg"
-                sparkle:version="1.5.5"
-                sparkle:shortVersionString="1.5.5-R"
+                url="https://github.com/ruittenb/Spaceman/releases/download/v1.5.6-R/Spaceman-1.5.6-R.dmg"
+                sparkle:version="1.5.6"
+                sparkle:shortVersionString="1.5.6-R"
                 type="application/octet-stream"
-                length="2433595"
-sparkle:edSignature="mJXVR9CQztZWyt/zkQL6G+1l7MWnIzAOWyWvQcNxoUxotMrghe11Fkf6JHdSc97LYHZAhJwCkmwPng131zpqDg=="
+                length="2436707"
+sparkle:edSignature="B4O48/1gW7Wct1BsniPQfCm8fNdRCBiwvrQTeTXEskMEp6cg9lMdWuAnDkC9sndZIuybDCe0FRYxjSn4OCGZCg=="
             />
         </item>
     </channel>
