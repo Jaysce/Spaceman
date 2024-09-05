@@ -121,7 +121,10 @@ class StatusBar {
         item.image = menuIcon
         if space.isCurrentSpace {
             item.isEnabled = !space.isCurrentSpace
-            //item.badge = NSMenuItemBadge(string: "Current") // MacOS >= 14
+            //if OSVersion().exceeds(14, 0) {
+            //if #available(macOS 14.0, *)  {
+            //    item.badge = NSMenuItemBadge(string: "Current")
+            //}
         }
         return item
     }
