@@ -3,23 +3,24 @@
     <channel>
         <title>Spaceman</title>
         <item>
-            <title>v1.5.8-R: Better numbering of fullscreen spaces</title>
+            <title>v1.5.9-R: Fixes for fullscreen spaces</title>
             <description>
                 <![CDATA[
                     <ul>
-                    <li>1.5.8-R: Better numbering of fullscreen spaces</li>
+                    <li>1.5.9-R: Fix: fullscreen spaces have no shortcut keys; disable menu options that lack a shortcut key</li>
+<li></li>
                     </ul>
                 ]]>
             </description>
-            <pubDate>Fri, 06 Sep 2024 22:53:08 +0200</pubDate>
+            <pubDate>Fri, 06 Sep 2024 23:25:45 +0200</pubDate>
             <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
             <enclosure
-                url="https://github.com/ruittenb/Spaceman/releases/download/v1.5.8-R/Spaceman-1.5.8-R.dmg"
-                sparkle:version="1.5.8"
-                sparkle:shortVersionString="1.5.8-R"
+                url="https://github.com/ruittenb/Spaceman/releases/download/v1.5.9-R/Spaceman-1.5.9-R.dmg"
+                sparkle:version="1.5.9"
+                sparkle:shortVersionString="1.5.9-R"
                 type="application/octet-stream"
-                length="2441120"
-sparkle:edSignature="c89aHwK1ZgCb75oHuhKyi9KKfsiXCFJq5GEYzrQDAuYLDMTVg7QAdpCmpgwETgipVZyYe12TPZWwta1/TXH8Cw=="
+                length="2435872"
+sparkle:edSignature="V1E5a3TaU+u1ts+uWlIHcGXrrd2xF/pesrBV7yPmOyckpC9Z8zbQX2J2WgT5LP5OzSFGWh5zaNFHzQVdZDsgDA=="
             />
         </item>
     </channel>
