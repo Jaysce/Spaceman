@@ -75,13 +75,12 @@ class IconCreator {
         for s in spaces {
             let textRect = NSRect(origin: CGPoint.zero, size: iconSize)
             let restartNumberingByDesktop = defaults.bool(forKey: "restartNumberingByDesktop")
-            let number = restartNumberingByDesktop ? s.desktopNumber : s.spaceNumber
-            let textNumber = NSString(string: number != nil ? String(number!) : "?")
+            let spaceId = restartNumberingByDesktop ? s.desktopID : String(s.spaceNumber)
             
             let image = NSImage(size: iconSize)
             
             image.lockFocus()
-            textNumber.drawVerticallyCentered(
+            spaceId.drawVerticallyCentered(
                 in: textRect,
                 withAttributes: getStringAttributes(
                     alpha: !s.isCurrentSpace ? 0.4 : 1,
@@ -96,14 +95,13 @@ class IconCreator {
     func createRectWithNumberIcon(icons: [NSImage], index: Int, space: Space, fraction: Float = 1.0) -> NSImage {
         let textRect = NSRect(origin: CGPoint.zero, size: iconSize)
         let restartNumberingByDesktop = defaults.bool(forKey: "restartNumberingByDesktop")
-        let number = restartNumberingByDesktop ? space.desktopNumber : space.spaceNumber
-        let textNumber = NSString(string: number != nil ? String(number!) : "?")
-        
+        let spaceId = restartNumberingByDesktop ? space.desktopID : String(space.spaceNumber)
+
         let iconImage = NSImage(size: iconSize)
         let numberImage = NSImage(size: iconSize)
         
         numberImage.lockFocus()
-        textNumber.drawVerticallyCentered(
+        spaceId.drawVerticallyCentered(
             in: textRect,
             withAttributes: getStringAttributes(alpha: 1))
         numberImage.unlockFocus()
@@ -143,7 +141,9 @@ class IconCreator {
         
         for s in spaces {
             
-            let spaceNumberPrefix = withNumbers ? "\(s.spaceNumber): " : ""
+            let restartNumberingByDesktop = defaults.bool(forKey: "restartNumberingByDesktop")
+            let spaceId = restartNumberingByDesktop ? s.desktopID : String(s.spaceNumber)
+            let spaceNumberPrefix = withNumbers ? "\(spaceId): " : ""
             let spaceText = NSString(string: "\(spaceNumberPrefix)\(s.spaceName.uppercased())")
             let textSize = spaceText.size(withAttributes: getStringAttributes(alpha: 1))
             let textWithMarginSize = NSMakeSize(textSize.width + 4, CGFloat(HEIGHT))

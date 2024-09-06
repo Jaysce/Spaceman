@@ -92,17 +92,22 @@ class SpaceObserver {
             }
 
             var lastDesktopNumber = 0
+            var lastFullScreenNumber = 0
 
             for s in spaces {
                 let spaceID = String(s["ManagedSpaceID"] as! Int)
                 let spaceNumber = displayNumber[spaceID]!
                 let isCurrentSpace = activeSpaceID == s["ManagedSpaceID"] as! Int
                 let isFullScreen = s["TileLayoutManager"] as? [String: Any] != nil
-                var desktopNumber : Int?
+                let desktopID: String
                 if !isFullScreen {
                     lastDesktopNumber += 1
-                    desktopNumber = lastDesktopNumber
+                    desktopID = String(lastDesktopNumber)
+                } else {
+                    lastFullScreenNumber += 1
+                    desktopID = "F\(lastFullScreenNumber)"
                 }
+                
                 while spaceNumber >= spaceNameCache.cache.count {
                     // Make sure that the cache is large enough
                     spaceNameCache.extend()
@@ -112,7 +117,7 @@ class SpaceObserver {
                                   spaceID: spaceID,
                                   spaceName: spaceName,
                                   spaceNumber: spaceNumber,
-                                  desktopNumber: desktopNumber,
+                                  desktopID: desktopID,
                                   isCurrentSpace: isCurrentSpace,
                                   isFullScreen: isFullScreen)
                 
