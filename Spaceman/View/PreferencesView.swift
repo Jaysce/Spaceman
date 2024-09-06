@@ -215,7 +215,8 @@ struct PreferencesView: View {
             Text("Rectangles").tag(SpacemanStyle.rects.rawValue)
             Text("Numbers").tag(SpacemanStyle.numbers.rawValue)
             Text("Rectangles with numbers").tag(SpacemanStyle.numbersAndRects.rawValue)
-            Text("Named spaces").tag(SpacemanStyle.text.rawValue)
+            Text("Names").tag(SpacemanStyle.names.rawValue)
+            Text("Names with numbers").tag(SpacemanStyle.numbersAndNames.rawValue)
         }
         .onChange(of: selectedStyle) { val in
             if val == 0 { // Rectangles style
