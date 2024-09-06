@@ -3,23 +3,23 @@
     <channel>
         <title>Spaceman</title>
         <item>
-            <title>1.5.7-R: 1.5.7-R: New status bar icon style: names without numbers</title>
+            <title>v1.5.8-R: Better numbering of fullscreen spaces</title>
             <description>
                 <![CDATA[
                     <ul>
-                    <li>1.5.7-R: New status bar icon style: names without numbers</li>
+                    <li>1.5.8-R: Better numbering of fullscreen spaces</li>
                     </ul>
                 ]]>
             </description>
-            <pubDate>Fri, 06 Sep 2024 13:42:59 +0200</pubDate>
+            <pubDate>Fri, 06 Sep 2024 22:53:08 +0200</pubDate>
             <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
             <enclosure
-                url="https://github.com/ruittenb/Spaceman/releases/download/v1.5.7-R/Spaceman-1.5.7-R.dmg"
-                sparkle:version="1.5.7"
-                sparkle:shortVersionString="1.5.7-R"
+                url="https://github.com/ruittenb/Spaceman/releases/download/v1.5.8-R/Spaceman-1.5.8-R.dmg"
+                sparkle:version="1.5.8"
+                sparkle:shortVersionString="1.5.8-R"
                 type="application/octet-stream"
-                length="2437640"
-sparkle:edSignature="JqamUtS+EXUVmpNR8rYCzXsU8OnyKhEgRyAj35nxJabSzc7N8H8QL6izbIhLCavyV+y572z7H4dobL0HH+YSCw=="
+                length="2441120"
+sparkle:edSignature="c89aHwK1ZgCb75oHuhKyi9KKfsiXCFJq5GEYzrQDAuYLDMTVg7QAdpCmpgwETgipVZyYe12TPZWwta1/TXH8Cw=="
             />
         </item>
     </channel>
