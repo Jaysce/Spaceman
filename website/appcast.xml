@@ -3,23 +3,23 @@
     <channel>
         <title>Spaceman</title>
         <item>
-            <title>1.5.6-R: Add button for opening System Settings</title>
+            <title>1.5.7-R: 1.5.7-R: New status bar icon style: names without numbers</title>
             <description>
                 <![CDATA[
                     <ul>
-                    <li>1.5.6-R: Add button for opening System Settings panel from dialog</li>
+                    <li>1.5.7-R: New status bar icon style: names without numbers</li>
                     </ul>
                 ]]>
             </description>
-            <pubDate>Thu, 05 Sep 2024 12:56:58 +0200</pubDate>
+            <pubDate>Fri, 06 Sep 2024 13:42:59 +0200</pubDate>
             <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
             <enclosure
-                url="https://github.com/ruittenb/Spaceman/releases/download/v1.5.6-R/Spaceman-1.5.6-R.dmg"
-                sparkle:version="1.5.6"
-                sparkle:shortVersionString="1.5.6-R"
+                url="https://github.com/ruittenb/Spaceman/releases/download/v1.5.7-R/Spaceman-1.5.7-R.dmg"
+                sparkle:version="1.5.7"
+                sparkle:shortVersionString="1.5.7-R"
                 type="application/octet-stream"
-                length="2436707"
-sparkle:edSignature="B4O48/1gW7Wct1BsniPQfCm8fNdRCBiwvrQTeTXEskMEp6cg9lMdWuAnDkC9sndZIuybDCe0FRYxjSn4OCGZCg=="
+                length="2437640"
+sparkle:edSignature="JqamUtS+EXUVmpNR8rYCzXsU8OnyKhEgRyAj35nxJabSzc7N8H8QL6izbIhLCavyV+y572z7H4dobL0HH+YSCw=="
             />
         </item>
     </channel>
