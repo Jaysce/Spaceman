@@ -14,7 +14,7 @@ class SpaceSwitcher {
     init() {
         shortcutHelper = ShortcutHelper()
     }
-    
+
     func switchToSpace(spaceNumber: Int) {
         let keyCode = shortcutHelper.getKeyCode(spaceNumber: spaceNumber)
         if keyCode < 0 {
@@ -53,6 +53,15 @@ class SpaceSwitcher {
         } catch {
             alert(msg: "Error launching task: \(error)")
         }
+    }
+    
+    func switchUsingLocation(widths: [CGFloat], horizontal: CGFloat) {
+        var index = 0
+        while index < widths.count && horizontal > widths[index] {
+            index += 1
+        }
+        //print("Found: switching to desktop: \(index)")
+        switchToSpace(spaceNumber: index)
     }
     
     func alert(msg: String) {

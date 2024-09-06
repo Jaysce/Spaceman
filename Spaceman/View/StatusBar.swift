@@ -9,21 +9,26 @@ import Foundation
 import SwiftUI
 import Sparkle
 
-class StatusBar {
+class StatusBar: NSObject, NSMenuDelegate {
     private var statusBarItem: NSStatusItem!
     private var statusBarMenu: NSMenu!
     private var prefsWindow: PreferencesWindow!
     private var spaceSwitcher: SpaceSwitcher!
     private var shortcutHelper: ShortcutHelper!
     private let defaults = UserDefaults.standard
+    
+    public var iconCreator: IconCreator!
 
-    init() {
+    override init() {
+        super.init()
+        
         shortcutHelper = ShortcutHelper()
         spaceSwitcher = SpaceSwitcher()
         
         statusBarItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
         statusBarMenu = NSMenu()
         statusBarMenu.autoenablesItems = false
+        statusBarMenu.delegate = self
         
         prefsWindow = PreferencesWindow()
         let hostedPrefsView = NSHostingView(rootView: PreferencesView(parentWindow: prefsWindow))
@@ -58,9 +63,33 @@ class StatusBar {
         statusBarMenu.addItem(updates)
         statusBarMenu.addItem(pref)
         statusBarMenu.addItem(quit)
-        statusBarItem.menu = statusBarMenu
+        //statusBarItem.menu = statusBarMenu
+        
+        statusBarItem.button?.sendAction(on: [.rightMouseDown, .leftMouseDown])
+        statusBarItem.button?.action = #selector(handleClick)
+        statusBarItem.button?.target = self
     }
+    
+    @objc func handleClick(_ sender: NSStatusBarButton) {
+        
+        guard let event = NSApp.currentEvent else {
+            return
+        }
+        if event.type == .rightMouseDown {
+            // Show the menu on right-click
+            statusBarItem.menu = statusBarMenu
+            statusBarItem.button?.performClick(nil)
+            statusBarItem.menu = nil  // Clear the menu after showing it
+        } else {
+            let locationInButton = sender.convert(event.locationInWindow, from: statusBarItem.button)
+            print("Left click win:\(event.locationInWindow); but:\(locationInButton)")
 
+            spaceSwitcher.switchUsingLocation(
+                widths: iconCreator.widths,
+                horizontal: locationInButton.x)
+        }
+    }
+    
     func updateStatusBar(withIcon icon: NSImage, withSpaces spaces: [Space]) {
         // update icon
         if let statusBarButton = statusBarItem.button {
