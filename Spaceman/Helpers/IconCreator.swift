@@ -8,8 +8,16 @@
 import AppKit
 import Foundation
 
+//  23   = 277 px ; button distance
+//  18   = 219 px ; button width
+//  10   = 120 px ; left margin
+//   5   =  60 px ; gap
+//   2.5 =  30 px ; semi gap
+//   7.5 =  90 px ; void left
+
 let WIDTH_SMALL = 18
-let WIDTH_LARGE = 49
+let WIDTH_LARGE = 34
+let WIDTH_XLARGE = 49
 let HEIGHT = 12
 
 class IconCreator {
@@ -26,13 +34,19 @@ class IconCreator {
         
         for s in spaces {
             let iconResourceName: String
-            switch (s.isCurrentSpace, s.isFullScreen) {
-            case (true, true):
-                iconResourceName = spacemanStyle == .text ? "NamedFullActive" : "SpaceManIconFullEn"
-            case (true, false):
+            switch (s.isCurrentSpace, s.isFullScreen, spacemanStyle) {
+            case (true, true, .names),
+                 (true, true, .numbersAndNames):
+                iconResourceName = "NamedFullActive"
+            case (true, true, _):
+                iconResourceName = "SpaceManIconFullEn"
+            case (true, false, _):
                 iconResourceName = "SpaceManIcon"
-            case (false, true):
-                iconResourceName = spacemanStyle == .text ? "NamedFullInactive" : "SpaceManIconFullDis"
+            case (false, true, .names),
+                 (false, true, .numbersAndNames):
+                iconResourceName = "NamedFullInactive"
+            case (false, true, _):
+                iconResourceName = "SpaceManIconFullDis"
             default:
                 iconResourceName = "SpaceManIconBorder"
             }
@@ -45,9 +59,8 @@ class IconCreator {
             icons = createNumberedIcons(spaces)
         case .numbersAndRects:
             icons = createRectWithNumbersIcons(icons, spaces)
-        case .text:
-            iconSize.width = CGFloat(WIDTH_LARGE)
-            icons = createNamedIcons(icons, spaces)
+        case .names, .numbersAndNames:
+            icons = createNamedIcons(icons, spaces, withNumbers: spacemanStyle == .numbersAndNames)
         default:
             break
         }
@@ -122,13 +135,16 @@ class IconCreator {
         return newIcons
     }
     
-    private func createNamedIcons(_ icons: [NSImage], _ spaces: [Space]) -> [NSImage] {
+    private func createNamedIcons(_ icons: [NSImage], _ spaces: [Space], withNumbers: Bool) -> [NSImage] {
         var index = 0
         var newIcons = [NSImage]()
         
+        iconSize.width = CGFloat(withNumbers ? WIDTH_XLARGE : WIDTH_LARGE)
+        
         for s in spaces {
             
-            let spaceText = NSString(string: "\(s.spaceNumber): \(s.spaceName.uppercased())")
+            let spaceNumberPrefix = withNumbers ? "\(s.spaceNumber): " : ""
+            let spaceText = NSString(string: "\(spaceNumberPrefix)\(s.spaceName.uppercased())")
             let textSize = spaceText.size(withAttributes: getStringAttributes(alpha: 1))
             let textWithMarginSize = NSMakeSize(textSize.width + 4, CGFloat(HEIGHT))
             
