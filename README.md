@@ -78,6 +78,8 @@ The list of spaces can also be refreshed using Applescript:
 $ osascript -e 'tell application "Spaceman" to refresh'
 ```
 
+For details on how to maximize usefulness of this, see [MikeJL's Pull Request](https://github.com/Jaysce/Spaceman/pull/34)
+
 ## Attributions
 
 - This project is based on [WhichSpace](https://github.com/gechr/WhichSpace)
