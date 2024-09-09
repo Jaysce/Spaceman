@@ -123,12 +123,14 @@ class SpaceObserver {
                 
                 if let data = defaults.value(forKey:"spaceNames") as? Data,
                    let dict = try? PropertyListDecoder().decode(Dictionary<String, SpaceNameInfo>.self, from: data),
-                   let saved = dict[spaceID] {
+                   let saved = dict[spaceID]
+                {
                     space.spaceName = saved.spaceName
                 } else if isFullScreen {
                     if let pid = s["pid"] as? pid_t,
                        let app = NSRunningApplication(processIdentifier: pid),
-                       let name = app.localizedName {
+                       let name = app.localizedName
+                    {
                         space.spaceName = name.prefix(4).uppercased()
                     } else {
                         space.spaceName = "FULL"
@@ -136,7 +138,7 @@ class SpaceObserver {
                 }
                 spaceNameCache.cache[spaceNumber] = space.spaceName
                 
-                let nameInfo = SpaceNameInfo(spaceNum: spaceNumber, spaceName: space.spaceName)
+                let nameInfo = SpaceNameInfo(spaceNum: spaceNumber, spaceName: space.spaceName, desktopID: desktopID)
                 updatedDict[spaceID] = nameInfo
                 allSpaces.append(space)
             }

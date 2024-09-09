@@ -94,14 +94,13 @@ class IconCreator {
     
     func createRectWithNumberIcon(icons: [NSImage], index: Int, space: Space, fraction: Float = 1.0) -> NSImage {
         let textRect = NSRect(origin: CGPoint.zero, size: iconSize)
-        let restartNumberingByDesktop = defaults.bool(forKey: "restartNumberingByDesktop")
-        let spaceId = restartNumberingByDesktop ? space.desktopID : String(space.spaceNumber)
-
+        let spaceID = space.desktopID
+        
         let iconImage = NSImage(size: iconSize)
         let numberImage = NSImage(size: iconSize)
         
         numberImage.lockFocus()
-        spaceId.drawVerticallyCentered(
+        spaceID.drawVerticallyCentered(
             in: textRect,
             withAttributes: getStringAttributes(alpha: 1))
         numberImage.unlockFocus()

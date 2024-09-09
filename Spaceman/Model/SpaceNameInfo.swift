@@ -10,4 +10,5 @@ import Foundation
 struct SpaceNameInfo: Hashable, Codable {
     let spaceNum: Int
     let spaceName: String
+    let desktopID: String
 }
