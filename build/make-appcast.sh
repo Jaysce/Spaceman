@@ -17,7 +17,7 @@ print_xml() {
     <channel>
         <title>${PROJECT}</title>
         <item>
-            <title>${version}: ${title}</title>
+            <title>${title}</title>
             <description>
                 <![CDATA[
                     <ul>

@@ -3,23 +3,23 @@
     <channel>
         <title>Spaceman</title>
         <item>
-            <title>1.5.6-R: Add button for opening System Settings</title>
+            <title>1.5.10-R: corrections to space names</title>
             <description>
                 <![CDATA[
                     <ul>
-                    <li>1.5.6-R: Add button for opening System Settings panel from dialog</li>
+                    <li>1.5.10-R: Fix: corrected space names in menu and in preferences drop-down</li>
                     </ul>
                 ]]>
             </description>
-            <pubDate>Thu, 05 Sep 2024 12:56:58 +0200</pubDate>
+            <pubDate>Tue, 10 Sep 2024 09:55:08 +0100</pubDate>
             <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
             <enclosure
-                url="https://github.com/ruittenb/Spaceman/releases/download/v1.5.6-R/Spaceman-1.5.6-R.dmg"
-                sparkle:version="1.5.6"
-                sparkle:shortVersionString="1.5.6-R"
+                url="https://github.com/ruittenb/Spaceman/releases/download/v1.5.10-R/Spaceman-1.5.10-R.dmg"
+                sparkle:version="1.5.10"
+                sparkle:shortVersionString="1.5.10-R"
                 type="application/octet-stream"
-                length="2436707"
-sparkle:edSignature="B4O48/1gW7Wct1BsniPQfCm8fNdRCBiwvrQTeTXEskMEp6cg9lMdWuAnDkC9sndZIuybDCe0FRYxjSn4OCGZCg=="
+                length="2439462"
+sparkle:edSignature="kfW0l4gaoCCkWHlMVVT3P5tUX0o5+SNJSj0/W87Fx/mUJehtBy+/YGNNWXoeIfz8VSwQ6RtNgQgdFXK/O6pnBQ=="
             />
         </item>
     </channel>

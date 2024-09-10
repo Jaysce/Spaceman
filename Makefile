@@ -51,6 +51,8 @@ tag: ## Tag the current HEAD with the version from the XCode project
 appcast: ## Prepare appcast for publishing
 	git checkout main
 	build/make-appcast.sh > website/appcast.xml
+	git add website/appcast.xml
+	@printf "\nCreated appcast.xml, now please commit it\n"
 
 .PHONY: publish
 publish: ## Publish the main branch appcast on Github Pages

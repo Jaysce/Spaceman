@@ -125,12 +125,13 @@ class StatusBar: NSObject, NSMenuDelegate {
     func makeSwitchToSpaceItem(space: Space) -> NSMenuItem {
         let spaceNumber = space.spaceNumber
         let spaceName = space.spaceName
+        let desktopID = Int(space.desktopID) ?? 99
         
         let mask = shortcutHelper.getModifiersAsFlags()
         var shortcutKey = ""
-        if spaceNumber < 10 {
-            shortcutKey = String(spaceNumber)
-        } else if spaceNumber == 10 {
+        if desktopID < 10 {
+            shortcutKey = space.desktopID
+        } else if desktopID == 10 {
             shortcutKey = "0"
         }
         
@@ -148,8 +149,8 @@ class StatusBar: NSObject, NSMenuDelegate {
         item.target = self
         item.tag = spaceNumber
         item.image = menuIcon
-        if space.isCurrentSpace {
-            item.isEnabled = !space.isCurrentSpace
+        if space.isCurrentSpace || shortcutKey == "" {
+            item.isEnabled = false
             //if OSVersion().exceeds(14, 0) {
             //if #available(macOS 14.0, *)  {
             //    item.badge = NSMenuItemBadge(string: "Current")
