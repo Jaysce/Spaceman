@@ -54,6 +54,7 @@ The menu shows a list of space names.
 Choosing one will cause Spaceman to attempt to switch to that space.
 This is done by sending a keyboard shortcut to Mission Control using `osascript`.
 Note that only the first ten spaces will have shortcut keys assigned.
+For other spaces, the menu option will be disabled.
 
 For this to work successfully, the following things need to be configured:
 
