@@ -41,6 +41,13 @@ class PreferencesViewModel: ObservableObject {
         sortedSpaceNamesDict = sorted
         if (selectedSpace < 0 || selectedSpace >= sortedSpaceNamesDict.count) {
             selectedSpace = 0
+            if (sortedSpaceNamesDict.count < 1) {
+                sortedSpaceNamesDict.append(
+                    (key: "0",
+                     value: SpaceNameInfo(spaceNum: 0, spaceName: "DISP", desktopID: "1")
+                    )
+                )
+            }
             spaceName = sortedSpaceNamesDict[selectedSpace].value.spaceName
             desktopID = sortedSpaceNamesDict[selectedSpace].value.desktopID
         }
