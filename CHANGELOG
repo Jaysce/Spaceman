@@ -1,3 +1,4 @@
+1.6.1-R: Merged 1.5.10-R into 1.6.0-R
 1.6.0-R: Add support for clicking icon in status bar
 1.5.10-R: Fix: corrected space names in menu and in preferences drop-down
 1.5.9-R: Fix: fullscreen spaces have no shortcut keys; disable menu options that lack a shortcut key

@@ -81,6 +81,14 @@ $ osascript -e 'tell application "Spaceman" to refresh'
 
 For details on how to maximize usefulness of this, see [MikeJL's Pull Request](https://github.com/Jaysce/Spaceman/pull/34)
 
+## Troubleshooting
+
+If Spaceman does not start, or does not start correctly, after an upgrade: you may need to delete the application defaults:
+
+```sh
+$ defaults delete dev.jaysce.Spaceman
+```
+
 ## Attributions
 
 - This project is based on [WhichSpace](https://github.com/gechr/WhichSpace)
