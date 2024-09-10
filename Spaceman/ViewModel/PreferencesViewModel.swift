@@ -12,6 +12,7 @@ class PreferencesViewModel: ObservableObject {
     @AppStorage("autoRefreshSpaces") private var autoRefreshSpaces = false
     @Published var selectedSpace = 0
     @Published var spaceName = ""
+    @Published var desktopID = ""
     var spaceNamesDict: [String: SpaceNameInfo]!
     var sortedSpaceNamesDict: [Dictionary<String, SpaceNameInfo>.Element]!
     var timer: Timer!
@@ -41,13 +42,18 @@ class PreferencesViewModel: ObservableObject {
         if (selectedSpace < 0 || selectedSpace >= sortedSpaceNamesDict.count) {
             selectedSpace = 0
             spaceName = sortedSpaceNamesDict[selectedSpace].value.spaceName
+            desktopID = sortedSpaceNamesDict[selectedSpace].value.desktopID
         }
     }
     
     func updateSpace() {
         let key = sortedSpaceNamesDict[selectedSpace].key
         let spaceNum = sortedSpaceNamesDict[selectedSpace].value.spaceNum
-        spaceNamesDict[key] = SpaceNameInfo(spaceNum: spaceNum, spaceName: spaceName.isEmpty ? "-" : spaceName)
+        let desktopID = sortedSpaceNamesDict[selectedSpace].value.desktopID
+        spaceNamesDict[key] = SpaceNameInfo(
+            spaceNum: spaceNum,
+            spaceName: spaceName.isEmpty ? "-" : spaceName,
+            desktopID: desktopID)
     }
     
     func startTimer() {

@@ -232,8 +232,8 @@ struct PreferencesView: View {
     private var spaceNameEditor: some View {
         HStack {
             Picker(selection: $prefsVM.selectedSpace, label: Text("Space")) {
-                ForEach(0..<prefsVM.sortedSpaceNamesDict.count, id: \.self) {
-                    Text(String(prefsVM.sortedSpaceNamesDict[$0].value.spaceNum))
+                ForEach(0..<prefsVM.sortedSpaceNamesDict.count, id: \.self) { index in
+                    Text(String(prefsVM.sortedSpaceNamesDict[index].value.desktopID))
                 }
             }
             .onChange(of: prefsVM.selectedSpace) { val in
