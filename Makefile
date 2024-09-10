@@ -1,10 +1,13 @@
 
-PROJECT = Spaceman
-ARCHIVE = build/$(PROJECT).xcarchive
-APP = build/$(PROJECT).app
-PBXPROJ = $(PROJECT).xcodeproj/project.pbxproj
-VERSION = $(shell awk -F'[";]' '/MARKETING_VERSION/ { print $$2; exit }' $(PBXPROJ))
-IMAGE = build/$(PROJECT)-$(VERSION).dmg
+PROJECT  = Spaceman
+APPNAME  = $(PROJECT).app
+BUILDDIR = build
+ARCHIVE  = $(BUILDDIR)/$(PROJECT).xcarchive
+IMAGEDIR = $(BUILDDIR)/diskimage
+APPFILE  = $(IMAGEDIR)/$(APPNAME)
+PBXPROJ  = $(PROJECT).xcodeproj/project.pbxproj
+VERSION  = $(shell awk -F'[";]' '/MARKETING_VERSION/ { print $$2; exit }' $(PBXPROJ))
+IMAGE    = $(BUILDDIR)/$(PROJECT)-$(VERSION).dmg
 
 .DEFAULT_GOAL := help
 
@@ -21,22 +24,31 @@ $(ARCHIVE): $(PBXPROJ)
 
 .PHONY: export
 export: ## Make the app file
-	make $(APP)
+	make $(APPFILE)
 
-$(APP): $(ARCHIVE)
-	xcodebuild -exportArchive -archivePath $(ARCHIVE) -exportOptionsPlist $(PROJECT)/exportOptions.plist -exportPath build
-	touch $(APP)
+$(APPFILE): $(ARCHIVE)
+	xcodebuild -exportArchive -archivePath $(ARCHIVE) -exportOptionsPlist $(PROJECT)/exportOptions.plist -exportPath $(IMAGEDIR)
+	touch $(APPFILE)
 
 .PHONY: image
 image: ## Make the dmg image file
 	make $(IMAGE)
 
-$(IMAGE): $(APP)
-	hdiutil create          \
-		-volname $(PROJECT) \
-		-srcfolder $(APP)   \
-		-format UDZO        \
-		-ov $(IMAGE)
+$(IMAGE): $(APPFILE)
+	create-dmg \
+		--volname "Spaceman Installer"                           \
+		--volicon $(IMAGEDIR)/.VolumeIcon.icns                   \
+		--background $(IMAGEDIR)/.background/dmg-background.tiff \
+		--window-pos 200 120                                     \
+		--window-size 640 440                                    \
+		--icon-size 128                                          \
+		--icon Spaceman.app 170 170                              \
+		--icon Applications 470 170                              \
+		--hide-extension Spaceman.app                            \
+		--app-drop-link 470 170                                  \
+		--no-internet-enable                                     \
+		$(IMAGE)                                                 \
+		$(IMAGEDIR) # source folder
 
 all: image ## Make all of the above
 
@@ -50,7 +62,7 @@ tag: ## Tag the current HEAD with the version from the XCode project
 .PHONY: appcast
 appcast: ## Prepare appcast for publishing
 	git checkout main
-	build/make-appcast.sh > website/appcast.xml
+	$(BUILDDIR)/make-appcast.sh > website/appcast.xml
 	git add website/appcast.xml
 	@printf "\nCreated appcast.xml, now please commit it\n"
 
