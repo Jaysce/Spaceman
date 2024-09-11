@@ -79,7 +79,15 @@ The list of spaces can also be refreshed using Applescript:
 $ osascript -e 'tell application "Spaceman" to refresh'
 ```
 
-For details on how to maximize usefulness of this, see [MikeJL's Pull Request](https://github.com/Jaysce/Spaceman/pull/34)
+For details on how to maximize usefulness of this, see [MikeJL's Comments](README-Yabai.md)
+
+## Troubleshooting
+
+If Spaceman does not start, or does not start correctly, after an upgrade: you may need to delete the application defaults:
+
+```sh
+$ defaults delete dev.jaysce.Spaceman
+```
 
 ## Attributions
 
