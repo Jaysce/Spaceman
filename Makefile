@@ -6,7 +6,7 @@ ARCHIVE  = $(BUILDDIR)/$(PROJECT).xcarchive
 IMAGEDIR = $(BUILDDIR)/diskimage
 APPFILE  = $(IMAGEDIR)/$(APPNAME)
 PBXPROJ  = $(PROJECT).xcodeproj/project.pbxproj
-VERSION  = $(shell awk -F'[";]' '/MARKETING_VERSION/ { print $$2; exit }' $(PBXPROJ))
+VERSION  = $(shell awk -F'["; ]' '/MARKETING_VERSION/ { print $$3; exit }' $(PBXPROJ))
 IMAGE    = $(BUILDDIR)/$(PROJECT)-$(VERSION).dmg
 
 .DEFAULT_GOAL := help
