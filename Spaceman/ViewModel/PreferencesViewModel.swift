@@ -27,7 +27,7 @@ class PreferencesViewModel: ObservableObject {
     }
     
     func loadData() {
-        guard let data = UserDefaults.standard.value(forKey:"spaceNames") as? Data else {
+        guard let data = UserDefaults.standard.value(forKey: "spaceNames") as? Data else {
             return
         }
         

@@ -1,3 +1,4 @@
+1.5.11 : Updated disk image; corrected handling incompatible user defaults
 1.5.10-R: Fix: corrected space names in menu and in preferences drop-down
 1.5.9-R: Fix: fullscreen spaces have no shortcut keys; disable menu options that lack a shortcut key
 1.5.8-R: Correction to numbering fullscreen spaces
