@@ -3,23 +3,32 @@
     <channel>
         <title>Spaceman</title>
         <item>
-            <title>1.5.10-R: corrections to space names</title>
+            <title>v1.5.11: Updated installer image; corrected handling incompatible user defaults</title>
             <description>
                 <![CDATA[
                     <ul>
-                    <li>1.5.10-R: Fix: corrected space names in menu and in preferences drop-down</li>
+                    <li>v1.5.11:</li>
+<li>- Updated installer disk image</li>
+<li>- Corrected handling incompatible user defaults</li>
+<li>- Updated package name to dev.ruittenb.Spaceman</li>
+<li>- Removed -R from version</li>
+<li></li>
+<li>Package/version changes were made because:</li>
+<li> - Settings for dev.jaysce.Spaceman may become corrupted if a *-R version of Spaceman is run;</li>
+<li> - The jaysce project has been inactive for a long time and does not seem to be likely to merge PR's anytime soon.</li>
+<li></li>
                     </ul>
                 ]]>
             </description>
-            <pubDate>Tue, 10 Sep 2024 09:55:08 +0100</pubDate>
+            <pubDate>Wed, 11 Sep 2024 16:41:09 +0100</pubDate>
             <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
             <enclosure
-                url="https://github.com/ruittenb/Spaceman/releases/download/v1.5.10-R/Spaceman-1.5.10-R.dmg"
-                sparkle:version="1.5.10"
-                sparkle:shortVersionString="1.5.10-R"
+                url="https://github.com/ruittenb/Spaceman/releases/download/v1.5.11/Spaceman-1.5.11.dmg"
+                sparkle:version="1.5.11"
+                sparkle:shortVersionString="1.5.11"
                 type="application/octet-stream"
-                length="2439462"
-sparkle:edSignature="kfW0l4gaoCCkWHlMVVT3P5tUX0o5+SNJSj0/W87Fx/mUJehtBy+/YGNNWXoeIfz8VSwQ6RtNgQgdFXK/O6pnBQ=="
+                length="2100955"
+sparkle:edSignature="XtCAIAWn4doFcot/w1P/ABwLe2VjSZuqCVy6hWeT9SaXvE7rMa0CLRYfBLEGZFvq8Xgt4zO/fbrPCYmqx8YwDA=="
             />
         </item>
     </channel>
