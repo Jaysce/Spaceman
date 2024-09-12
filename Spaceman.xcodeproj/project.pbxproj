@@ -449,7 +449,7 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1.6.1;
+				CURRENT_PROJECT_VERSION = 1.6.2;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"Spaceman/Preview Content\"";
 				DEVELOPMENT_TEAM = "";
@@ -463,8 +463,8 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = "1.6.1-R-alpha";
-				PRODUCT_BUNDLE_IDENTIFIER = dev.jaysce.Spaceman;
+				MARKETING_VERSION = "1.6.2-alpha";
+				PRODUCT_BUNDLE_IDENTIFIER = dev.ruittenb.Spaceman;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Spaceman/Spaceman-Bridging-Header.h";
@@ -482,7 +482,7 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1.6.1;
+				CURRENT_PROJECT_VERSION = 1.6.2;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"Spaceman/Preview Content\"";
 				DEVELOPMENT_TEAM = "";
@@ -496,8 +496,8 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = "1.6.1-R-alpha";
-				PRODUCT_BUNDLE_IDENTIFIER = dev.jaysce.Spaceman;
+				MARKETING_VERSION = "1.6.2-alpha";
+				PRODUCT_BUNDLE_IDENTIFIER = dev.ruittenb.Spaceman;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Spaceman/Spaceman-Bridging-Header.h";

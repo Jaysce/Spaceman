@@ -20,9 +20,9 @@ struct PreferencesView: View {
     @AppStorage("restartNumberingByDesktop") private var restartNumberingByDesktop = false
     @AppStorage("schema") private var schema = "toprow"
     @AppStorage("withShift") private var withShift = false
-    @AppStorage("withControl") private var withControl = true
+    @AppStorage("withControl") private var withControl = false
     @AppStorage("withOption") private var withOption = false
-    @AppStorage("withCommand") private var withCommand = true
+    @AppStorage("withCommand") private var withCommand = false
     @StateObject private var prefsVM = PreferencesViewModel()
     
     // MARK: - Main Body

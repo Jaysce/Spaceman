@@ -43,7 +43,7 @@ The meaning of the icons from left to right are:
 
 The style and the name of a space can be changed in preferences (shown above). A space is named by selecting the space from the dropdown, typing a name up to 4 characters and clicking the 'Update name' button.
 
-If the icon fails to update, you can choose to force a refresh of the icon using a custom keyboard shortcut or allow Spaceman to refresh them automatically every 5 seconds by enabling 'Refresh spaces in background'. See [#2](https://github.com/Jaysce/Spaceman/issues/2).
+If the icon fails to update, you can choose to force a refresh of the icon using a custom keyboard shortcut or allow Spaceman to refresh them automatically every 5 seconds by enabling 'Refresh spaces in background'.
 
 ### Switching Spaces
 
@@ -82,7 +82,15 @@ The list of spaces can also be refreshed using Applescript:
 $ osascript -e 'tell application "Spaceman" to refresh'
 ```
 
-For details on how to maximize usefulness of this, see [MikeJL's Pull Request](https://github.com/Jaysce/Spaceman/pull/34)
+For details on how to maximize usefulness of this, see [MikeJL's Comments](README-Yabai.md)
+
+## Troubleshooting
+
+If Spaceman does not start, or does not start correctly, after an upgrade: you may need to delete the application defaults:
+
+```sh
+$ defaults delete dev.ruittenb.Spaceman
+```
 
 ## Troubleshooting
 
