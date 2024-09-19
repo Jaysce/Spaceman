@@ -151,6 +151,7 @@ class StatusBar: NSObject, NSMenuDelegate {
         item.image = menuIcon
         if space.isCurrentSpace || shortcutKey == "" {
             item.isEnabled = false
+            // item.state = NSControl.StateValue.on // tick mark
             //if OSVersion().exceeds(14, 0) {
             //if #available(macOS 14.0, *)  {
             //    item.badge = NSMenuItemBadge(string: "Current")
