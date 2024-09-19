@@ -179,13 +179,13 @@ struct PreferencesView: View {
                 Text("With modifiers")
                 Spacer()
                 VStack(alignment: .leading) {
-                    Toggle("Shift", isOn: $withShift)
-                    Toggle("Control", isOn: $withControl)
+                    Toggle("Shift ⇧", isOn: $withShift)
+                    Toggle("Control ⌃", isOn: $withControl)
                 }
                 Spacer()
                 VStack(alignment: .leading) {
-                    Toggle("Option", isOn: $withOption)
-                    Toggle("Command", isOn: $withCommand)
+                    Toggle("Option ⌥", isOn: $withOption)
+                    Toggle("Command ⌘", isOn: $withCommand)
                 }
                 Spacer()
             }
