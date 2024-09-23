@@ -76,10 +76,14 @@ class StatusBar: NSObject, NSMenuDelegate {
         }
         if event.type == .rightMouseDown {
             // Show the menu on right-click
-            statusBarItem.menu = statusBarMenu
-            statusBarItem.button?.performClick(nil)
-            statusBarItem.menu = nil  // Clear the menu after showing it
+            if let button = statusBarItem.button {
+                let buttonFrame = button.window?.convertToScreen(button.frame) ?? .zero
+                let menuOrigin = CGPoint(x: buttonFrame.minX, y: buttonFrame.minY - CGFloat(IconCreator.HEIGHT) / 2)
+                statusBarMenu.minimumWidth = buttonFrame.width
+                statusBarMenu.popUp(positioning: nil, at: menuOrigin, in: nil)
+            }
         } else {
+            // Switch desktops on left click
             let locationInButton = sender.convert(event.locationInWindow, from: statusBarItem.button)
 
             spaceSwitcher.switchUsingLocation(

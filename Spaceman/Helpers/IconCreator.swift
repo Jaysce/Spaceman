@@ -8,19 +8,19 @@
 import AppKit
 import Foundation
 
-//  23   = 277 px ; button distance
-//  18   = 219 px ; button width
-//  10   = 120 px ; left margin
-//   5   =  60 px ; gap
-//   2.5 =  30 px ; semi gap
-//   7.5 =  90 px ; void left
-
-let WIDTH_SMALL = 18
-let WIDTH_LARGE = 34
-let WIDTH_XLARGE = 49
-let HEIGHT = 12
-
 class IconCreator {
+    //  23   = 277 px ; button distance
+    //  18   = 219 px ; button width
+    //  10   = 120 px ; left margin
+    //   5   =  60 px ; gap
+    //   2.5 =  30 px ; semi gap
+    //   7.5 =  90 px ; void left
+
+    static let WIDTH_SMALL = 18
+    static let WIDTH_LARGE = 34
+    static let WIDTH_XLARGE = 49
+    static let HEIGHT = 12
+
     private let defaults = UserDefaults.standard
     private var iconSize = NSSize(width: WIDTH_SMALL, height: HEIGHT)
     private let gapWidth = CGFloat(5)
@@ -30,7 +30,7 @@ class IconCreator {
     public var widths: [CGFloat] = []
     
     func getIcon(for spaces: [Space]) -> NSImage {
-        iconSize.width = CGFloat(WIDTH_SMALL)
+        iconSize.width = CGFloat(IconCreator.WIDTH_SMALL)
         let spacemanStyle = SpacemanStyle(rawValue: defaults.integer(forKey: "displayStyle"))
         var icons = [NSImage]()
         
@@ -138,7 +138,7 @@ class IconCreator {
         var index = 0
         var newIcons = [NSImage]()
         
-        iconSize.width = CGFloat(withNumbers ? WIDTH_XLARGE : WIDTH_LARGE)
+        iconSize.width = CGFloat(withNumbers ? IconCreator.WIDTH_XLARGE : IconCreator.WIDTH_LARGE)
         
         for s in spaces {
             
@@ -147,7 +147,7 @@ class IconCreator {
             let spaceNumberPrefix = withNumbers ? "\(spaceId): " : ""
             let spaceText = NSString(string: "\(spaceNumberPrefix)\(s.spaceName.uppercased())")
             let textSize = spaceText.size(withAttributes: getStringAttributes(alpha: 1))
-            let textWithMarginSize = NSMakeSize(textSize.width + 4, CGFloat(HEIGHT))
+            let textWithMarginSize = NSMakeSize(textSize.width + 4, CGFloat(IconCreator.HEIGHT))
             
             // Check if the text width exceeds the icon's width
             let textImageSize = textSize.width > iconSize.width ? textWithMarginSize : iconSize
