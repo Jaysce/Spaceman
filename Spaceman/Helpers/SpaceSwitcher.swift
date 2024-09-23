@@ -15,10 +15,10 @@ class SpaceSwitcher {
         shortcutHelper = ShortcutHelper()
     }
 
-    func switchToSpace(spaceNumber: Int) {
+    func switchToSpace(spaceNumber: Int, onError: () -> Void) {
         let keyCode = shortcutHelper.getKeyCode(spaceNumber: spaceNumber)
         if keyCode < 0 {
-            return
+            return onError()
         }
         let modifiers = shortcutHelper.getModifiers()
 
@@ -55,13 +55,12 @@ class SpaceSwitcher {
         }
     }
     
-    func switchUsingLocation(widths: [CGFloat], horizontal: CGFloat) {
+    func switchUsingLocation(widths: [CGFloat], horizontal: CGFloat, onError: () -> Void) {
         var index = 0
         while index < widths.count && horizontal > widths[index] {
             index += 1
         }
-        //print("Found: switching to desktop: \(index)")
-        switchToSpace(spaceNumber: index)
+        switchToSpace(spaceNumber: index, onError: onError)
     }
     
     func alert(msg: String) {

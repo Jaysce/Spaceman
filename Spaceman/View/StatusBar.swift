@@ -71,7 +71,6 @@ class StatusBar: NSObject, NSMenuDelegate {
     }
     
     @objc func handleClick(_ sender: NSStatusBarButton) {
-        
         guard let event = NSApp.currentEvent else {
             return
         }
@@ -86,7 +85,27 @@ class StatusBar: NSObject, NSMenuDelegate {
 
             spaceSwitcher.switchUsingLocation(
                 widths: iconCreator.widths,
-                horizontal: locationInButton.x)
+                horizontal: locationInButton.x,
+                onError: flashStatusBar)
+        }
+    }
+    
+    func flashStatusBar() {
+        if let button = statusBarItem.button {
+            let originalColor = button.layer?.backgroundColor
+            let flashColor = NSColor.controlAccentColor.blended(withFraction: CGFloat(0.7), of: NSColor.systemGray)?.cgColor
+            let duration: TimeInterval = 0.1
+            
+            button.layer?.backgroundColor = flashColor
+            DispatchQueue.main.asyncAfter(deadline: .now() + duration) {
+                button.layer?.backgroundColor = originalColor
+                DispatchQueue.main.asyncAfter(deadline: .now() + duration) {
+                    button.layer?.backgroundColor = flashColor
+                    DispatchQueue.main.asyncAfter(deadline: .now() + duration) {
+                        button.layer?.backgroundColor = originalColor
+                    }
+                }
+            }
         }
     }
     
@@ -165,6 +184,6 @@ class StatusBar: NSObject, NSMenuDelegate {
         guard (spaceNumber >= 1 && spaceNumber <= 10) else {
             return
         }
-        spaceSwitcher.switchToSpace(spaceNumber: spaceNumber)
+        spaceSwitcher.switchToSpace(spaceNumber: spaceNumber, onError: flashStatusBar)
     }
 }
