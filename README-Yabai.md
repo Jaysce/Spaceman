@@ -3,7 +3,7 @@
 
 [mike-jl](https://github.com/mike-jl) [commented on May 30](https://github.com/Jaysce/Spaceman/pull/34):
 
-Using this command, its posible to refresh Spaceman using apple script:
+It is possible to refresh Spaceman using the following Apple Script command:
 
 ```applescript
 tell application "Spaceman" to refresh
