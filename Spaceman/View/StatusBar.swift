@@ -91,17 +91,14 @@ class StatusBar: NSObject, NSMenuDelegate {
     
     func flashStatusBar() {
         if let button = statusBarItem.button {
-            let originalColor = button.layer?.backgroundColor
-            let flashColor = NSColor.controlAccentColor.blended(withFraction: CGFloat(0.7), of: NSColor.systemGray)?.cgColor
             let duration: TimeInterval = 0.1
-            
-            button.layer?.backgroundColor = flashColor
+            button.isHighlighted = true
             DispatchQueue.main.asyncAfter(deadline: .now() + duration) {
-                button.layer?.backgroundColor = originalColor
+                button.isHighlighted = false
                 DispatchQueue.main.asyncAfter(deadline: .now() + duration) {
-                    button.layer?.backgroundColor = flashColor
+                    button.isHighlighted = true
                     DispatchQueue.main.asyncAfter(deadline: .now() + duration) {
-                        button.layer?.backgroundColor = originalColor
+                        button.isHighlighted = false
                     }
                 }
             }
