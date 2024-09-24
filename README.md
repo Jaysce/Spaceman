@@ -25,8 +25,8 @@ There are five styles to choose from, from top to bottom:
 - Rectangles
 - Numbers
 - Rectangles with Numbers
-- Rectangles with Desktop Numbers
-- Named Spaces
+- Names
+- Names with Numbers
 
 The meaning of the icons from left to right are:
 
