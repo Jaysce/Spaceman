@@ -68,8 +68,16 @@ class StatusBar: NSObject, NSMenuDelegate {
         statusBarItem.button?.sendAction(on: [.rightMouseDown, .leftMouseDown])
         statusBarItem.button?.action = #selector(handleClick)
         statusBarItem.button?.target = self
+        
+        /*
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(handleMenuClose(_:)),
+            name: NSMenu.didEndTrackingNotification,
+            object: statusBarMenu)
+         */
     }
-    
+
     @objc func handleClick(_ sender: NSStatusBarButton) {
         guard let event = NSApp.currentEvent else {
             return
@@ -80,7 +88,10 @@ class StatusBar: NSObject, NSMenuDelegate {
                 let buttonFrame = button.window?.convertToScreen(button.frame) ?? .zero
                 let menuOrigin = CGPoint(x: buttonFrame.minX, y: buttonFrame.minY - CGFloat(IconCreator.HEIGHT) / 2)
                 statusBarMenu.minimumWidth = buttonFrame.width
-                statusBarMenu.popUp(positioning: nil, at: menuOrigin, in: nil)
+                DispatchQueue.main.async {
+                    self.statusBarMenu.popUp(positioning: nil, at: menuOrigin, in: nil)
+                }
+                statusBarItem.button?.isHighlighted = false
             }
         } else {
             // Switch desktops on left click
@@ -92,7 +103,20 @@ class StatusBar: NSObject, NSMenuDelegate {
                 onError: flashStatusBar)
         }
     }
-    
+
+    /*
+    @objc private func handleMenuClose(_ notification: Notification) {
+        // Reset the button state when the menu closes
+        if let button = statusBarItem.button {
+            button.isHighlighted = false
+        }
+        
+        // Reactivate the button to ensure responsiveness
+        // This line ensures the button becomes responsive to new clicks immediately
+        NSApp.nextEvent(matching: [.leftMouseDown, .rightMouseDown], until: Date.distantPast, inMode: .eventTracking, dequeue: true)
+    }
+     */
+
     func flashStatusBar() {
         if let button = statusBarItem.button {
             let duration: TimeInterval = 0.1
@@ -108,7 +132,7 @@ class StatusBar: NSObject, NSMenuDelegate {
             }
         }
     }
-    
+
     func updateStatusBar(withIcon icon: NSImage, withSpaces spaces: [Space]) {
         // update icon
         if let statusBarButton = statusBarItem.button {
