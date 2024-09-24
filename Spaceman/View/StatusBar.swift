@@ -81,7 +81,6 @@ class StatusBar: NSObject, NSMenuDelegate {
             statusBarItem.menu = nil  // Clear the menu after showing it
         } else {
             let locationInButton = sender.convert(event.locationInWindow, from: statusBarItem.button)
-            print("Left click win:\(event.locationInWindow); but:\(locationInButton)")
 
             spaceSwitcher.switchUsingLocation(
                 widths: iconCreator.widths,
