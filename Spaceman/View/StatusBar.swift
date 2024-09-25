@@ -9,21 +9,26 @@ import Foundation
 import SwiftUI
 import Sparkle
 
-class StatusBar {
+class StatusBar: NSObject, NSMenuDelegate {
     private var statusBarItem: NSStatusItem!
     private var statusBarMenu: NSMenu!
     private var prefsWindow: PreferencesWindow!
     private var spaceSwitcher: SpaceSwitcher!
     private var shortcutHelper: ShortcutHelper!
     private let defaults = UserDefaults.standard
+    
+    public var iconCreator: IconCreator!
 
-    init() {
+    override init() {
+        super.init()
+        
         shortcutHelper = ShortcutHelper()
         spaceSwitcher = SpaceSwitcher()
         
         statusBarItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
         statusBarMenu = NSMenu()
         statusBarMenu.autoenablesItems = false
+        statusBarMenu.delegate = self
         
         prefsWindow = PreferencesWindow()
         let hostedPrefsView = NSHostingView(rootView: PreferencesView(parentWindow: prefsWindow))
@@ -58,7 +63,55 @@ class StatusBar {
         statusBarMenu.addItem(updates)
         statusBarMenu.addItem(pref)
         statusBarMenu.addItem(quit)
-        statusBarItem.menu = statusBarMenu
+        //statusBarItem.menu = statusBarMenu
+        
+        statusBarItem.button?.action = #selector(handleClick)
+        statusBarItem.button?.target = self
+        statusBarItem.button?.sendAction(on: [.rightMouseDown, .leftMouseDown])
+    }
+
+    @objc func handleClick(_ sbButton: NSStatusBarButton) {
+        guard let event = NSApp.currentEvent else {
+            return
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) {
+            if event.type == .rightMouseDown {
+                // Show the menu on right-click
+                if let sbMenu = self.statusBarMenu {
+                    let buttonFrame = sbButton.window?.convertToScreen(sbButton.frame) ?? .zero
+                    let menuOrigin = CGPoint(x: buttonFrame.minX, y: buttonFrame.minY - CGFloat(IconCreator.HEIGHT) / 2)
+                    sbMenu.minimumWidth = buttonFrame.width
+                    sbMenu.popUp(positioning: nil, at: menuOrigin, in: nil)
+                    sbButton.isHighlighted = false
+                }
+            } else if (event.type == .leftMouseDown) {
+                // Switch desktops on left click
+                let locationInButton = sbButton.convert(event.locationInWindow, from: sbButton)
+                
+                self.spaceSwitcher.switchUsingLocation(
+                    widths: self.iconCreator.widths,
+                    horizontal: locationInButton.x,
+                    onError: self.flashStatusBar)
+            } else {
+                print("Other event: \(event.type)")
+            }
+        }
+    }
+
+    func flashStatusBar() {
+        if let button = statusBarItem.button {
+            let blinkInterval: TimeInterval = 0.1
+            button.isHighlighted = true
+            DispatchQueue.main.asyncAfter(deadline: .now() + blinkInterval) {
+                button.isHighlighted = false
+                DispatchQueue.main.asyncAfter(deadline: .now() + blinkInterval) {
+                    button.isHighlighted = true
+                    DispatchQueue.main.asyncAfter(deadline: .now() + blinkInterval) {
+                        button.isHighlighted = false
+                    }
+                }
+            }
+        }
     }
 
     func updateStatusBar(withIcon icon: NSImage, withSpaces spaces: [Space]) {
@@ -136,6 +189,6 @@ class StatusBar {
         guard (spaceNumber >= 1 && spaceNumber <= 10) else {
             return
         }
-        spaceSwitcher.switchToSpace(spaceNumber: spaceNumber)
+        spaceSwitcher.switchToSpace(spaceNumber: spaceNumber, onError: flashStatusBar)
     }
 }

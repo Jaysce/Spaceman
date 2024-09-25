@@ -14,11 +14,11 @@ class SpaceSwitcher {
     init() {
         shortcutHelper = ShortcutHelper()
     }
-    
-    func switchToSpace(spaceNumber: Int) {
+
+    func switchToSpace(spaceNumber: Int, onError: () -> Void) {
         let keyCode = shortcutHelper.getKeyCode(spaceNumber: spaceNumber)
         if keyCode < 0 {
-            return
+            return onError()
         }
         let modifiers = shortcutHelper.getModifiers()
 
@@ -55,6 +55,14 @@ class SpaceSwitcher {
         }
     }
     
+    func switchUsingLocation(widths: [CGFloat], horizontal: CGFloat, onError: () -> Void) {
+        var index = 0
+        while index < widths.count && horizontal > widths[index] {
+            index += 1
+        }
+        switchToSpace(spaceNumber: index, onError: onError)
+    }
+    
     func alert(msg: String) {
         var settingsTitle: String
         if #available(macOS 13.0, *) {
@@ -62,17 +70,19 @@ class SpaceSwitcher {
         } else {
             settingsTitle = "Preferences"
         }
-        let alert = NSAlert.init()
-        alert.messageText = "Spaceman"
-        alert.informativeText = msg
-        alert.addButton(withTitle: "Dismiss")
-        alert.addButton(withTitle: "System \(settingsTitle)...")
-        let response = alert.runModal()
-        if (response == .alertSecondButtonReturn) {
-            let task = Process()
-            task.launchPath = "/usr/bin/open"
-            task.arguments = ["/System/Library/PreferencePanes/Security.prefPane"]
-            try? task.run()
+        DispatchQueue.main.async {
+            let alert = NSAlert.init()
+            alert.messageText = "Spaceman"
+            alert.informativeText = msg
+            alert.addButton(withTitle: "Dismiss")
+            alert.addButton(withTitle: "System \(settingsTitle)...")
+            let response = alert.runModal()
+            if (response == .alertSecondButtonReturn) {
+                let task = Process()
+                task.launchPath = "/usr/bin/open"
+                task.arguments = ["/System/Library/PreferencePanes/Security.prefPane"]
+                try? task.run()
+            }
         }
     }
 }
