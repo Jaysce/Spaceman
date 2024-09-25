@@ -3,23 +3,23 @@
     <channel>
         <title>Spaceman</title>
         <item>
-            <title>v1.5.12: Minor updates to preferences dialog</title>
+            <title>v1.6.6: Fix responsiveness of status bar icon</title>
             <description>
                 <![CDATA[
                     <ul>
-                    <li>Minor updates to preferences dialog (github repo url, modifier keys)</li>
+                    <li>Fixes responsiveness of status bar icon after a popup menu or dialog was displayed.</li>
                     </ul>
                 ]]>
             </description>
-            <pubDate>Thu, 19 Sep 2024 20:49:38 +0200</pubDate>
+            <pubDate>Wed, 25 Sep 2024 20:04:23 +0200</pubDate>
             <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
             <enclosure
-                url="https://github.com/ruittenb/Spaceman/releases/download/v1.5.12/Spaceman-1.5.12.dmg"
-                sparkle:version="1.5.12"
-                sparkle:shortVersionString="1.5.12"
+                url="https://github.com/ruittenb/Spaceman/releases/download/v1.6.6/Spaceman-1.6.6.dmg"
+                sparkle:version="1.6.6"
+                sparkle:shortVersionString="1.6.6"
                 type="application/octet-stream"
-                length="2101031"
-sparkle:edSignature="wyqmjFbhte7XNORwAW3PCn2e1y+i0C8rRwTALVpfHiMaPM5z4ayn7WVkzMVjbSAM6haWLK6zBtrtlx++YxaKCw=="
+                length="2108430"
+sparkle:edSignature="v7MJ8uris5uO9HKEZ2P3c2ms4DJc1lf86pWp9Fg4QKBJMvDRFmwKuSz2dQxIPs5jaI6IThkVuKvyLgQZhfCaDg=="
             />
         </item>
     </channel>
