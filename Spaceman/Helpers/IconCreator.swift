@@ -37,19 +37,19 @@ class IconCreator {
         for s in spaces {
             let iconResourceName: String
             switch (s.isCurrentSpace, s.isFullScreen, spacemanStyle) {
-            case (true, true, .names),
-                 (true, true, .numbersAndNames):
+            case (true, true, .names):
                 iconResourceName = "NamedFullActive"
-            case (true, true, _):
+            case (false, true, .names):
+                iconResourceName = "NamedFullInactive"
+            case (true, true, .rects):
                 iconResourceName = "SpaceManIconFullEn"
+            case (false, true, .rects):
+                iconResourceName = "SpaceManIconFullDis"
             case (true, false, _):
                 iconResourceName = "SpaceManIcon"
-            case (false, true, .names),
-                 (false, true, .numbersAndNames):
-                iconResourceName = "NamedFullInactive"
-            case (false, true, _):
-                iconResourceName = "SpaceManIconFullDis"
             default:
+                // (true, true, .numbersAndNames)
+                // (false, true, .numbersAndNames)
                 iconResourceName = "SpaceManIconBorder"
             }
             
