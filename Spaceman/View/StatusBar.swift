@@ -74,7 +74,7 @@ class StatusBar: NSObject, NSMenuDelegate {
         guard let event = NSApp.currentEvent else {
             return
         }
-        DispatchQueue.main.async {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) {
             if event.type == .rightMouseDown {
                 // Show the menu on right-click
                 if let sbMenu = self.statusBarMenu {
@@ -84,7 +84,7 @@ class StatusBar: NSObject, NSMenuDelegate {
                     sbMenu.popUp(positioning: nil, at: menuOrigin, in: nil)
                     sbButton.isHighlighted = false
                 }
-            } else {
+            } else if (event.type == .leftMouseDown) {
                 // Switch desktops on left click
                 let locationInButton = sbButton.convert(event.locationInWindow, from: sbButton)
                 
@@ -92,19 +92,21 @@ class StatusBar: NSObject, NSMenuDelegate {
                     widths: self.iconCreator.widths,
                     horizontal: locationInButton.x,
                     onError: self.flashStatusBar)
+            } else {
+                print("Other event: \(event.type)")
             }
         }
     }
 
     func flashStatusBar() {
         if let button = statusBarItem.button {
-            let duration: TimeInterval = 0.1
+            let blinkInterval: TimeInterval = 0.1
             button.isHighlighted = true
-            DispatchQueue.main.asyncAfter(deadline: .now() + duration) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + blinkInterval) {
                 button.isHighlighted = false
-                DispatchQueue.main.asyncAfter(deadline: .now() + duration) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + blinkInterval) {
                     button.isHighlighted = true
-                    DispatchQueue.main.asyncAfter(deadline: .now() + duration) {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + blinkInterval) {
                         button.isHighlighted = false
                     }
                 }
