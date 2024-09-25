@@ -55,9 +55,10 @@ The menu shows a list of space names. Selecting one will cause Spaceman to switc
 
 <img src="Images/Menu.png" width="auto" height="auto">
 
-Switching spaces is done by sending a keyboard shortcut to Mission Control using `osascript`.
+Spaceman switches spaces by sending a keyboard shortcut to Mission Control using `osascript`.
 Note that only the first ten spaces will have shortcut keys assigned.
-For other spaces, switching will not be available, and the menu option will be disabled.
+For extra spaces, switching will not be available; the status bar icon will flash if
+selected, and the menu option will be disabled.
 
 **For switching to work successfully, the following things need to be configured:**
 
@@ -90,14 +91,6 @@ If Spaceman does not start, or does not start correctly, after an upgrade: you m
 
 ```sh
 $ defaults delete dev.ruittenb.Spaceman
-```
-
-## Troubleshooting
-
-If Spaceman does not start, or does not start correctly, after an upgrade: you may need to delete the application defaults:
-
-```sh
-$ defaults delete dev.jaysce.Spaceman
 ```
 
 ## Attributions
