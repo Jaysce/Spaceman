@@ -70,17 +70,19 @@ class SpaceSwitcher {
         } else {
             settingsTitle = "Preferences"
         }
-        let alert = NSAlert.init()
-        alert.messageText = "Spaceman"
-        alert.informativeText = msg
-        alert.addButton(withTitle: "Dismiss")
-        alert.addButton(withTitle: "System \(settingsTitle)...")
-        let response = alert.runModal()
-        if (response == .alertSecondButtonReturn) {
-            let task = Process()
-            task.launchPath = "/usr/bin/open"
-            task.arguments = ["/System/Library/PreferencePanes/Security.prefPane"]
-            try? task.run()
+        DispatchQueue.main.async {
+            let alert = NSAlert.init()
+            alert.messageText = "Spaceman"
+            alert.informativeText = msg
+            alert.addButton(withTitle: "Dismiss")
+            alert.addButton(withTitle: "System \(settingsTitle)...")
+            let response = alert.runModal()
+            if (response == .alertSecondButtonReturn) {
+                let task = Process()
+                task.launchPath = "/usr/bin/open"
+                task.arguments = ["/System/Library/PreferencePanes/Security.prefPane"]
+                try? task.run()
+            }
         }
     }
 }
