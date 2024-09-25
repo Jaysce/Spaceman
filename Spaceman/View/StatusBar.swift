@@ -65,42 +65,42 @@ class StatusBar: NSObject, NSMenuDelegate {
         statusBarMenu.addItem(quit)
         //statusBarItem.menu = statusBarMenu
         
-        statusBarItem.button?.sendAction(on: [.rightMouseDown, .leftMouseDown])
         statusBarItem.button?.action = #selector(handleClick)
         statusBarItem.button?.target = self
-        
+        statusBarItem.button?.sendAction(on: [.rightMouseDown, .leftMouseDown])
+
         /*
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(handleMenuClose(_:)),
             name: NSMenu.didEndTrackingNotification,
             object: statusBarMenu)
-         */
+        */
     }
 
     @objc func handleClick(_ sender: NSStatusBarButton) {
         guard let event = NSApp.currentEvent else {
             return
         }
-        if event.type == .rightMouseDown {
-            // Show the menu on right-click
-            if let button = statusBarItem.button {
-                let buttonFrame = button.window?.convertToScreen(button.frame) ?? .zero
-                let menuOrigin = CGPoint(x: buttonFrame.minX, y: buttonFrame.minY - CGFloat(IconCreator.HEIGHT) / 2)
-                statusBarMenu.minimumWidth = buttonFrame.width
-                DispatchQueue.main.async {
-                    self.statusBarMenu.popUp(positioning: nil, at: menuOrigin, in: nil)
+        DispatchQueue.main.async {
+            if event.type == .rightMouseDown {
+                // Show the menu on right-click
+                if let sbButton = self.statusBarItem.button, let sbMenu = self.statusBarMenu {
+                    let buttonFrame = sbButton.window?.convertToScreen(sbButton.frame) ?? .zero
+                    let menuOrigin = CGPoint(x: buttonFrame.minX, y: buttonFrame.minY - CGFloat(IconCreator.HEIGHT) / 2)
+                    sbMenu.minimumWidth = buttonFrame.width
+                    sbMenu.popUp(positioning: nil, at: menuOrigin, in: nil)
+                    sbButton.isHighlighted = false
                 }
-                statusBarItem.button?.isHighlighted = false
+            } else {
+                // Switch desktops on left click
+                let locationInButton = sender.convert(event.locationInWindow, from: self.statusBarItem.button)
+                
+                self.spaceSwitcher.switchUsingLocation(
+                    widths: self.iconCreator.widths,
+                    horizontal: locationInButton.x,
+                    onError: self.flashStatusBar)
             }
-        } else {
-            // Switch desktops on left click
-            let locationInButton = sender.convert(event.locationInWindow, from: statusBarItem.button)
-
-            spaceSwitcher.switchUsingLocation(
-                widths: iconCreator.widths,
-                horizontal: locationInButton.x,
-                onError: flashStatusBar)
         }
     }
 
@@ -113,9 +113,19 @@ class StatusBar: NSObject, NSMenuDelegate {
         
         // Reactivate the button to ensure responsiveness
         // This line ensures the button becomes responsive to new clicks immediately
-        NSApp.nextEvent(matching: [.leftMouseDown, .rightMouseDown], until: Date.distantPast, inMode: .eventTracking, dequeue: true)
+        //NSApp.nextEvent(matching: [.leftMouseDown, .rightMouseDown], until: Date.distantPast, inMode: .eventTracking, dequeue: true)
+     
+        // Reactivate the button to ensure responsiveness
+        // Add a slight delay to ensure the event system has fully processed the menu close
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            // Force reset of the event queue
+            NSApp.nextEvent(matching: [.leftMouseDown, .rightMouseDown], until: Date.distantPast, inMode: .eventTracking, dequeue: true)
+
+            // Optional: Trigger a manual click reset to ensure the button state is fully cleared
+            //self.statusBarItem.button?.performClick(nil)
+        }
     }
-     */
+    */
 
     func flashStatusBar() {
         if let button = statusBarItem.button {
