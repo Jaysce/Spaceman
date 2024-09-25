@@ -39,7 +39,7 @@ The meaning of the icons from left to right are:
 
 ## Preferences
 
-<img src="Images/Preferences-3a.png" width="66%" height="auto">
+<img src="Images/Preferences-4a.png" width="66%" height="auto">
 
 The style and the name of a space can be changed in preferences (shown above). A space is named by selecting the space from the dropdown, typing a name up to 4 characters and clicking the 'Update name' button.
 
@@ -73,7 +73,7 @@ selected, and the menu option will be disabled.
 
 - Spaceman needs to know which shortcuts to send:
 
-<img src="Images/Preferences-3b.png" width="66%" height="auto">
+<img src="Images/Preferences-4b.png" width="66%" height="auto">
 
 ## Remote Refresh
 
