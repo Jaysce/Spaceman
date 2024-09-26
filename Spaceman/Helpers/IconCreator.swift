@@ -9,28 +9,28 @@ import AppKit
 import Foundation
 
 class IconCreator {
-    //  23   = 277 px ; button distance
-    //  18   = 219 px ; button width
-    //  10   = 120 px ; left margin
-    //   5   =  60 px ; gap
-    //   2.5 =  30 px ; semi gap
-    //   7.5 =  90 px ; void left
 
-    static let WIDTH_SMALL = 18
-    static let WIDTH_LARGE = 34
-    static let WIDTH_XLARGE = 49
-    static let HEIGHT = 12
-
+    private let layoutMode = LayoutMode.normal
     private let defaults = UserDefaults.standard
-    private var iconSize = NSSize(width: WIDTH_SMALL, height: HEIGHT)
-    private let gapWidth = CGFloat(5)
-    private let displayGapWidth = CGFloat(15)
     private var displayCount = 1
-    
+    private var iconSize: NSSize
+    private var gapWidth: CGFloat
+    private var displayGapWidth: CGFloat
+
+    public var sizes: Size!
     public var widths: [CGFloat] = []
+
+    init() {
+        sizes = Constants.sizes[layoutMode]
+        gapWidth = CGFloat(sizes.GAP_WIDTH_SPACES)
+        displayGapWidth = CGFloat(sizes.GAP_WIDTH_DISPLAYS)
+        iconSize = NSSize(
+            width: sizes.ICON_WIDTH_SMALL,
+            height: sizes.ICON_HEIGHT)
+    }
     
     func getIcon(for spaces: [Space]) -> NSImage {
-        iconSize.width = CGFloat(IconCreator.WIDTH_SMALL)
+        iconSize.width = CGFloat(sizes.ICON_WIDTH_SMALL)
         let spacemanStyle = SpacemanStyle(rawValue: defaults.integer(forKey: "displayStyle"))
         var icons = [NSImage]()
         
@@ -84,9 +84,7 @@ class IconCreator {
             image.lockFocus()
             spaceId.drawVerticallyCentered(
                 in: textRect,
-                withAttributes: getStringAttributes(
-                    alpha: !s.isCurrentSpace ? 0.4 : 1,
-                    fontSize: 12))
+                withAttributes: getStringAttributes(alpha: !s.isCurrentSpace ? 0.4 : 1))
             image.unlockFocus()
             
             newIcons.append(image)
@@ -138,7 +136,7 @@ class IconCreator {
         var index = 0
         var newIcons = [NSImage]()
         
-        iconSize.width = CGFloat(withNumbers ? IconCreator.WIDTH_XLARGE : IconCreator.WIDTH_LARGE)
+        iconSize.width = CGFloat(withNumbers ? sizes.ICON_WIDTH_XLARGE : sizes.ICON_WIDTH_LARGE)
         
         for s in spaces {
             
@@ -147,7 +145,7 @@ class IconCreator {
             let spaceNumberPrefix = withNumbers ? "\(spaceId): " : ""
             let spaceText = NSString(string: "\(spaceNumberPrefix)\(s.spaceName.uppercased())")
             let textSize = spaceText.size(withAttributes: getStringAttributes(alpha: 1))
-            let textWithMarginSize = NSMakeSize(textSize.width + 4, CGFloat(IconCreator.HEIGHT))
+            let textWithMarginSize = NSMakeSize(textSize.width + 4, CGFloat(sizes.ICON_HEIGHT))
             
             // Check if the text width exceeds the icon's width
             let textImageSize = textSize.width > iconSize.width ? textWithMarginSize : iconSize
@@ -243,12 +241,13 @@ class IconCreator {
         return image
     }
 
-    private func getStringAttributes(alpha: CGFloat, fontSize: CGFloat = 10) -> [NSAttributedString.Key : Any] {
+    private func getStringAttributes(alpha: CGFloat, fontSize: CGFloat = .zero) -> [NSAttributedString.Key : Any] {
+        let actualFontSize = fontSize == .zero ? CGFloat(sizes.FONT_SIZE) : fontSize
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.alignment = .center
         return [
             .foregroundColor: NSColor.black.withAlphaComponent(alpha),
-            .font: NSFont.monospacedSystemFont(ofSize: fontSize, weight: .bold),
+            .font: NSFont.monospacedSystemFont(ofSize: actualFontSize, weight: .bold),
             .paragraphStyle: paragraphStyle]
     }
 }
