@@ -79,6 +79,9 @@ class StatusBar: NSObject, NSMenuDelegate {
                 // Show the menu on right-click
                 if let sbMenu = self.statusBarMenu {
                     let buttonFrame = sbButton.window?.convertToScreen(sbButton.frame) ?? .zero
+                    // This calculation should be right, but is does not look good
+                    //let menuOrigin = CGPoint(x: buttonFrame.minX, y: buttonFrame.maxY + CGFloat(IconCreator.HEIGHT) - 2 * buttonFrame.height)
+                    // This calculation is not right, but looks good
                     let menuOrigin = CGPoint(x: buttonFrame.minX, y: buttonFrame.minY - CGFloat(IconCreator.HEIGHT) / 2)
                     sbMenu.minimumWidth = buttonFrame.width
                     sbMenu.popUp(positioning: nil, at: menuOrigin, in: nil)
