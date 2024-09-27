@@ -17,7 +17,7 @@ class IconCreator {
     private var gapWidth: CGFloat
     private var displayGapWidth: CGFloat
 
-    public var sizes: Size!
+    public var sizes: GuiSize!
     public var widths: [CGFloat] = []
 
     init() {
