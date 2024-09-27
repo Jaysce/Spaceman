@@ -42,7 +42,7 @@ struct Constants {
             GAP_WIDTH_SPACES: 3,
             GAP_WIDTH_DISPLAYS: 10,
             ICON_WIDTH_SMALL: 16,
-            ICON_WIDTH_LARGE: 26,
+            ICON_WIDTH_LARGE: 24,
             ICON_WIDTH_XLARGE: 40,
             ICON_HEIGHT: 12,
             FONT_SIZE: 10
