@@ -7,22 +7,6 @@
 
 import Foundation
 
-enum LayoutMode {
-    case compact
-    case normal
-    case spacious
-}
-
-struct Size {
-    var GAP_WIDTH_SPACES: Int!
-    var GAP_WIDTH_DISPLAYS: Int!
-    var ICON_WIDTH_SMALL: Int!
-    var ICON_WIDTH_LARGE: Int!
-    var ICON_WIDTH_XLARGE: Int!
-    var ICON_HEIGHT: Int!
-    var FONT_SIZE: Int!
-}
-
 struct Constants {
     enum AppInfo {
         static let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
@@ -37,8 +21,8 @@ struct Constants {
     //   2.5 =  30 px ; semi gap
     //   7.5 =  90 px ; void left
 
-    static let sizes: [LayoutMode: Size] = [
-        .compact: Size(
+    static let sizes: [LayoutMode: GuiSize] = [
+        .compact: GuiSize(
             GAP_WIDTH_SPACES: 3,
             GAP_WIDTH_DISPLAYS: 10,
             ICON_WIDTH_SMALL: 16,
@@ -47,7 +31,7 @@ struct Constants {
             ICON_HEIGHT: 12,
             FONT_SIZE: 10
         ),
-        .normal: Size(
+        .normal: GuiSize(
             GAP_WIDTH_SPACES: 5,
             GAP_WIDTH_DISPLAYS: 15,
             ICON_WIDTH_SMALL: 18,
@@ -56,7 +40,7 @@ struct Constants {
             ICON_HEIGHT: 12,
             FONT_SIZE: 10
         ),
-        .spacious: Size(
+        .spacious: GuiSize(
             GAP_WIDTH_SPACES: 5,
             GAP_WIDTH_DISPLAYS: 15,
             ICON_WIDTH_SMALL: 20,
