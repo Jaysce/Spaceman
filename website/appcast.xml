@@ -3,23 +3,24 @@
     <channel>
         <title>Spaceman</title>
         <item>
-            <title>v1.6.6: Fix responsiveness of status bar icon</title>
+            <title>v1.6.7: Fixed icon numbers for numbers-only and numbers-and-names</title>
             <description>
                 <![CDATA[
                     <ul>
-                    <li>Fixes responsiveness of status bar icon after a popup menu or dialog was displayed.</li>
+                    <li>- Fixed "fullscreen" icon numbers with F for numbers-only and numbers-and-names layouts.</li>
+<li>- Removed "fullscreen" angle brackets from layouts with numbers. The numbers contain an F anyway.</li>
                     </ul>
                 ]]>
             </description>
-            <pubDate>Wed, 25 Sep 2024 20:04:23 +0200</pubDate>
+            <pubDate>Fri, 27 Sep 2024 11:27:17 +0200</pubDate>
             <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
             <enclosure
-                url="https://github.com/ruittenb/Spaceman/releases/download/v1.6.6/Spaceman-1.6.6.dmg"
-                sparkle:version="1.6.6"
-                sparkle:shortVersionString="1.6.6"
+                url="https://github.com/ruittenb/Spaceman/releases/download/v1.6.7/Spaceman-1.6.7.dmg"
+                sparkle:version="1.6.7"
+                sparkle:shortVersionString="1.6.7"
                 type="application/octet-stream"
-                length="2108430"
-sparkle:edSignature="v7MJ8uris5uO9HKEZ2P3c2ms4DJc1lf86pWp9Fg4QKBJMvDRFmwKuSz2dQxIPs5jaI6IThkVuKvyLgQZhfCaDg=="
+                length="2111395"
+sparkle:edSignature="lCXGfpI4/nPX+PQplJOjac651V7sbLVfp5jT4RoCz03RV8KgqAU7Q9s/P/jIoT3d+mtFT8I+6D3qZ92WzDemAA=="
             />
         </item>
     </channel>

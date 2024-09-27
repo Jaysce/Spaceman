@@ -56,7 +56,7 @@ gather_data() {
     title=$(echo "$release_data" | jq -r .name)
     imageFile=$(echo "$release_data" | jq -r .assets[].name)
 
-    description=$(printf "$body" | awk '{ gsub("\r", ""); print "<li>" $0 "</li>" }')
+    description=$(printf -- "$body" | awk '{ gsub("\r", ""); print "<li>" $0 "</li>" }')
     pubDate=$(gdate -R -d "$publishedAt")
     version=${vversion#v}
     friendlyVersion=${version}
