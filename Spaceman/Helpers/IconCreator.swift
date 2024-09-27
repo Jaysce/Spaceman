@@ -77,12 +77,12 @@ class IconCreator {
         for s in spaces {
             let textRect = NSRect(origin: CGPoint.zero, size: iconSize)
             let restartNumberingByDesktop = defaults.bool(forKey: "restartNumberingByDesktop")
-            let spaceId = restartNumberingByDesktop ? s.desktopID : String(s.spaceNumber)
+            let spaceID = s.desktopID
             
             let image = NSImage(size: iconSize)
             
             image.lockFocus()
-            spaceId.drawVerticallyCentered(
+            spaceID.drawVerticallyCentered(
                 in: textRect,
                 withAttributes: getStringAttributes(alpha: !s.isCurrentSpace ? 0.4 : 1))
             image.unlockFocus()
@@ -141,8 +141,8 @@ class IconCreator {
         for s in spaces {
             
             let restartNumberingByDesktop = defaults.bool(forKey: "restartNumberingByDesktop")
-            let spaceId = restartNumberingByDesktop ? s.desktopID : String(s.spaceNumber)
-            let spaceNumberPrefix = withNumbers ? "\(spaceId): " : ""
+            let spaceID = s.desktopID
+            let spaceNumberPrefix = withNumbers ? "\(spaceID): " : ""
             let spaceText = NSString(string: "\(spaceNumberPrefix)\(s.spaceName.uppercased())")
             let textSize = spaceText.size(withAttributes: getStringAttributes(alpha: 1))
             let textWithMarginSize = NSMakeSize(textSize.width + 4, CGFloat(sizes.ICON_HEIGHT))
@@ -194,9 +194,9 @@ class IconCreator {
             var nextSpaceIsOnDifferentDisplay = false
             
             if !shouldBypassInactiveSpaces && index + 1 < spaces.count {
-                let thisDispID = spaces[index + 1].displayID
-                if thisDispID != currentDisplayID {
-                    currentDisplayID = thisDispID
+                let thisDisplayID = spaces[index + 1].displayID
+                if thisDisplayID != currentDisplayID {
+                    currentDisplayID = thisDisplayID
                     displayCount += 1
                     nextSpaceIsOnDifferentDisplay = true
                 }
