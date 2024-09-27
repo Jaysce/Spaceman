@@ -15,7 +15,6 @@ class StatusBar: NSObject, NSMenuDelegate {
     private var prefsWindow: PreferencesWindow!
     private var spaceSwitcher: SpaceSwitcher!
     private var shortcutHelper: ShortcutHelper!
-    private let defaults = UserDefaults.standard
     
     public var iconCreator: IconCreator!
 
