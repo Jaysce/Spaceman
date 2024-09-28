@@ -13,7 +13,7 @@ struct PreferencesView: View {
     
     weak var parentWindow: PreferencesWindow!
     
-    @AppStorage("displayStyle") private var selectedStyle = 0
+    @AppStorage("displayStyle") private var selectedStyle = SpacemanStyle.numbersAndRects
     @AppStorage("spaceNames") private var data = Data()
     @AppStorage("autoRefreshSpaces") private var autoRefreshSpaces = false
     @AppStorage("hideInactiveSpaces") private var hideInactiveSpaces = false
@@ -30,7 +30,6 @@ struct PreferencesView: View {
     
     // MARK: - Main Body
     var body: some View {
-        
         VStack(spacing: 0) {
             ZStack {
                 VisualEffectView(material: .sidebar, blendingMode: .behindWindow)
@@ -153,10 +152,10 @@ struct PreferencesView: View {
                 .font(.title2)
                 .fontWeight(.semibold)
             spacesStylePicker
-            spaceNameEditor //.disabled(selectedStyle != SpacemanStyle.text.rawValue ? true : false)
+            spaceNameEditor
             
             Toggle("Only show active spaces", isOn: $hideInactiveSpaces)
-                .disabled(selectedStyle == 0) // Rectangles style
+                .disabled(selectedStyle == .rects)
             Toggle("Restart space numbering by desktop", isOn: $restartNumberingByDesktop)
         }
         .padding()
@@ -191,14 +190,14 @@ struct PreferencesView: View {
     // MARK: - Style Picker
     private var spacesStylePicker: some View {
         Picker(selection: $selectedStyle, label: Text("Icon Style")) {
-            Text("Rectangles").tag(SpacemanStyle.rects.rawValue)
-            Text("Numbers").tag(SpacemanStyle.numbers.rawValue)
-            Text("Rectangles with numbers").tag(SpacemanStyle.numbersAndRects.rawValue)
-            Text("Names").tag(SpacemanStyle.names.rawValue)
-            Text("Names with numbers").tag(SpacemanStyle.numbersAndNames.rawValue)
+            Text("Rectangles").tag(SpacemanStyle.rects)
+            Text("Numbers").tag(SpacemanStyle.numbers)
+            Text("Rectangles with numbers").tag(SpacemanStyle.numbersAndRects)
+            Text("Names").tag(SpacemanStyle.names)
+            Text("Names with numbers").tag(SpacemanStyle.numbersAndNames)
         }
         .onChange(of: selectedStyle) { val in
-            if val == 0 { // Rectangles style
+            if val == .rects {
                 hideInactiveSpaces = false
             }
             selectedStyle = val
