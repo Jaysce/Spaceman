@@ -27,7 +27,7 @@ struct Constants {
             GAP_WIDTH_DISPLAYS: 10,
             ICON_WIDTH_SMALL: 16,
             ICON_WIDTH_LARGE: 24,
-            ICON_WIDTH_XLARGE: 40,
+            ICON_WIDTH_XLARGE: 36,
             ICON_HEIGHT: 12,
             FONT_SIZE: 10
         ),
@@ -35,12 +35,12 @@ struct Constants {
             GAP_WIDTH_SPACES: 5,
             GAP_WIDTH_DISPLAYS: 15,
             ICON_WIDTH_SMALL: 18,
-            ICON_WIDTH_LARGE: 34,
-            ICON_WIDTH_XLARGE: 49,
+            ICON_WIDTH_LARGE: 32,
+            ICON_WIDTH_XLARGE: 42,
             ICON_HEIGHT: 12,
             FONT_SIZE: 10
         ),
-        .spacious: GuiSize(
+        .large: GuiSize(
             GAP_WIDTH_SPACES: 5,
             GAP_WIDTH_DISPLAYS: 15,
             ICON_WIDTH_SMALL: 20,

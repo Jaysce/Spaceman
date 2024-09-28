@@ -162,7 +162,7 @@ class StatusBar: NSObject, NSMenuDelegate {
         }
         
         let icon = NSImage(imageLiteralResourceName: "SpaceManIcon")
-        let menuIcon = IconCreator().createRectWithNumberIcon(
+        let menuIcon = iconCreator.createRectWithNumberIcon(
             icons: [icon],
             index: 0,
             space: space,

@@ -23,6 +23,9 @@ struct PreferencesView: View {
     @AppStorage("withControl") private var withControl = false
     @AppStorage("withOption") private var withOption = false
     @AppStorage("withCommand") private var withCommand = false
+
+    @AppStorage("layoutMode") public var layoutMode = LayoutMode.normal
+
     @StateObject private var prefsVM = PreferencesViewModel()
     
     // MARK: - Main Body
@@ -127,7 +130,8 @@ struct PreferencesView: View {
                 .fontWeight(.semibold)
             LaunchAtLogin.Toggle(){Text("Launch Spaceman at login")}
             Toggle("Refresh spaces in background", isOn: $autoRefreshSpaces)
-            shortcutRecorder.disabled(autoRefreshSpaces ? true : false)
+            shortcutRecorder.disabled(autoRefreshSpaces)
+            layoutSizePicker
         }
         .padding()
         .onChange(of: autoRefreshSpaces) { enabled in
@@ -160,44 +164,6 @@ struct PreferencesView: View {
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
         }
     }
-
-    
-    // MARK: - Switching pane
-    private var switchingPane: some View {
-        // Switching Pane
-        VStack(alignment: .leading) {
-            Text("Switching Spaces")
-                .font(.title2)
-                .fontWeight(.semibold)
-            Picker("Shortcut keys", selection: $schema) {
-                Text("number keys on top row").tag("toprow")
-                Text("numeric keypad").tag("numpad")
-            }
-            .pickerStyle(.radioGroup)
-            .disabled(false)
-            HStack(alignment: .top) {
-                Text("With modifiers")
-                Spacer()
-                VStack(alignment: .leading) {
-                    Toggle("Shift ⇧", isOn: $withShift)
-                    Toggle("Control ⌃", isOn: $withControl)
-                }
-                Spacer()
-                VStack(alignment: .leading) {
-                    Toggle("Option ⌥", isOn: $withOption)
-                    Toggle("Command ⌘", isOn: $withCommand)
-                }
-                Spacer()
-            }
-        }
-        .padding()
-        .onChange(of: schema) { _ in
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
-        }
-        .onChange(of: [withShift, withControl, withCommand, withOption]) { _ in
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
-        }
-    }
     
     // MARK: - Shortcut Recorder
     private var shortcutRecorder: some View {
@@ -208,10 +174,23 @@ struct PreferencesView: View {
         }
     }
     
+    // MARK: - Layout Size Picker
+    private var layoutSizePicker: some View {
+        Picker(selection: $layoutMode, label: Text("Layout Size")) {
+            Text("Compact").tag(LayoutMode.compact)
+            Text("Normal").tag(LayoutMode.normal)
+            Text("Large").tag(LayoutMode.large)
+        }
+        .pickerStyle(.segmented)
+        .onChange(of: layoutMode) { val in
+            layoutMode = val
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
+        }
+    }
+    
     // MARK: - Style Picker
     private var spacesStylePicker: some View {
-        
-        Picker(selection: $selectedStyle, label: Text("Style")) {
+        Picker(selection: $selectedStyle, label: Text("Icon Style")) {
             Text("Rectangles").tag(SpacemanStyle.rects.rawValue)
             Text("Numbers").tag(SpacemanStyle.numbers.rawValue)
             Text("Rectangles with numbers").tag(SpacemanStyle.numbersAndRects.rawValue)
@@ -222,7 +201,6 @@ struct PreferencesView: View {
             if val == 0 { // Rectangles style
                 hideInactiveSpaces = false
             }
-            
             selectedStyle = val
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
         }
@@ -263,6 +241,45 @@ struct PreferencesView: View {
         self.data = try! PropertyListEncoder().encode(prefsVM.spaceNamesDict)
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
     }
+    
+    // MARK: - Switching pane
+    private var switchingPane: some View {
+        // Switching Pane
+        VStack(alignment: .leading) {
+            Text("Switching Spaces")
+                .font(.title2)
+                .fontWeight(.semibold)
+            Picker("Shortcut keys", selection: $schema) {
+                Text("number keys on top row").tag("toprow")
+                Text("numeric keypad").tag("numpad")
+            }
+            .pickerStyle(.radioGroup)
+            .disabled(false)
+            HStack(alignment: .top) {
+                Text("With modifiers")
+                Spacer()
+                VStack(alignment: .leading) {
+                    Toggle("Shift ⇧", isOn: $withShift)
+                    Toggle("Control ⌃", isOn: $withControl)
+                }
+                Spacer()
+                VStack(alignment: .leading) {
+                    Toggle("Option ⌥", isOn: $withOption)
+                    Toggle("Command ⌘", isOn: $withCommand)
+                }
+                Spacer()
+            }
+        }
+        .padding()
+        .onChange(of: schema) { _ in
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
+        }
+        .onChange(of: [withShift, withControl, withCommand, withOption]) { _ in
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
+        }
+    }
+    
+
 }
 
 struct ContentView_Previews: PreviewProvider {
