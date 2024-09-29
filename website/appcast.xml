@@ -3,24 +3,24 @@
     <channel>
         <title>Spaceman</title>
         <item>
-            <title>v1.6.7: Fixed icon numbers for numbers-only and numbers-and-names</title>
+            <title>v1.6.8: GUI sizes: compact, normal, large</title>
             <description>
                 <![CDATA[
                     <ul>
-                    <li>- Fixed "fullscreen" icon numbers with F for numbers-only and numbers-and-names layouts.</li>
-<li>- Removed "fullscreen" angle brackets from layouts with numbers. The numbers contain an F anyway.</li>
+                    <li>Implemented GUI sizes: compact, normal, large.</li>
+<li>This addresses [#20 more compact space icons](https://github.com/Jaysce/Spaceman/issues/20) and [#30 increased size of font and icons](https://github.com/Jaysce/Spaceman/issues/30)</li>
                     </ul>
                 ]]>
             </description>
-            <pubDate>Fri, 27 Sep 2024 11:27:17 +0200</pubDate>
+            <pubDate>Sun, 29 Sep 2024 18:54:03 +0200</pubDate>
             <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
             <enclosure
-                url="https://github.com/ruittenb/Spaceman/releases/download/v1.6.7/Spaceman-1.6.7.dmg"
-                sparkle:version="1.6.7"
-                sparkle:shortVersionString="1.6.7"
+                url="https://github.com/ruittenb/Spaceman/releases/download/v1.6.8/Spaceman-1.6.8.dmg"
+                sparkle:version="1.6.8"
+                sparkle:shortVersionString="1.6.8"
                 type="application/octet-stream"
-                length="2111395"
-sparkle:edSignature="lCXGfpI4/nPX+PQplJOjac651V7sbLVfp5jT4RoCz03RV8KgqAU7Q9s/P/jIoT3d+mtFT8I+6D3qZ92WzDemAA=="
+                length="31495168"
+sparkle:edSignature="pGy9B0ghq3pZMbWrkc7KCPoZJTVECpMtjSJlUil8rBpy8vEj2s1ULUVysJsuA4Shu3KUOM0m8/LGhDLg6BFHBg=="
             />
         </item>
     </channel>
