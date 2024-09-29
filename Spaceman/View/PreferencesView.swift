@@ -18,7 +18,7 @@ struct PreferencesView: View {
     @AppStorage("autoRefreshSpaces") private var autoRefreshSpaces = false
     @AppStorage("hideInactiveSpaces") private var hideInactiveSpaces = false
     @AppStorage("restartNumberingByDesktop") private var restartNumberingByDesktop = false
-    @AppStorage("schema") private var schema = "toprow"
+    @AppStorage("schema") private var schema = KeySet.toprow
     @AppStorage("withShift") private var withShift = false
     @AppStorage("withControl") private var withControl = false
     @AppStorage("withOption") private var withOption = false
@@ -249,8 +249,8 @@ struct PreferencesView: View {
                 .font(.title2)
                 .fontWeight(.semibold)
             Picker("Shortcut keys", selection: $schema) {
-                Text("number keys on top row").tag("toprow")
-                Text("numeric keypad").tag("numpad")
+                Text("number keys on top row").tag(KeySet.toprow)
+                Text("numeric keypad").tag(KeySet.numpad)
             }
             .pickerStyle(.radioGroup)
             .disabled(false)
