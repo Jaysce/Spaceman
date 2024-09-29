@@ -14,6 +14,7 @@ class SpaceObserver {
     private let conn = _CGSDefaultConnection()
     private let defaults = UserDefaults.standard
     private let spaceNameCache = SpaceNameCache()
+    
     weak var delegate: SpaceObserverDelegate?
     
     init() {

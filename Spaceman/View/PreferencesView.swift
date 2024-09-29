@@ -13,21 +13,23 @@ struct PreferencesView: View {
     
     weak var parentWindow: PreferencesWindow!
     
-    @AppStorage("displayStyle") private var selectedStyle = 0
+    @AppStorage("displayStyle") private var selectedStyle = SpacemanStyle.numbersAndRects
     @AppStorage("spaceNames") private var data = Data()
     @AppStorage("autoRefreshSpaces") private var autoRefreshSpaces = false
     @AppStorage("hideInactiveSpaces") private var hideInactiveSpaces = false
     @AppStorage("restartNumberingByDesktop") private var restartNumberingByDesktop = false
-    @AppStorage("schema") private var schema = "toprow"
+    @AppStorage("schema") private var schema = KeySet.toprow
     @AppStorage("withShift") private var withShift = false
     @AppStorage("withControl") private var withControl = false
     @AppStorage("withOption") private var withOption = false
     @AppStorage("withCommand") private var withCommand = false
+
+    @AppStorage("layoutMode") public var layoutMode = LayoutMode.normal
+
     @StateObject private var prefsVM = PreferencesViewModel()
     
     // MARK: - Main Body
     var body: some View {
-        
         VStack(spacing: 0) {
             ZStack {
                 VisualEffectView(material: .sidebar, blendingMode: .behindWindow)
@@ -127,7 +129,8 @@ struct PreferencesView: View {
                 .fontWeight(.semibold)
             LaunchAtLogin.Toggle(){Text("Launch Spaceman at login")}
             Toggle("Refresh spaces in background", isOn: $autoRefreshSpaces)
-            shortcutRecorder.disabled(autoRefreshSpaces ? true : false)
+            shortcutRecorder.disabled(autoRefreshSpaces)
+            layoutSizePicker
         }
         .padding()
         .onChange(of: autoRefreshSpaces) { enabled in
@@ -149,52 +152,14 @@ struct PreferencesView: View {
                 .font(.title2)
                 .fontWeight(.semibold)
             spacesStylePicker
-            spaceNameEditor //.disabled(selectedStyle != SpacemanStyle.text.rawValue ? true : false)
+            spaceNameEditor
             
             Toggle("Only show active spaces", isOn: $hideInactiveSpaces)
-                .disabled(selectedStyle == 0) // Rectangles style
+                .disabled(selectedStyle == .rects)
             Toggle("Restart space numbering by desktop", isOn: $restartNumberingByDesktop)
         }
         .padding()
         .onChange(of: hideInactiveSpaces) { _ in
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
-        }
-    }
-
-    
-    // MARK: - Switching pane
-    private var switchingPane: some View {
-        // Switching Pane
-        VStack(alignment: .leading) {
-            Text("Switching Spaces")
-                .font(.title2)
-                .fontWeight(.semibold)
-            Picker("Shortcut keys", selection: $schema) {
-                Text("number keys on top row").tag("toprow")
-                Text("numeric keypad").tag("numpad")
-            }
-            .pickerStyle(.radioGroup)
-            .disabled(false)
-            HStack(alignment: .top) {
-                Text("With modifiers")
-                Spacer()
-                VStack(alignment: .leading) {
-                    Toggle("Shift ⇧", isOn: $withShift)
-                    Toggle("Control ⌃", isOn: $withControl)
-                }
-                Spacer()
-                VStack(alignment: .leading) {
-                    Toggle("Option ⌥", isOn: $withOption)
-                    Toggle("Command ⌘", isOn: $withCommand)
-                }
-                Spacer()
-            }
-        }
-        .padding()
-        .onChange(of: schema) { _ in
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
-        }
-        .onChange(of: [withShift, withControl, withCommand, withOption]) { _ in
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
         }
     }
@@ -208,21 +173,33 @@ struct PreferencesView: View {
         }
     }
     
+    // MARK: - Layout Size Picker
+    private var layoutSizePicker: some View {
+        Picker(selection: $layoutMode, label: Text("Layout Size")) {
+            Text("Compact").tag(LayoutMode.compact)
+            Text("Normal").tag(LayoutMode.normal)
+            Text("Large").tag(LayoutMode.large)
+        }
+        .pickerStyle(.segmented)
+        .onChange(of: layoutMode) { val in
+            layoutMode = val
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
+        }
+    }
+    
     // MARK: - Style Picker
     private var spacesStylePicker: some View {
-        
-        Picker(selection: $selectedStyle, label: Text("Style")) {
-            Text("Rectangles").tag(SpacemanStyle.rects.rawValue)
-            Text("Numbers").tag(SpacemanStyle.numbers.rawValue)
-            Text("Rectangles with numbers").tag(SpacemanStyle.numbersAndRects.rawValue)
-            Text("Names").tag(SpacemanStyle.names.rawValue)
-            Text("Names with numbers").tag(SpacemanStyle.numbersAndNames.rawValue)
+        Picker(selection: $selectedStyle, label: Text("Icon Style")) {
+            Text("Rectangles").tag(SpacemanStyle.rects)
+            Text("Numbers").tag(SpacemanStyle.numbers)
+            Text("Rectangles with numbers").tag(SpacemanStyle.numbersAndRects)
+            Text("Names").tag(SpacemanStyle.names)
+            Text("Names with numbers").tag(SpacemanStyle.numbersAndNames)
         }
         .onChange(of: selectedStyle) { val in
-            if val == 0 { // Rectangles style
+            if val == .rects {
                 hideInactiveSpaces = false
             }
-            
             selectedStyle = val
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
         }
@@ -263,6 +240,45 @@ struct PreferencesView: View {
         self.data = try! PropertyListEncoder().encode(prefsVM.spaceNamesDict)
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
     }
+    
+    // MARK: - Switching pane
+    private var switchingPane: some View {
+        // Switching Pane
+        VStack(alignment: .leading) {
+            Text("Switching Spaces")
+                .font(.title2)
+                .fontWeight(.semibold)
+            Picker("Shortcut keys", selection: $schema) {
+                Text("number keys on top row").tag(KeySet.toprow)
+                Text("numeric keypad").tag(KeySet.numpad)
+            }
+            .pickerStyle(.radioGroup)
+            .disabled(false)
+            HStack(alignment: .top) {
+                Text("With modifiers")
+                Spacer()
+                VStack(alignment: .leading) {
+                    Toggle("Shift ⇧", isOn: $withShift)
+                    Toggle("Control ⌃", isOn: $withControl)
+                }
+                Spacer()
+                VStack(alignment: .leading) {
+                    Toggle("Option ⌥", isOn: $withOption)
+                    Toggle("Command ⌘", isOn: $withCommand)
+                }
+                Spacer()
+            }
+        }
+        .padding()
+        .onChange(of: schema) { _ in
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
+        }
+        .onChange(of: [withShift, withControl, withCommand, withOption]) { _ in
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
+        }
+    }
+    
+
 }
 
 struct ContentView_Previews: PreviewProvider {

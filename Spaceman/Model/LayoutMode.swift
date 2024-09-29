@@ -7,6 +7,6 @@
 
 import Foundation
 
-enum LayoutMode {
-    case compact, normal, spacious
+enum LayoutMode: Int {
+    case compact, normal, large
 }

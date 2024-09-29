@@ -8,6 +8,8 @@ APPFILE  = $(IMAGEDIR)/$(APPNAME)
 PBXPROJ  = $(PROJECT).xcodeproj/project.pbxproj
 VERSION  = $(shell awk -F'["; ]*' '/MARKETING_VERSION/ { print $$3; exit }' $(PBXPROJ))
 IMAGE    = $(BUILDDIR)/$(PROJECT)-$(VERSION).dmg
+AUTHOR   = ruittenb
+DOMAIN   = dev.$(AUTHOR).$(PROJECT)
 
 .DEFAULT_GOAL := help
 
@@ -76,4 +78,14 @@ publish: ## Publish the main branch appcast on Github Pages
 publish-force: ## Publish the main branch appcast on Github Pages (force push)
 	git checkout main
 	git push --force-with-lease origin `git subtree split --prefix website main`:github-pages
+
+##@ Defaults
+
+.PHONY: def-clear
+def-clear: ## Clear defaults
+	defaults delete $(DOMAIN)
+
+.PHONY: get-names
+get-names: ## Show space names cache
+	defaults read $(DOMAIN) spaceNameCache
 

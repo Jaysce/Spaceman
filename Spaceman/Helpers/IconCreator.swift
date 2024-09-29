@@ -9,28 +9,25 @@ import AppKit
 import Foundation
 
 class IconCreator {
-
-    private let layoutMode = LayoutMode.normal
     private let defaults = UserDefaults.standard
     private var displayCount = 1
-    private var iconSize: NSSize
-    private var gapWidth: CGFloat
-    private var displayGapWidth: CGFloat
+    private var iconSize = NSSize(width: 0, height: 0)
+    private var gapWidth = CGFloat.zero
+    private var displayGapWidth = CGFloat.zero
+    private var layoutMode = LayoutMode.normal
 
     public var sizes: GuiSize!
     public var widths: [CGFloat] = []
 
-    init() {
+    func getIcon(for spaces: [Space]) -> NSImage {
+        layoutMode = PreferencesView().layoutMode
         sizes = Constants.sizes[layoutMode]
         gapWidth = CGFloat(sizes.GAP_WIDTH_SPACES)
         displayGapWidth = CGFloat(sizes.GAP_WIDTH_DISPLAYS)
         iconSize = NSSize(
             width: sizes.ICON_WIDTH_SMALL,
             height: sizes.ICON_HEIGHT)
-    }
-    
-    func getIcon(for spaces: [Space]) -> NSImage {
-        iconSize.width = CGFloat(sizes.ICON_WIDTH_SMALL)
+        
         let spacemanStyle = SpacemanStyle(rawValue: defaults.integer(forKey: "displayStyle"))
         var icons = [NSImage]()
         
@@ -92,6 +89,8 @@ class IconCreator {
     }
     
     func createRectWithNumberIcon(icons: [NSImage], index: Int, space: Space, fraction: Float = 1.0) -> NSImage {
+        iconSize.width = CGFloat(sizes.ICON_WIDTH_SMALL)
+        
         let textRect = NSRect(origin: CGPoint.zero, size: iconSize)
         let spaceID = space.desktopID
         
@@ -134,12 +133,12 @@ class IconCreator {
     private func createNamedIcons(_ icons: [NSImage], _ spaces: [Space], withNumbers: Bool) -> [NSImage] {
         var index = 0
         var newIcons = [NSImage]()
-        
+
         iconSize.width = CGFloat(withNumbers ? sizes.ICON_WIDTH_XLARGE : sizes.ICON_WIDTH_LARGE)
         
         for s in spaces {
             let spaceID = s.desktopID
-            let spaceNumberPrefix = withNumbers ? "\(spaceID): " : ""
+            let spaceNumberPrefix = withNumbers ? "\(spaceID):" : ""
             let spaceText = NSString(string: "\(spaceNumberPrefix)\(s.spaceName.uppercased())")
             let textSize = spaceText.size(withAttributes: getStringAttributes(alpha: 1))
             let textWithMarginSize = NSMakeSize(textSize.width + 4, CGFloat(sizes.ICON_HEIGHT))
@@ -169,7 +168,7 @@ class IconCreator {
                 fraction: 1.0)
             iconImage.isTemplate = true
             iconImage.unlockFocus()
-            
+
             newIcons.append(iconImage)
             index += 1
         }
