@@ -3,24 +3,23 @@
     <channel>
         <title>Spaceman</title>
         <item>
-            <title>v1.6.8: GUI sizes: compact, normal, large</title>
+            <title>1.6.9: Fix installer disk image</title>
             <description>
                 <![CDATA[
                     <ul>
-                    <li>Implemented GUI sizes: compact, normal, large.</li>
-<li>This addresses [#20 more compact space icons](https://github.com/Jaysce/Spaceman/issues/20) and [#30 increased size of font and icons](https://github.com/Jaysce/Spaceman/issues/30)</li>
+                    <li>Fixed corrupted installer disk image</li>
                     </ul>
                 ]]>
             </description>
-            <pubDate>Sun, 29 Sep 2024 18:54:03 +0200</pubDate>
+            <pubDate>Mon, 30 Sep 2024 09:26:14 +0200</pubDate>
             <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
             <enclosure
-                url="https://github.com/ruittenb/Spaceman/releases/download/v1.6.8/Spaceman-1.6.8.dmg"
-                sparkle:version="1.6.8"
-                sparkle:shortVersionString="1.6.8"
+                url="https://github.com/ruittenb/Spaceman/releases/download/v1.6.9/Spaceman-1.6.9.dmg"
+                sparkle:version="1.6.9"
+                sparkle:shortVersionString="1.6.9"
                 type="application/octet-stream"
-                length="31495168"
-sparkle:edSignature="pGy9B0ghq3pZMbWrkc7KCPoZJTVECpMtjSJlUil8rBpy8vEj2s1ULUVysJsuA4Shu3KUOM0m8/LGhDLg6BFHBg=="
+                length="2117411"
+sparkle:edSignature="u7OEPTMgeL0D/0PhG7Ivt5mnp4kwuhYMJslFZwLw7RfrUvAZ6UzTCHtQk/CJD2ZImAI4zuc/GZW4BE19RJqaDQ=="
             />
         </item>
     </channel>
