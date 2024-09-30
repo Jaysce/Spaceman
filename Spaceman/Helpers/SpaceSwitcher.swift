@@ -72,15 +72,22 @@ class SpaceSwitcher {
         }
         DispatchQueue.main.async {
             let alert = NSAlert.init()
+            var friendlyMsg: String
+            if let regex = try? NSRegularExpression(pattern: #"\d+:\d+: execution error: "#) {
+                let range = NSRange(msg.startIndex..., in: msg)
+                friendlyMsg = regex.stringByReplacingMatches(in: msg, options: [], range: range, withTemplate: "")
+            } else {
+                friendlyMsg = msg
+            }
             alert.messageText = "Spaceman"
-            alert.informativeText = msg
+            alert.informativeText = "\(friendlyMsg)\nPlease grant Accessibility permissions to Spaceman in System \(settingsTitle) → Privacy and Security."
             alert.addButton(withTitle: "Dismiss")
             alert.addButton(withTitle: "System \(settingsTitle)...")
             let response = alert.runModal()
             if (response == .alertSecondButtonReturn) {
                 let task = Process()
                 task.launchPath = "/usr/bin/open"
-                task.arguments = ["/System/Library/PreferencePanes/Security.prefPane"]
+                task.arguments = ["x-apple.systempreferences:com.apple.preference.security?Privacy_Accessibility"]
                 try? task.run()
             }
         }

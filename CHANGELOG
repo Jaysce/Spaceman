@@ -1,11 +1,12 @@
-1.6.9: Fix corrupted installer disk image
-1.6.8: Implemented GUI sizes: compact, normal, large
-1.6.7: Fixed icon numbers for numbers-only and numbers-and-names
-1.6.6: Fix responsiveness of status bar icon
-1.6.5: Flash status bar icon when space has no shortcut key
-1.6.4: Flash status bar icon when space has no shortcut key
-1.6.3  : Merged 1.5.12 into 1.6.2
-1.6.2  : Merged 1.5.11 into 1.6.1-R
+1.6.10: More friendly error dialog
+1.6.9 : Fix corrupted installer disk image
+1.6.8 : Implemented GUI sizes: compact, normal, large
+1.6.7 : Fixed icon numbers for numbers-only and numbers-and-names
+1.6.6 : Fix responsiveness of status bar icon
+1.6.5 : Flash status bar icon when space has no shortcut key
+1.6.4 : Flash status bar icon when space has no shortcut key
+1.6.3 : Merged 1.5.12 into 1.6.2
+1.6.2 : Merged 1.5.11 into 1.6.1-R
 1.6.1-R: Merged 1.5.10-R into 1.6.0-R
 1.6.0-R: Add support for clicking icon in status bar
 1.5.12 : Minor updates to preferences dialog (github repo url, modifier keys)
