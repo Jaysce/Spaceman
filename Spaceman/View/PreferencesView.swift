@@ -175,7 +175,7 @@ struct PreferencesView: View {
     
     // MARK: - Layout Size Picker
     private var layoutSizePicker: some View {
-        Picker(selection: $layoutMode, label: Text("Layout Size")) {
+        Picker(selection: $layoutMode, label: Text("Layout size")) {
             Text("Compact").tag(LayoutMode.compact)
             Text("Normal").tag(LayoutMode.normal)
             Text("Large").tag(LayoutMode.large)
@@ -189,7 +189,7 @@ struct PreferencesView: View {
     
     // MARK: - Style Picker
     private var spacesStylePicker: some View {
-        Picker(selection: $selectedStyle, label: Text("Icon Style")) {
+        Picker(selection: $selectedStyle, label: Text("Icon style")) {
             Text("Rectangles").tag(SpacemanStyle.rects)
             Text("Numbers").tag(SpacemanStyle.numbers)
             Text("Rectangles with numbers").tag(SpacemanStyle.numbersAndRects)
