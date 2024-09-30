@@ -14,6 +14,7 @@ class SpaceObserver {
     private let conn = _CGSDefaultConnection()
     private let defaults = UserDefaults.standard
     private let spaceNameCache = SpaceNameCache()
+    private let prefsView = PreferencesView()
     
     weak var delegate: SpaceObserverDelegate?
     
@@ -49,9 +50,10 @@ class SpaceObserver {
     
     @objc public func updateSpaceInformation() {
         var displays = CGSCopyManagedDisplaySpaces(conn)!.takeRetainedValue() as! [NSDictionary]
+        let restartNumberingByDesktop = prefsView.restartNumberingByDesktop
 
         // create dict with correct sorting before changing it
-        var displayNumber: [String: Int] = [:]
+        var spaceNumberDict: [String: Int] = [:]
         var spacesIndex = 1
         for d in displays {
             guard let spaces = d["Spaces"] as? [[String: Any]]
@@ -60,8 +62,8 @@ class SpaceObserver {
             }
             
             for s in spaces {
-                let spaceID = String(s["ManagedSpaceID"] as! Int)
-                displayNumber[spaceID] = spacesIndex
+                let managedSpaceID = String(s["ManagedSpaceID"] as! Int)
+                spaceNumberDict[managedSpaceID] = spacesIndex
                 spacesIndex += 1
             }
         }
@@ -74,6 +76,7 @@ class SpaceObserver {
         var activeSpaceID = -1
         var allSpaces = [Space]()
         var updatedDict = [String: SpaceNameInfo]()
+        var lastSpaceByDesktopNumber = 0
         
         for d in displays {
             guard let currentSpaces = d["Current Space"] as? [String: Any],
@@ -92,39 +95,41 @@ class SpaceObserver {
                 return
             }
 
-            var lastDesktopNumber = 0
-            var lastFullScreenNumber = 0
+            var lastFullScreenSpaceNumber = 0
+            if (restartNumberingByDesktop) {
+                lastSpaceByDesktopNumber = 0
+            }
 
             for s in spaces {
-                let spaceID = String(s["ManagedSpaceID"] as! Int)
-                let spaceNumber = displayNumber[spaceID]!
+                let managedSpaceID = String(s["ManagedSpaceID"] as! Int)
+                let spaceNumber = spaceNumberDict[managedSpaceID]!
                 let isCurrentSpace = activeSpaceID == s["ManagedSpaceID"] as! Int
                 let isFullScreen = s["TileLayoutManager"] as? [String: Any] != nil
-                let desktopID: String
+                let spaceByDesktopID: String
                 if !isFullScreen {
-                    lastDesktopNumber += 1
-                    desktopID = String(lastDesktopNumber)
+                    lastSpaceByDesktopNumber += 1
+                    spaceByDesktopID = String(lastSpaceByDesktopNumber)
                 } else {
-                    lastFullScreenNumber += 1
-                    desktopID = "F\(lastFullScreenNumber)"
+                    lastFullScreenSpaceNumber += 1
+                    spaceByDesktopID = "F\(lastFullScreenSpaceNumber)"
                 }
                 
                 while spaceNumber >= spaceNameCache.cache.count {
-                    // Make sure that the cache is large enough
+                    // Make sure that the name cache is large enough
                     spaceNameCache.extend()
                 }
                 let spaceName = spaceNameCache.cache[spaceNumber]
                 var space = Space(displayID: displayID,
-                                  spaceID: spaceID,
+                                  spaceID: managedSpaceID,
                                   spaceName: spaceName,
                                   spaceNumber: spaceNumber,
-                                  desktopID: desktopID,
+                                  spaceByDesktopID: spaceByDesktopID,
                                   isCurrentSpace: isCurrentSpace,
                                   isFullScreen: isFullScreen)
                 
                 if let data = defaults.value(forKey:"spaceNames") as? Data,
                    let dict = try? PropertyListDecoder().decode(Dictionary<String, SpaceNameInfo>.self, from: data),
-                   let saved = dict[spaceID]
+                   let saved = dict[managedSpaceID]
                 {
                     space.spaceName = saved.spaceName
                 } else if isFullScreen {
@@ -139,8 +144,8 @@ class SpaceObserver {
                 }
                 spaceNameCache.cache[spaceNumber] = space.spaceName
                 
-                let nameInfo = SpaceNameInfo(spaceNum: spaceNumber, spaceName: space.spaceName, desktopID: desktopID)
-                updatedDict[spaceID] = nameInfo
+                let nameInfo = SpaceNameInfo(spaceNum: spaceNumber, spaceName: space.spaceName, spaceByDesktopID: spaceByDesktopID)
+                updatedDict[managedSpaceID] = nameInfo
                 allSpaces.append(space)
             }
         }

@@ -17,13 +17,13 @@ struct PreferencesView: View {
     @AppStorage("spaceNames") private var data = Data()
     @AppStorage("autoRefreshSpaces") private var autoRefreshSpaces = false
     @AppStorage("hideInactiveSpaces") private var hideInactiveSpaces = false
-    @AppStorage("restartNumberingByDesktop") private var restartNumberingByDesktop = false
     @AppStorage("schema") private var schema = KeySet.toprow
     @AppStorage("withShift") private var withShift = false
     @AppStorage("withControl") private var withControl = false
     @AppStorage("withOption") private var withOption = false
     @AppStorage("withCommand") private var withCommand = false
 
+    @AppStorage("restartNumberingByDesktop") public var restartNumberingByDesktop = false
     @AppStorage("layoutMode") public var layoutMode = LayoutMode.normal
 
     @StateObject private var prefsVM = PreferencesViewModel()
@@ -210,7 +210,7 @@ struct PreferencesView: View {
         HStack {
             Picker(selection: $prefsVM.selectedSpace, label: Text("Space")) {
                 ForEach(0..<prefsVM.sortedSpaceNamesDict.count, id: \.self) { index in
-                    Text(String(prefsVM.sortedSpaceNamesDict[index].value.desktopID))
+                    Text(String(prefsVM.sortedSpaceNamesDict[index].value.spaceByDesktopID))
                 }
             }
             .onChange(of: prefsVM.selectedSpace) { val in
