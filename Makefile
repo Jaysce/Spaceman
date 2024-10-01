@@ -81,11 +81,11 @@ publish-force: ## Publish the main branch appcast on Github Pages (force push)
 
 ##@ Defaults
 
-.PHONY: def-clear
-def-clear: ## Clear defaults
+.PHONY: defaults-clear
+defaults-clear: ## Clear app defaults
 	defaults delete $(DOMAIN)
 
-.PHONY: get-names
-get-names: ## Show space names cache
-	defaults read $(DOMAIN) spaceNameCache
+.PHONY: defaults-get
+defaults-get: ## Show stored app defauls
+	defaults read $(DOMAIN) # spaceNameCache
 

@@ -12,7 +12,7 @@ class PreferencesViewModel: ObservableObject {
     @AppStorage("autoRefreshSpaces") private var autoRefreshSpaces = false
     @Published var selectedSpace = 0
     @Published var spaceName = ""
-    @Published var desktopID = ""
+    @Published var spaceByDesktopID = ""
     var spaceNamesDict: [String: SpaceNameInfo]!
     var sortedSpaceNamesDict: [Dictionary<String, SpaceNameInfo>.Element]!
     var timer: Timer!
@@ -31,8 +31,11 @@ class PreferencesViewModel: ObservableObject {
             return
         }
         
-        let decoded = try! PropertyListDecoder().decode(Dictionary<String, SpaceNameInfo>.self, from: data)
-        self.spaceNamesDict = decoded
+        do {
+            self.spaceNamesDict = try PropertyListDecoder().decode(Dictionary<String, SpaceNameInfo>.self, from: data)
+        } catch {
+            self.spaceNamesDict = [:]
+        }
         
         let sorted = spaceNamesDict.sorted { (first, second) -> Bool in
             return first.value.spaceNum < second.value.spaceNum
@@ -44,23 +47,23 @@ class PreferencesViewModel: ObservableObject {
             if (sortedSpaceNamesDict.count < 1) {
                 sortedSpaceNamesDict.append(
                     (key: "0",
-                     value: SpaceNameInfo(spaceNum: 0, spaceName: "DISP", desktopID: "1")
+                     value: SpaceNameInfo(spaceNum: 0, spaceName: "DISP", spaceByDesktopID: "1")
                     )
                 )
             }
             spaceName = sortedSpaceNamesDict[selectedSpace].value.spaceName
-            desktopID = sortedSpaceNamesDict[selectedSpace].value.desktopID
+            spaceByDesktopID = sortedSpaceNamesDict[selectedSpace].value.spaceByDesktopID
         }
     }
     
     func updateSpace() {
         let key = sortedSpaceNamesDict[selectedSpace].key
         let spaceNum = sortedSpaceNamesDict[selectedSpace].value.spaceNum
-        let desktopID = sortedSpaceNamesDict[selectedSpace].value.desktopID
+        let spaceByDesktopID = sortedSpaceNamesDict[selectedSpace].value.spaceByDesktopID
         spaceNamesDict[key] = SpaceNameInfo(
             spaceNum: spaceNum,
             spaceName: spaceName.isEmpty ? "-" : spaceName,
-            desktopID: desktopID)
+            spaceByDesktopID: spaceByDesktopID)
     }
     
     func startTimer() {

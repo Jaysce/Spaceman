@@ -73,7 +73,7 @@ class IconCreator {
         
         for s in spaces {
             let textRect = NSRect(origin: CGPoint.zero, size: iconSize)
-            let spaceID = s.desktopID
+            let spaceID = s.spaceByDesktopID
             
             let image = NSImage(size: iconSize)
             
@@ -92,7 +92,7 @@ class IconCreator {
         iconSize.width = CGFloat(sizes.ICON_WIDTH_SMALL)
         
         let textRect = NSRect(origin: CGPoint.zero, size: iconSize)
-        let spaceID = space.desktopID
+        let spaceID = space.spaceByDesktopID
         
         let iconImage = NSImage(size: iconSize)
         let numberImage = NSImage(size: iconSize)
@@ -137,7 +137,7 @@ class IconCreator {
         iconSize.width = CGFloat(withNumbers ? sizes.ICON_WIDTH_XLARGE : sizes.ICON_WIDTH_LARGE)
         
         for s in spaces {
-            let spaceID = s.desktopID
+            let spaceID = s.spaceByDesktopID
             let spaceNumberPrefix = withNumbers ? "\(spaceID):" : ""
             let spaceText = NSString(string: "\(spaceNumberPrefix)\(s.spaceName.uppercased())")
             let textSize = spaceText.size(withAttributes: getStringAttributes(alpha: 1))

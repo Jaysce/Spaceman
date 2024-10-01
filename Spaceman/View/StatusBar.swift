@@ -151,13 +151,13 @@ class StatusBar: NSObject, NSMenuDelegate {
     func makeSwitchToSpaceItem(space: Space) -> NSMenuItem {
         let spaceNumber = space.spaceNumber
         let spaceName = space.spaceName
-        let desktopID = Int(space.desktopID) ?? 99
+        let spaceByDesktopID = Int(space.spaceByDesktopID) ?? 99
         
         let mask = shortcutHelper.getModifiersAsFlags()
         var shortcutKey = ""
-        if desktopID < 10 {
-            shortcutKey = space.desktopID
-        } else if desktopID == 10 {
+        if spaceByDesktopID < 10 {
+            shortcutKey = space.spaceByDesktopID
+        } else if spaceByDesktopID == 10 {
             shortcutKey = "0"
         }
         

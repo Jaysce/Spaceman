@@ -24,7 +24,7 @@ struct Constants {
     static let sizes: [LayoutMode: GuiSize] = [
         .compact: GuiSize(
             GAP_WIDTH_SPACES: 3,
-            GAP_WIDTH_DISPLAYS: 10,
+            GAP_WIDTH_DISPLAYS: 8,
             ICON_WIDTH_SMALL: 16,
             ICON_WIDTH_LARGE: 24,
             ICON_WIDTH_XLARGE: 36,
@@ -33,7 +33,7 @@ struct Constants {
         ),
         .normal: GuiSize(
             GAP_WIDTH_SPACES: 5,
-            GAP_WIDTH_DISPLAYS: 15,
+            GAP_WIDTH_DISPLAYS: 12,
             ICON_WIDTH_SMALL: 18,
             ICON_WIDTH_LARGE: 32,
             ICON_WIDTH_XLARGE: 42,
@@ -42,7 +42,7 @@ struct Constants {
         ),
         .large: GuiSize(
             GAP_WIDTH_SPACES: 5,
-            GAP_WIDTH_DISPLAYS: 15,
+            GAP_WIDTH_DISPLAYS: 14,
             ICON_WIDTH_SMALL: 20,
             ICON_WIDTH_LARGE: 34,
             ICON_WIDTH_XLARGE: 49,

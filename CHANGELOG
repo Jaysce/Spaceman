@@ -1,3 +1,4 @@
+1.6.11: Fix restart numbering by desktop
 1.6.10: More friendly error dialog
 1.6.9 : Fix corrupted installer disk image
 1.6.8 : Implemented GUI sizes: compact, normal, large
