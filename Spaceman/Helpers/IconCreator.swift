@@ -35,19 +35,19 @@ class IconCreator {
             let iconResourceName: String
             switch (s.isCurrentSpace, s.isFullScreen, spacemanStyle) {
             case (true, true, .names):
-                iconResourceName = "NamedFullActive"
+                iconResourceName = "SpaceIconNamedFullActive"
             case (false, true, .names):
-                iconResourceName = "NamedFullInactive"
+                iconResourceName = "SpaceIconNamedFullInactive"
             case (true, true, .rects):
-                iconResourceName = "SpaceManIconFullEn"
+                iconResourceName = "SpaceIconNumFullActive"
             case (false, true, .rects):
-                iconResourceName = "SpaceManIconFullDis"
+                iconResourceName = "SpaceIconNumFullInactive"
             case (true, false, _):
-                iconResourceName = "SpaceManIcon"
+                iconResourceName = "SpaceIconNumNormalActive"
             default:
                 // (true, true, .numbersAndNames)
                 // (false, true, .numbersAndNames)
-                iconResourceName = "SpaceManIconBorder"
+                iconResourceName = "SpaceIconNumNormalInactive"
             }
             
             icons.append(NSImage(imageLiteralResourceName: iconResourceName))
