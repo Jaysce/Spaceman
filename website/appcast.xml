@@ -3,23 +3,24 @@
     <channel>
         <title>Spaceman</title>
         <item>
-            <title>1.6.9: Fix installer disk image</title>
+            <title>v1.6.11: Fixed restart numbering by desktop</title>
             <description>
                 <![CDATA[
                     <ul>
-                    <li>Fixed corrupted installer disk image</li>
+                    <li>Fixed restart numbering by desktop</li>
+<li>More friendly error dialog</li>
                     </ul>
                 ]]>
             </description>
-            <pubDate>Mon, 30 Sep 2024 09:26:14 +0200</pubDate>
+            <pubDate>Tue, 01 Oct 2024 10:56:14 +0200</pubDate>
             <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
             <enclosure
-                url="https://github.com/ruittenb/Spaceman/releases/download/v1.6.9/Spaceman-1.6.9.dmg"
-                sparkle:version="1.6.9"
-                sparkle:shortVersionString="1.6.9"
+                url="https://github.com/ruittenb/Spaceman/releases/download/v1.6.11/Spaceman-1.6.11.dmg"
+                sparkle:version="1.6.11"
+                sparkle:shortVersionString="1.6.11"
                 type="application/octet-stream"
-                length="2117411"
-sparkle:edSignature="u7OEPTMgeL0D/0PhG7Ivt5mnp4kwuhYMJslFZwLw7RfrUvAZ6UzTCHtQk/CJD2ZImAI4zuc/GZW4BE19RJqaDQ=="
+                length="2120400"
+sparkle:edSignature="ehidcvElCbLaIqIpFt9icLTmDmWdAVT9S+Jm4D9fqcs3BBUN1YUg/1x9jCd8zvAtuRT3R8hNwqsaSDuP4HqyBg=="
             />
         </item>
     </channel>
