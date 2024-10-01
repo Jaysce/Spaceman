@@ -225,12 +225,13 @@ struct PreferencesView: View {
                 "Name (max 4 char.)",
                 text: Binding(
                     get: {prefsVM.spaceName},
-                    set: {prefsVM.spaceName = $0.prefix(4).trimmingCharacters(in: .whitespacesAndNewlines)}),
-                onCommit: {}) // removed `updateName` callback so as to avoid unwanted writes
-            
-            Button("Update name") {
-                updateName()
-            }
+                    set: {
+                        prefsVM.spaceName = $0.prefix(4).trimmingCharacters(in: .whitespacesAndNewlines)
+                        updateName()
+                    }
+                    
+                )
+            )
         }
     }
     
