@@ -277,8 +277,6 @@ struct PreferencesView: View {
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
         }
     }
-    
-
 }
 
 struct ContentView_Previews: PreviewProvider {

@@ -161,7 +161,7 @@ class StatusBar: NSObject, NSMenuDelegate {
             shortcutKey = "0"
         }
         
-        let icon = NSImage(imageLiteralResourceName: "SpaceManIcon")
+        let icon = NSImage(imageLiteralResourceName: "SpaceIconNumNormalActive")
         let menuIcon = iconCreator.createRectWithNumberIcon(
             icons: [icon],
             index: 0,
