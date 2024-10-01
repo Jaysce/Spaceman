@@ -31,8 +31,11 @@ class PreferencesViewModel: ObservableObject {
             return
         }
         
-        let decoded = try! PropertyListDecoder().decode(Dictionary<String, SpaceNameInfo>.self, from: data)
-        self.spaceNamesDict = decoded
+        do {
+            self.spaceNamesDict = try PropertyListDecoder().decode(Dictionary<String, SpaceNameInfo>.self, from: data)
+        } catch {
+            self.spaceNamesDict = [:]
+        }
         
         let sorted = spaceNamesDict.sorted { (first, second) -> Bool in
             return first.value.spaceNum < second.value.spaceNum
