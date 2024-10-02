@@ -26,9 +26,10 @@ class SpaceSwitcher {
         DispatchQueue.global(qos: .background).async {
             if let scriptObject = NSAppleScript(source: appleScript) {
                 scriptObject.executeAndReturnError(&error)
-            }
-            if let errorBriefMessage = error![NSAppleScript.errorBriefMessage] as? String {
-                self.alert(msg: "Error launching task: \(errorBriefMessage)\n")
+                if error != nil {
+                    var errorBriefMessage: String = error?[NSAppleScript.errorBriefMessage] as! String
+                    self.alert(msg: "Error launching task: \(errorBriefMessage)\n")
+                }
             }
         }
     }
