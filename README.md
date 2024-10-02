@@ -55,7 +55,7 @@ The menu shows a list of space names. Selecting one will cause Spaceman to switc
 
 <img src="Images/Menu.png" width="auto" height="auto">
 
-Spaceman switches spaces by sending a keyboard shortcut to Mission Control using `osascript`.
+Spaceman switches spaces by sending a keyboard shortcut to Mission Control using Applescript.
 Note that only the first ten spaces will have shortcut keys assigned.
 For extra spaces, switching will not be available; the status bar icon will flash if
 selected, and the menu option will be disabled.
