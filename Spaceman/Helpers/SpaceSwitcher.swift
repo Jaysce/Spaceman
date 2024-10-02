@@ -21,37 +21,15 @@ class SpaceSwitcher {
             return onError()
         }
         let modifiers = shortcutHelper.getModifiers()
-
-        let pipe = Pipe()
-        let file = pipe.fileHandleForReading
-        
-        let script = "tell application \"System Events\" to key code \(keyCode) using {\(modifiers)}"
-        let task = Process()
-        task.launchPath = "/usr/bin/osascript"
-        task.arguments = ["-e", script]
-        task.standardError = pipe
-
-        do {
-            // Launch the task.
-            try task.run()
-            task.waitUntilExit()
-            let exitCode = task.terminationStatus
-            let data = file.readDataToEndOfFile()
-            file.closeFile()
-
-            // We may run into an execution error:
-            // "System Events got an error: osascript is not allowed to send keystrokes"
-            if exitCode > 0 {
-                let errorString = String(data: data, encoding: .utf8)
-                if errorString == nil {
-                    alert(msg: "Error: osascript exited with code \(exitCode)")
-                } else {
-                    alert(msg: "Error: \(errorString!)")
-
-                }
+        let appleScript = "tell application \"System Events\" to key code \(keyCode) using {\(modifiers)}"
+        var error: NSDictionary?
+        DispatchQueue.global(qos: .background).async {
+            if let scriptObject = NSAppleScript(source: appleScript) {
+                scriptObject.executeAndReturnError(&error)
             }
-        } catch {
-            alert(msg: "Error launching task: \(error)")
+            if let errorBriefMessage = error![NSAppleScript.errorBriefMessage] as? String {
+                self.alert(msg: "Error launching task: \(errorBriefMessage)\n")
+            }
         }
     }
     
