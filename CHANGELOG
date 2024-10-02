@@ -1,3 +1,4 @@
+1.6.15: Fixed crash when error handling after sending applescript command
 1.6.14: Bypass osascript. This eliminates the need for forking a child process
 1.6.13: Fixed switching spaces when clicking to the right of a fullscreen space
 1.6.12: Edit space name directly in preferences
