@@ -10,6 +10,7 @@ import Foundation
 
 class IconCreator {
     private let defaults = UserDefaults.standard
+    private let leftMargin = CGFloat(4)  /* FIXME determine actual left margin */
     private var displayCount = 1
     private var iconSize = NSSize(width: 0, height: 0)
     private var gapWidth = CGFloat.zero
@@ -17,7 +18,7 @@ class IconCreator {
     private var layoutMode = LayoutMode.normal
 
     public var sizes: GuiSize!
-    public var widths: [CGFloat] = []
+    public var iconWidths: [IconWidth] = []
 
     func getIcon(for spaces: [Space]) -> NSImage {
         layoutMode = PreferencesView().layoutMode
@@ -176,8 +177,8 @@ class IconCreator {
         return newIcons
     }
     
-    func getIconsWithDisplayProps(icons: [NSImage], spaces: [Space]) -> [(NSImage, Bool)] {
-        var iconsWithDisplayProperties = [(NSImage, Bool)]()
+    func getIconsWithDisplayProps(icons: [NSImage], spaces: [Space]) -> [(NSImage, Bool, Bool)] {
+        var iconsWithDisplayProperties = [(NSImage, Bool, Bool)]()
         var currentDisplayID = spaces[0].displayID
         displayCount = 1
         
@@ -198,13 +199,13 @@ class IconCreator {
                 }
             }
             
-            iconsWithDisplayProperties.append((icons[index], nextSpaceIsOnDifferentDisplay))
+            iconsWithDisplayProperties.append((icons[index], nextSpaceIsOnDifferentDisplay, spaces[index].isFullScreen))
         }
         
         return iconsWithDisplayProperties
     }
     
-    func mergeIcons(_ iconsWithDisplayProperties: [(image: NSImage, nextSpaceOnDifferentDisplay: Bool)]) -> NSImage {
+    func mergeIcons(_ iconsWithDisplayProperties: [(image: NSImage, nextSpaceOnDifferentDisplay: Bool, isFullScreen: Bool)]) -> NSImage {
         let numIcons = iconsWithDisplayProperties.count
         let combinedIconWidth = CGFloat(iconsWithDisplayProperties.reduce(0) { (result, icon) in
             result + icon.image.size.width
@@ -215,24 +216,27 @@ class IconCreator {
         let image = NSImage(size: NSSize(width: totalWidth, height: iconSize.height))
         
         image.lockFocus()
-        var x = CGFloat.zero
-        widths = [x]
+        var left = CGFloat.zero
+        var right: CGFloat
+        iconWidths = []
         for icon in iconsWithDisplayProperties {
             icon.image.draw(
-                at: NSPoint(x: x, y: 0),
+                at: NSPoint(x: left, y: 0),
                 from: NSRect.zero,
                 operation: NSCompositingOperation.sourceOver,
                 fraction: 1.0)
             if icon.nextSpaceOnDifferentDisplay {
-                x += icon.image.size.width + displayGapWidth
+                right = left + icon.image.size.width + displayGapWidth
             } else {
-                x += icon.image.size.width + gapWidth
+                right = left + icon.image.size.width + gapWidth
             }
-            widths.append(x + 4) /* TODO FIXME left margin */
+            if !icon.isFullScreen {
+                iconWidths.append(IconWidth(left: left + leftMargin, right: right + leftMargin))
+            }
+            left = right
         }
         image.isTemplate = true
         image.unlockFocus()
-        widths.removeLast()
         
         return image
     }
