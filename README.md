@@ -1,5 +1,5 @@
 
-![Spaceman Example](Images/Header.png)
+![Spaceman Example](images/Header.png)
 
 ## About
 
@@ -17,7 +17,7 @@ Go to the [releases](https://github.com/ruittenb/Spaceman/releases) tab and down
 
 ## Usage
 
-<img src="Images/Spaceman_Example.png" width="66%" height="auto">
+<img src="images/Spaceman_Example.png" width="66%" height="auto">
 
 The above image shows the possible icons that you will see depending on the style you choose.
 
@@ -39,7 +39,7 @@ The meaning of the icons from left to right are:
 
 ## Preferences
 
-<img src="Images/Preferences-4a.png" width="66%" height="auto">
+<img src="images/Preferences-4a.png" width="66%" height="auto">
 
 The style and the name of a space can be changed in preferences (shown above). A space is named by selecting the space from the dropdown and editing its name (up to 4 characters).
 
@@ -49,11 +49,11 @@ If the icon fails to update, you can choose to force a refresh of the icon using
 
 Icons in the status bar can be clicked to switch spaces:
 
-<img src="Images/Switching-Spaces.gif" width="66%" height="auto">
+<img src="images/Switching-Spaces.gif" width="66%" height="auto">
 
 The menu shows a list of space names. Selecting one will cause Spaceman to switch to that space.
 
-<img src="Images/Menu.png" width="auto" height="auto">
+<img src="images/Menu.png" width="auto" height="auto">
 
 Spaceman switches spaces by sending a keyboard shortcut to Mission Control using Applescript.
 Note that only the first ten spaces will have shortcut keys assigned.
@@ -66,16 +66,16 @@ Switching is also not supported for fullscreen spaces.
 
 - Spaceman needs authorization for Accessibility:
 
-<img src="Images/Accessibility-1.png" width="66%" height="auto">
-<img src="Images/Accessibility-2.png" width="66%" height="auto">
+<img src="images/Accessibility-1.png" width="66%" height="auto">
+<img src="images/Accessibility-2.png" width="66%" height="auto">
 
 - Shortcut keys need to have been defined for Mission Control:
 
-<img src="Images/Shortcuts.png" width="66%" height="auto">
+<img src="images/Shortcuts.png" width="66%" height="auto">
 
 - Spaceman needs to know which shortcuts to send:
 
-<img src="Images/Preferences-4b.png" width="66%" height="auto">
+<img src="images/Preferences-4b.png" width="66%" height="auto">
 
 ## Remote Refresh
 
@@ -89,7 +89,7 @@ For details on how to maximize usefulness of this, see [MikeJL's Comments](READM
 
 ## Troubleshooting
 
-If Spaceman does not start, or does not start correctly, after an upgrade: you may need to delete the application defaults:
+If Spaceman does not start, or does not run correctly, after an upgrade: you may need to delete the application defaults:
 
 ```sh
 $ defaults delete dev.ruittenb.Spaceman
