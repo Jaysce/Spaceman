@@ -3,24 +3,23 @@
     <channel>
         <title>Spaceman</title>
         <item>
-            <title>v1.6.11: Fixed restart numbering by desktop</title>
+            <title>v1.6.13: Fixed switching spaces when clicking to the right of a fullscreen space</title>
             <description>
                 <![CDATA[
                     <ul>
-                    <li>Fixed restart numbering by desktop</li>
-<li>More friendly error dialog</li>
+                    <li>Fixed switching spaces when clicking to the right of a fullscreen space.</li>
                     </ul>
                 ]]>
             </description>
-            <pubDate>Tue, 01 Oct 2024 10:56:14 +0200</pubDate>
+            <pubDate>Wed, 02 Oct 2024 12:20:03 +0200</pubDate>
             <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
             <enclosure
-                url="https://github.com/ruittenb/Spaceman/releases/download/v1.6.11/Spaceman-1.6.11.dmg"
-                sparkle:version="1.6.11"
-                sparkle:shortVersionString="1.6.11"
+                url="https://github.com/ruittenb/Spaceman/releases/download/v1.6.13/Spaceman-1.6.13.dmg"
+                sparkle:version="1.6.13"
+                sparkle:shortVersionString="1.6.13"
                 type="application/octet-stream"
-                length="2120400"
-sparkle:edSignature="ehidcvElCbLaIqIpFt9icLTmDmWdAVT9S+Jm4D9fqcs3BBUN1YUg/1x9jCd8zvAtuRT3R8hNwqsaSDuP4HqyBg=="
+                length="2122848"
+sparkle:edSignature="rsT19SDIHTdPjAB8tivh+umH2CWGqZpJVQ1wyOCWxOCki+8Gh6uHps6jNpOv8jndBHqCGhJX36+QyAQ7Te29Cw=="
             />
         </item>
     </channel>
