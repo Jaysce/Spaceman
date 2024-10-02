@@ -11,7 +11,11 @@ import SwiftUI
 
 class ShortcutHelper {
     
-    private let defaults = UserDefaults.standard
+    @AppStorage("schema") private var keySet = KeySet.toprow
+    @AppStorage("withShift") private var withShift = false
+    @AppStorage("withControl") private var withControl = false
+    @AppStorage("withOption") private var withOption = false
+    @AppStorage("withCommand") private var withCommand = false
 
     /**
      * Uses the number keys on the top row of the keyboard
@@ -78,29 +82,26 @@ class ShortcutHelper {
     }
     
     func getKeyCode(spaceNumber: Int) -> Int {
-        let schema = defaults.string(forKey: "schema")
-        switch (schema) {
-        case "toprow":
+        switch (keySet) {
+        case .toprow:
             return getKeyCodeTopRow(spaceNumber: spaceNumber)
-        case "numpad":
+        case .numpad:
             return getKeyCodeNumPad(spaceNumber: spaceNumber)
-        default:
-            return getKeyCodeTopRow(spaceNumber: spaceNumber)
         }
     }
     
     func getModifiers() -> String {
         var modifiers: [String] = []
-        if defaults.bool(forKey: "withShift") {
+        if withShift {
             modifiers.append("shift down")
         }
-        if defaults.bool(forKey: "withControl") {
+        if withControl {
             modifiers.append("control down")
         }
-        if defaults.bool(forKey: "withOption") {
+        if withOption {
             modifiers.append("option down")
         }
-        if defaults.bool(forKey: "withCommand") {
+        if withCommand {
             modifiers.append("command down")
         }
         return modifiers.joined(separator: ",")
@@ -108,16 +109,16 @@ class ShortcutHelper {
 
     func getModifiersAsFlags() -> NSEvent.ModifierFlags {
         var mask = NSEvent.ModifierFlags()
-        if defaults.bool(forKey: "withShift") {
+        if withShift {
             mask = mask.union(NSEvent.ModifierFlags.shift)
         }
-        if defaults.bool(forKey: "withControl") {
+        if withControl {
             mask = mask.union(NSEvent.ModifierFlags.control)
         }
-        if defaults.bool(forKey: "withOption") {
+        if withOption {
             mask = mask.union(NSEvent.ModifierFlags.option)
         }
-        if defaults.bool(forKey: "withCommand") {
+        if withCommand {
             mask = mask.union(NSEvent.ModifierFlags.command)
         }
         return mask
