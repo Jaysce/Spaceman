@@ -3,23 +3,23 @@
     <channel>
         <title>Spaceman</title>
         <item>
-            <title>v1.6.13: Fixed switching spaces when clicking to the right of a fullscreen space</title>
+            <title>v1.6.15: Bypass the use of osascript for faster desktop switching</title>
             <description>
                 <![CDATA[
                     <ul>
-                    <li>Fixed switching spaces when clicking to the right of a fullscreen space.</li>
+                    <li>Bypass osascript: use Applescript directly. This eliminates the need for forking a child process and speeds up desktop switching.</li>
                     </ul>
                 ]]>
             </description>
-            <pubDate>Wed, 02 Oct 2024 12:20:03 +0200</pubDate>
+            <pubDate>Wed, 02 Oct 2024 14:34:01 +0200</pubDate>
             <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
             <enclosure
-                url="https://github.com/ruittenb/Spaceman/releases/download/v1.6.13/Spaceman-1.6.13.dmg"
-                sparkle:version="1.6.13"
-                sparkle:shortVersionString="1.6.13"
+                url="https://github.com/ruittenb/Spaceman/releases/download/v1.6.15/Spaceman-1.6.15.dmg"
+                sparkle:version="1.6.15"
+                sparkle:shortVersionString="1.6.15"
                 type="application/octet-stream"
-                length="2122848"
-sparkle:edSignature="rsT19SDIHTdPjAB8tivh+umH2CWGqZpJVQ1wyOCWxOCki+8Gh6uHps6jNpOv8jndBHqCGhJX36+QyAQ7Te29Cw=="
+                length="2123428"
+sparkle:edSignature="qenOcbaSbRWjLvGbBTUtJcKvmDpaDH2SRRsnyigpPxsy1lSiFmhPrimrC9HZ1hQdHIPCT5sqUuceShtzg+2uBw=="
             />
         </item>
     </channel>
