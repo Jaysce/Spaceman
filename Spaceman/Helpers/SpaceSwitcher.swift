@@ -55,10 +55,13 @@ class SpaceSwitcher {
         }
     }
     
-    func switchUsingLocation(widths: [CGFloat], horizontal: CGFloat, onError: () -> Void) {
-        var index = 0
-        while index < widths.count && horizontal > widths[index] {
-            index += 1
+    func switchUsingLocation(iconWidths: [IconWidth], horizontal: CGFloat, onError: () -> Void) {
+        var index: Int = -1
+        for i in 0 ..< iconWidths.count {
+            if horizontal >= iconWidths[i].left && horizontal < iconWidths[i].right {
+                index = i + 1
+                break
+            }
         }
         switchToSpace(spaceNumber: index, onError: onError)
     }

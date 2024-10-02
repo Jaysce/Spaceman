@@ -91,7 +91,7 @@ class StatusBar: NSObject, NSMenuDelegate {
                 let locationInButton = sbButton.convert(event.locationInWindow, from: sbButton)
                 
                 self.spaceSwitcher.switchUsingLocation(
-                    widths: self.iconCreator.widths,
+                    iconWidths: self.iconCreator.iconWidths,
                     horizontal: locationInButton.x,
                     onError: self.flashStatusBar)
             } else {
