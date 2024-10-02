@@ -1,3 +1,4 @@
+1.6.13: Fixed switching spaces when clicking to the right of a fullscreen space
 1.6.12: Update name in preferences when it changes.
 1.6.11: Fix restart numbering by desktop
 1.6.10: More friendly error dialog
