@@ -10,7 +10,7 @@ import Foundation
 
 class IconCreator {
     private let defaults = UserDefaults.standard
-    private let leftMargin = CGFloat(4)  /* FIXME determine actual left margin */
+    private let leftMargin = CGFloat(7)  /* FIXME determine actual left margin */
     private var displayCount = 1
     private var iconSize = NSSize(width: 0, height: 0)
     private var gapWidth = CGFloat.zero

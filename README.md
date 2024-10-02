@@ -41,7 +41,7 @@ The meaning of the icons from left to right are:
 
 <img src="Images/Preferences-4a.png" width="66%" height="auto">
 
-The style and the name of a space can be changed in preferences (shown above). A space is named by selecting the space from the dropdown, typing a name up to 4 characters and clicking the 'Update name' button.
+The style and the name of a space can be changed in preferences (shown above). A space is named by selecting the space from the dropdown and editing its name (up to 4 characters).
 
 If the icon fails to update, you can choose to force a refresh of the icon using a custom keyboard shortcut or allow Spaceman to refresh them automatically every 5 seconds by enabling 'Refresh spaces in background'.
 
@@ -59,6 +59,8 @@ Spaceman switches spaces by sending a keyboard shortcut to Mission Control using
 Note that only the first ten spaces will have shortcut keys assigned.
 For extra spaces, switching will not be available; the status bar icon will flash if
 selected, and the menu option will be disabled.
+
+Switching is also not supported for fullscreen spaces.
 
 **For switching to work successfully, the following things need to be configured:**
 
