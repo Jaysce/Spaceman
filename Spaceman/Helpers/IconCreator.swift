@@ -7,21 +7,23 @@
 
 import AppKit
 import Foundation
+import SwiftUI
 
 class IconCreator {
-    private let defaults = UserDefaults.standard
+    @AppStorage("layoutMode") private var layoutMode = LayoutMode.normal
+    @AppStorage("displayStyle") private var displayStyle = SpacemanStyle.numbersAndRects
+    @AppStorage("hideInactiveSpaces") private var hideInactiveSpaces = false
+    
     private let leftMargin = CGFloat(7)  /* FIXME determine actual left margin */
     private var displayCount = 1
     private var iconSize = NSSize(width: 0, height: 0)
     private var gapWidth = CGFloat.zero
     private var displayGapWidth = CGFloat.zero
-    private var layoutMode = LayoutMode.normal
 
     public var sizes: GuiSize!
     public var iconWidths: [IconWidth] = []
 
     func getIcon(for spaces: [Space]) -> NSImage {
-        layoutMode = PreferencesView().layoutMode
         sizes = Constants.sizes[layoutMode]
         gapWidth = CGFloat(sizes.GAP_WIDTH_SPACES)
         displayGapWidth = CGFloat(sizes.GAP_WIDTH_DISPLAYS)
@@ -29,12 +31,11 @@ class IconCreator {
             width: sizes.ICON_WIDTH_SMALL,
             height: sizes.ICON_HEIGHT)
         
-        let spacemanStyle = SpacemanStyle(rawValue: defaults.integer(forKey: "displayStyle"))
         var icons = [NSImage]()
         
         for s in spaces {
             let iconResourceName: String
-            switch (s.isCurrentSpace, s.isFullScreen, spacemanStyle) {
+            switch (s.isCurrentSpace, s.isFullScreen, displayStyle) {
             case (true, true, .names):
                 iconResourceName = "SpaceIconNamedFullActive"
             case (false, true, .names):
@@ -54,13 +55,13 @@ class IconCreator {
             icons.append(NSImage(imageLiteralResourceName: iconResourceName))
         }
         
-        switch spacemanStyle {
+        switch displayStyle {
         case .numbers:
             icons = createNumberedIcons(spaces)
         case .numbersAndRects:
             icons = createRectWithNumbersIcons(icons, spaces)
         case .names, .numbersAndNames:
-            icons = createNamedIcons(icons, spaces, withNumbers: spacemanStyle == .numbersAndNames)
+            icons = createNamedIcons(icons, spaces, withNumbers: displayStyle == .numbersAndNames)
         default:
             break
         }
@@ -182,15 +183,14 @@ class IconCreator {
         var currentDisplayID = spaces[0].displayID
         displayCount = 1
         
-        let shouldBypassInactiveSpaces = defaults.bool(forKey: "hideInactiveSpaces")
         for index in 0 ..< spaces.count {
-            if shouldBypassInactiveSpaces && !spaces[index].isCurrentSpace {
+            if hideInactiveSpaces && !spaces[index].isCurrentSpace {
                 continue
             }
             
             var nextSpaceIsOnDifferentDisplay = false
             
-            if !shouldBypassInactiveSpaces && index + 1 < spaces.count {
+            if !hideInactiveSpaces && index + 1 < spaces.count {
                 let thisDisplayID = spaces[index + 1].displayID
                 if thisDisplayID != currentDisplayID {
                     currentDisplayID = thisDisplayID

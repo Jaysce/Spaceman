@@ -6,10 +6,12 @@
 //
 
 import Foundation
-import SwiftUI
 import Sparkle
+import SwiftUI
 
 class StatusBar: NSObject, NSMenuDelegate {
+    @AppStorage("hideInactiveSpaces") private var hideInactiveSpaces = false
+    
     private var statusBarItem: NSStatusItem!
     private var statusBarMenu: NSMenu!
     private var prefsWindow: PreferencesWindow!
@@ -87,9 +89,12 @@ class StatusBar: NSObject, NSMenuDelegate {
                     sbButton.isHighlighted = false
                 }
             } else if (event.type == .leftMouseDown) {
-                // Switch desktops on left click
+                // Switch desktops on left click, unless one single space shown
+                guard !self.hideInactiveSpaces else {
+                    print("Not switching: just one space visible")
+                    return
+                }
                 let locationInButton = sbButton.convert(event.locationInWindow, from: sbButton)
-                
                 self.spaceSwitcher.switchUsingLocation(
                     iconWidths: self.iconCreator.iconWidths,
                     horizontal: locationInButton.x,

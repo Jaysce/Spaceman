@@ -5,26 +5,25 @@
 //  Created by Sasindu Jayasinghe on 23/11/20.
 //
 
-import SwiftUI
-import LaunchAtLogin
 import KeyboardShortcuts
+import LaunchAtLogin
+import SwiftUI
 
 struct PreferencesView: View {
     
     weak var parentWindow: PreferencesWindow!
     
-    @AppStorage("displayStyle") private var selectedStyle = SpacemanStyle.numbersAndRects
+    @AppStorage("displayStyle") private var displayStyle = SpacemanStyle.numbersAndRects
     @AppStorage("spaceNames") private var data = Data()
     @AppStorage("autoRefreshSpaces") private var autoRefreshSpaces = false
+    @AppStorage("layoutMode") private var layoutMode = LayoutMode.normal
     @AppStorage("hideInactiveSpaces") private var hideInactiveSpaces = false
-    @AppStorage("schema") private var schema = KeySet.toprow
+    @AppStorage("restartNumberingByDesktop") private var restartNumberingByDesktop = false
+    @AppStorage("schema") private var keySet = KeySet.toprow
     @AppStorage("withShift") private var withShift = false
     @AppStorage("withControl") private var withControl = false
     @AppStorage("withOption") private var withOption = false
     @AppStorage("withCommand") private var withCommand = false
-
-    @AppStorage("restartNumberingByDesktop") public var restartNumberingByDesktop = false
-    @AppStorage("layoutMode") public var layoutMode = LayoutMode.normal
 
     @StateObject private var prefsVM = PreferencesViewModel()
     
@@ -155,7 +154,7 @@ struct PreferencesView: View {
             spaceNameEditor
             
             Toggle("Only show active spaces", isOn: $hideInactiveSpaces)
-                .disabled(selectedStyle == .rects)
+                .disabled(displayStyle == .rects)
             Toggle("Restart space numbering by desktop", isOn: $restartNumberingByDesktop)
         }
         .padding()
@@ -189,18 +188,18 @@ struct PreferencesView: View {
     
     // MARK: - Style Picker
     private var spacesStylePicker: some View {
-        Picker(selection: $selectedStyle, label: Text("Icon style")) {
+        Picker(selection: $displayStyle, label: Text("Icon style")) {
             Text("Rectangles").tag(SpacemanStyle.rects)
             Text("Numbers").tag(SpacemanStyle.numbers)
             Text("Rectangles with numbers").tag(SpacemanStyle.numbersAndRects)
             Text("Names").tag(SpacemanStyle.names)
             Text("Names with numbers").tag(SpacemanStyle.numbersAndNames)
         }
-        .onChange(of: selectedStyle) { val in
+        .onChange(of: displayStyle) { val in
             if val == .rects {
                 hideInactiveSpaces = false
             }
-            selectedStyle = val
+            displayStyle = val
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
         }
     }
@@ -249,7 +248,7 @@ struct PreferencesView: View {
             Text("Switching Spaces")
                 .font(.title2)
                 .fontWeight(.semibold)
-            Picker("Shortcut keys", selection: $schema) {
+            Picker("Shortcut keys", selection: $keySet) {
                 Text("number keys on top row").tag(KeySet.toprow)
                 Text("numeric keypad").tag(KeySet.numpad)
             }
@@ -271,7 +270,7 @@ struct PreferencesView: View {
             }
         }
         .padding()
-        .onChange(of: schema) { _ in
+        .onChange(of: keySet) { _ in
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
         }
         .onChange(of: [withShift, withControl, withCommand, withOption]) { _ in

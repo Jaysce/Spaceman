@@ -10,12 +10,13 @@ import Foundation
 import SwiftUI
 
 class SpaceObserver {
+    @AppStorage("restartNumberingByDesktop") private var restartNumberingByDesktop = false
+    
     private let workspace = NSWorkspace.shared
     private let conn = _CGSDefaultConnection()
     private let defaults = UserDefaults.standard
     private let spaceNameCache = SpaceNameCache()
-    private let prefsView = PreferencesView()
-    
+
     weak var delegate: SpaceObserverDelegate?
     
     init() {
@@ -50,7 +51,6 @@ class SpaceObserver {
     
     @objc public func updateSpaceInformation() {
         var displays = CGSCopyManagedDisplaySpaces(conn)!.takeRetainedValue() as! [NSDictionary]
-        let restartNumberingByDesktop = prefsView.restartNumberingByDesktop
 
         // create dict with correct sorting before changing it
         var spaceNumberDict: [String: Int] = [:]
