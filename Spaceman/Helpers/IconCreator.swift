@@ -1,5 +1,5 @@
 //
-//  IconBuilder.swift
+//  IconCreator.swift
 //  Spaceman
 //
 //  Created by Sasindu Jayasinghe on 23/11/20.
@@ -11,7 +11,7 @@ import SwiftUI
 
 class IconCreator {
     @AppStorage("layoutMode") private var layoutMode = LayoutMode.normal
-    @AppStorage("displayStyle") private var displayStyle = SpacemanStyle.numbersAndRects
+    @AppStorage("displayStyle") private var displayStyle = DisplayStyle.numbersAndRects
     @AppStorage("hideInactiveSpaces") private var hideInactiveSpaces = false
     
     private let leftMargin = CGFloat(7)  /* FIXME determine actual left margin */
@@ -56,14 +56,15 @@ class IconCreator {
         }
         
         switch displayStyle {
+        case .rects:
+            //icons = resizeIcons(spaces, icons, layoutMode)
+            break
         case .numbers:
             icons = createNumberedIcons(spaces)
         case .numbersAndRects:
             icons = createRectWithNumbersIcons(icons, spaces)
         case .names, .numbersAndNames:
             icons = createNamedIcons(icons, spaces, withNumbers: displayStyle == .numbersAndNames)
-        default:
-            break
         }
         
         let iconsWithDisplayProperties = getIconsWithDisplayProps(icons: icons, spaces: spaces)
