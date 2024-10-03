@@ -13,7 +13,7 @@ struct PreferencesView: View {
     
     weak var parentWindow: PreferencesWindow!
     
-    @AppStorage("displayStyle") private var displayStyle = SpacemanStyle.numbersAndRects
+    @AppStorage("displayStyle") private var displayStyle = DisplayStyle.numbersAndRects
     @AppStorage("spaceNames") private var data = Data()
     @AppStorage("autoRefreshSpaces") private var autoRefreshSpaces = false
     @AppStorage("layoutMode") private var layoutMode = LayoutMode.normal
@@ -189,11 +189,11 @@ struct PreferencesView: View {
     // MARK: - Style Picker
     private var spacesStylePicker: some View {
         Picker(selection: $displayStyle, label: Text("Icon style")) {
-            Text("Rectangles").tag(SpacemanStyle.rects)
-            Text("Numbers").tag(SpacemanStyle.numbers)
-            Text("Rectangles with numbers").tag(SpacemanStyle.numbersAndRects)
-            Text("Names").tag(SpacemanStyle.names)
-            Text("Names with numbers").tag(SpacemanStyle.numbersAndNames)
+            Text("Rectangles").tag(DisplayStyle.rects)
+            Text("Numbers").tag(DisplayStyle.numbers)
+            Text("Rectangles with numbers").tag(DisplayStyle.numbersAndRects)
+            Text("Names").tag(DisplayStyle.names)
+            Text("Names with numbers").tag(DisplayStyle.numbersAndNames)
         }
         .onChange(of: displayStyle) { val in
             if val == .rects {

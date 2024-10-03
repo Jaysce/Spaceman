@@ -1,5 +1,5 @@
 //
-//  IconBuilder.swift
+//  IconCreator.swift
 //  Spaceman
 //
 //  Created by Sasindu Jayasinghe on 23/11/20.
@@ -11,7 +11,7 @@ import SwiftUI
 
 class IconCreator {
     @AppStorage("layoutMode") private var layoutMode = LayoutMode.normal
-    @AppStorage("displayStyle") private var displayStyle = SpacemanStyle.numbersAndRects
+    @AppStorage("displayStyle") private var displayStyle = DisplayStyle.numbersAndRects
     @AppStorage("hideInactiveSpaces") private var hideInactiveSpaces = false
     
     private let leftMargin = CGFloat(7)  /* FIXME determine actual left margin */
@@ -23,7 +23,7 @@ class IconCreator {
     public var sizes: GuiSize!
     public var iconWidths: [IconWidth] = []
 
-    func getIcon(for spaces: [Space]) -> NSImage {
+    public func getIcon(for spaces: [Space]) -> NSImage {
         sizes = Constants.sizes[layoutMode]
         gapWidth = CGFloat(sizes.GAP_WIDTH_SPACES)
         displayGapWidth = CGFloat(sizes.GAP_WIDTH_DISPLAYS)
@@ -56,14 +56,15 @@ class IconCreator {
         }
         
         switch displayStyle {
+        case .rects:
+            //icons = resizeIcons(spaces, icons, layoutMode)
+            break
         case .numbers:
             icons = createNumberedIcons(spaces)
         case .numbersAndRects:
             icons = createRectWithNumbersIcons(icons, spaces)
         case .names, .numbersAndNames:
             icons = createNamedIcons(icons, spaces, withNumbers: displayStyle == .numbersAndNames)
-        default:
-            break
         }
         
         let iconsWithDisplayProperties = getIconsWithDisplayProps(icons: icons, spaces: spaces)
@@ -90,7 +91,7 @@ class IconCreator {
         return newIcons
     }
     
-    func createRectWithNumberIcon(icons: [NSImage], index: Int, space: Space, fraction: Float = 1.0) -> NSImage {
+    public func createRectWithNumberIcon(icons: [NSImage], index: Int, space: Space, fraction: Float = 1.0) -> NSImage {
         iconSize.width = CGFloat(sizes.ICON_WIDTH_SMALL)
         
         let textRect = NSRect(origin: CGPoint.zero, size: iconSize)
@@ -178,7 +179,7 @@ class IconCreator {
         return newIcons
     }
     
-    func getIconsWithDisplayProps(icons: [NSImage], spaces: [Space]) -> [(NSImage, Bool, Bool)] {
+    private func getIconsWithDisplayProps(icons: [NSImage], spaces: [Space]) -> [(NSImage, Bool, Bool)] {
         var iconsWithDisplayProperties = [(NSImage, Bool, Bool)]()
         var currentDisplayID = spaces[0].displayID
         displayCount = 1
@@ -205,7 +206,7 @@ class IconCreator {
         return iconsWithDisplayProperties
     }
     
-    func mergeIcons(_ iconsWithDisplayProperties: [(image: NSImage, nextSpaceOnDifferentDisplay: Bool, isFullScreen: Bool)]) -> NSImage {
+    private func mergeIcons(_ iconsWithDisplayProperties: [(image: NSImage, nextSpaceOnDifferentDisplay: Bool, isFullScreen: Bool)]) -> NSImage {
         let numIcons = iconsWithDisplayProperties.count
         let combinedIconWidth = CGFloat(iconsWithDisplayProperties.reduce(0) { (result, icon) in
             result + icon.image.size.width

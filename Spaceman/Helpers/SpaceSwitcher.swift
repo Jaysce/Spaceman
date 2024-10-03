@@ -15,7 +15,7 @@ class SpaceSwitcher {
         shortcutHelper = ShortcutHelper()
     }
 
-    func switchToSpace(spaceNumber: Int, onError: () -> Void) {
+    public func switchToSpace(spaceNumber: Int, onError: () -> Void) {
         let keyCode = shortcutHelper.getKeyCode(spaceNumber: spaceNumber)
         if keyCode < 0 {
             return onError()
@@ -28,13 +28,16 @@ class SpaceSwitcher {
                 scriptObject.executeAndReturnError(&error)
                 if error != nil {
                     let errorBriefMessage: String = error?[NSAppleScript.errorBriefMessage] as! String
-                    self.alert(msg: "Error launching task: \(errorBriefMessage)\n")
+                    let settingsName = self.systemSettingsName()
+                    self.alert(
+                        msg: "Error: \(errorBriefMessage)\n\nPlease grant Accessibility permissions to Spaceman in \(settingsName) → Privacy and Security.",
+                        withSettingsButton: true)
                 }
             }
         }
     }
     
-    func switchUsingLocation(iconWidths: [IconWidth], horizontal: CGFloat, onError: () -> Void) {
+    public func switchUsingLocation(iconWidths: [IconWidth], horizontal: CGFloat, onError: () -> Void) {
         var index: Int = -1
         for i in 0 ..< iconWidths.count {
             if horizontal >= iconWidths[i].left && horizontal < iconWidths[i].right {
@@ -45,26 +48,24 @@ class SpaceSwitcher {
         switchToSpace(spaceNumber: index, onError: onError)
     }
     
-    func alert(msg: String) {
-        var settingsTitle: String
+    private func systemSettingsName() -> String {
         if #available(macOS 13.0, *) {
-            settingsTitle = "Settings"
+            return "System Settings"
         } else {
-            settingsTitle = "Preferences"
+            return "System Preferences"
         }
+    }
+    
+    private func alert(msg: String, withSettingsButton: Bool) {
         DispatchQueue.main.async {
             let alert = NSAlert.init()
-            var friendlyMsg: String
-            if let regex = try? NSRegularExpression(pattern: #"\d+:\d+: execution error: "#) {
-                let range = NSRange(msg.startIndex..., in: msg)
-                friendlyMsg = regex.stringByReplacingMatches(in: msg, options: [], range: range, withTemplate: "")
-            } else {
-                friendlyMsg = msg
-            }
             alert.messageText = "Spaceman"
-            alert.informativeText = "\(friendlyMsg)\nPlease grant Accessibility permissions to Spaceman in System \(settingsTitle) → Privacy and Security."
+            alert.informativeText = "\(msg)"
             alert.addButton(withTitle: "Dismiss")
-            alert.addButton(withTitle: "System \(settingsTitle)...")
+            if withSettingsButton {
+                let settingsName = self.systemSettingsName()
+                alert.addButton(withTitle: "\(settingsName)...")
+            }
             let response = alert.runModal()
             if (response == .alertSecondButtonReturn) {
                 let task = Process()

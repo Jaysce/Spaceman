@@ -1,3 +1,4 @@
+1.6.17: Code refactoring
 1.6.16: Code refactoring
 1.6.15: Fixed crash when error handling after sending applescript command
 1.6.14: Bypass osascript. This eliminates the need for forking a child process
