@@ -127,8 +127,8 @@ class SpaceObserver {
                                   isCurrentSpace: isCurrentSpace,
                                   isFullScreen: isFullScreen)
                 
-                if let data = defaults.value(forKey:"spaceNames") as? Data,
-                   let dict = try? PropertyListDecoder().decode(Dictionary<String, SpaceNameInfo>.self, from: data),
+                if let data = defaults.data(forKey: "spaceNames"),
+                   let dict = try? PropertyListDecoder().decode([String: SpaceNameInfo].self, from: data),
                    let saved = dict[managedSpaceID]
                 {
                     space.spaceName = saved.spaceName
