@@ -3,23 +3,23 @@
     <channel>
         <title>Spaceman</title>
         <item>
-            <title>v1.6.15: Bypass the use of osascript for faster desktop switching</title>
+            <title></title>
             <description>
                 <![CDATA[
                     <ul>
-                    <li>Bypass osascript: use Applescript directly. This eliminates the need for forking a child process and speeds up desktop switching.</li>
+                    <li>Code refactoring</li>
                     </ul>
                 ]]>
             </description>
-            <pubDate>Wed, 02 Oct 2024 14:34:01 +0200</pubDate>
+            <pubDate>Mon, 07 Oct 2024 09:54:27 +0200</pubDate>
             <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
             <enclosure
-                url="https://github.com/ruittenb/Spaceman/releases/download/v1.6.15/Spaceman-1.6.15.dmg"
-                sparkle:version="1.6.15"
-                sparkle:shortVersionString="1.6.15"
+                url="https://github.com/ruittenb/Spaceman/releases/download/v1.6.17/Spaceman-1.6.17.dmg"
+                sparkle:version="1.6.17"
+                sparkle:shortVersionString="1.6.17"
                 type="application/octet-stream"
-                length="2123428"
-sparkle:edSignature="qenOcbaSbRWjLvGbBTUtJcKvmDpaDH2SRRsnyigpPxsy1lSiFmhPrimrC9HZ1hQdHIPCT5sqUuceShtzg+2uBw=="
+                length="2122256"
+sparkle:edSignature="jtaP2bPubzNqlnHzQ4hoZzjVFq9xuLuNWy2LyAgilmil0ar7foSC/gc9M512bX/WBIUM9Lxz8laNvcuhYMpHDg=="
             />
         </item>
     </channel>
