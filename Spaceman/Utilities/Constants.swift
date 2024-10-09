@@ -31,7 +31,7 @@ struct Constants {
             ICON_HEIGHT: 12,
             FONT_SIZE: 10
         ),
-        .normal: GuiSize(
+        .medium: GuiSize(
             GAP_WIDTH_SPACES: 5,
             GAP_WIDTH_DISPLAYS: 12,
             ICON_WIDTH_SMALL: 18,
