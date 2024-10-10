@@ -1,3 +1,4 @@
+1.6.18: Renamed 'normal' to 'medium'; added tick mark to menu
 1.6.17: Code refactoring
 1.6.16: Code refactoring
 1.6.15: Fixed crash when error handling after sending applescript command

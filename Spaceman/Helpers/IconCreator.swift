@@ -10,7 +10,7 @@ import Foundation
 import SwiftUI
 
 class IconCreator {
-    @AppStorage("layoutMode") private var layoutMode = LayoutMode.normal
+    @AppStorage("layoutMode") private var layoutMode = LayoutMode.medium
     @AppStorage("displayStyle") private var displayStyle = DisplayStyle.numbersAndRects
     @AppStorage("hideInactiveSpaces") private var hideInactiveSpaces = false
     

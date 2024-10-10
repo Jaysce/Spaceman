@@ -8,5 +8,5 @@
 import Foundation
 
 enum LayoutMode: Int {
-    case compact, normal, large
+    case compact, medium, large
 }

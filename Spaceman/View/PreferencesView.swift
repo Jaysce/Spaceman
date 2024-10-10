@@ -16,7 +16,7 @@ struct PreferencesView: View {
     @AppStorage("displayStyle") private var displayStyle = DisplayStyle.numbersAndRects
     @AppStorage("spaceNames") private var data = Data()
     @AppStorage("autoRefreshSpaces") private var autoRefreshSpaces = false
-    @AppStorage("layoutMode") private var layoutMode = LayoutMode.normal
+    @AppStorage("layoutMode") private var layoutMode = LayoutMode.medium
     @AppStorage("hideInactiveSpaces") private var hideInactiveSpaces = false
     @AppStorage("restartNumberingByDesktop") private var restartNumberingByDesktop = false
     @AppStorage("schema") private var keySet = KeySet.toprow
@@ -176,7 +176,7 @@ struct PreferencesView: View {
     private var layoutSizePicker: some View {
         Picker(selection: $layoutMode, label: Text("Layout size")) {
             Text("Compact").tag(LayoutMode.compact)
-            Text("Normal").tag(LayoutMode.normal)
+            Text("Medium").tag(LayoutMode.medium)
             Text("Large").tag(LayoutMode.large)
         }
         .pickerStyle(.segmented)
