@@ -3,23 +3,24 @@
     <channel>
         <title>Spaceman</title>
         <item>
-            <title></title>
+            <title>v1.6.18: Display tick mark in menu</title>
             <description>
                 <![CDATA[
                     <ul>
-                    <li>Code refactoring</li>
+                    <li>- added tick mark to menu</li>
+<li>- renamed 'normal' font size to 'medium'</li>
                     </ul>
                 ]]>
             </description>
-            <pubDate>Mon, 07 Oct 2024 09:54:27 +0200</pubDate>
+            <pubDate>Tue, 12 Nov 2024 10:10:05 +0100</pubDate>
             <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
             <enclosure
-                url="https://github.com/ruittenb/Spaceman/releases/download/v1.6.17/Spaceman-1.6.17.dmg"
-                sparkle:version="1.6.17"
-                sparkle:shortVersionString="1.6.17"
+                url="https://github.com/ruittenb/Spaceman/releases/download/v1.6.18/Spaceman-1.6.18.dmg"
+                sparkle:version="1.6.18"
+                sparkle:shortVersionString="1.6.18"
                 type="application/octet-stream"
-                length="2122256"
-sparkle:edSignature="jtaP2bPubzNqlnHzQ4hoZzjVFq9xuLuNWy2LyAgilmil0ar7foSC/gc9M512bX/WBIUM9Lxz8laNvcuhYMpHDg=="
+                length="2122119"
+sparkle:edSignature="xDC5Vv5HtCPHU+uenk7tnbvisi4KqBsMJa9e/T2ojalELfSbrgEN35g78x+6QDpj1Hgkuh7njlu5UWiSFNX7Ag=="
             />
         </item>
     </channel>

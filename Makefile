@@ -54,7 +54,7 @@ $(IMAGE): $(APPFILE)
 
 all: image ## Make all of the above
 
-##@ Publishing
+##@ Publishing:
 
 .PHONY: tag
 tag: ## Tag the current HEAD with the version from the XCode project
@@ -79,7 +79,7 @@ publish-force: ## Publish the main branch appcast on Github Pages (force push)
 	git checkout main
 	git push --force-with-lease origin `git subtree split --prefix website main`:github-pages
 
-##@ Defaults
+##@ Defaults:
 
 .PHONY: defaults-clear
 defaults-clear: ## Clear app defaults
