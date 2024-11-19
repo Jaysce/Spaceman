@@ -112,3 +112,7 @@ $ defaults delete dev.ruittenb.Spaceman
   - [Yakir Lugasy](https://github.com/yakirlog/Spaceman)
   - [aaplmath](https://github.com/aaplmath)
 
+## Mentions
+
+- [Softpedia](https://mac.softpedia.com/get/System-Utilities/Spaceman.shtml)
+
