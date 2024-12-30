@@ -3,24 +3,25 @@
     <channel>
         <title>Spaceman</title>
         <item>
-            <title>v1.6.18: Display tick mark in menu</title>
+            <title>v1.6.19: detect which permission type is missing</title>
             <description>
                 <![CDATA[
                     <ul>
-                    <li>- added tick mark to menu</li>
-<li>- renamed 'normal' font size to 'medium'</li>
+                    <li>Fixed:</li>
+<li>- detect which permission type is missing (Accessibility or Automation) </li>
+<li>- open the correct panel of the System Settings when the button is clicked</li>
                     </ul>
                 ]]>
             </description>
-            <pubDate>Tue, 12 Nov 2024 10:10:05 +0100</pubDate>
+            <pubDate>Mon, 30 Dec 2024 14:44:04 +0100</pubDate>
             <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
             <enclosure
-                url="https://github.com/ruittenb/Spaceman/releases/download/v1.6.18/Spaceman-1.6.18.dmg"
-                sparkle:version="1.6.18"
-                sparkle:shortVersionString="1.6.18"
+                url="https://github.com/ruittenb/Spaceman/releases/download/v1.6.19/Spaceman-1.6.19.dmg"
+                sparkle:version="1.6.19"
+                sparkle:shortVersionString="1.6.19"
                 type="application/octet-stream"
-                length="2122119"
-sparkle:edSignature="xDC5Vv5HtCPHU+uenk7tnbvisi4KqBsMJa9e/T2ojalELfSbrgEN35g78x+6QDpj1Hgkuh7njlu5UWiSFNX7Ag=="
+                length="2122186"
+sparkle:edSignature="akXc6UchnRA1vql3gTRXCun9EjgsvCqSJPby9MIpfwZHBYXBIQSqSjGlWkXF1KrqMgOCZKvl9SLaXCG6ch+jBw=="
             />
         </item>
     </channel>
