@@ -27,11 +27,15 @@ class SpaceSwitcher {
             if let scriptObject = NSAppleScript(source: appleScript) {
                 scriptObject.executeAndReturnError(&error)
                 if error != nil {
+                    let errorNumber: Int = error?[NSAppleScript.errorNumber] as! Int
                     let errorBriefMessage: String = error?[NSAppleScript.errorBriefMessage] as! String
                     let settingsName = self.systemSettingsName()
+                    // -1002: Error: Spaceman is not allowed to send keystrokes. (needs Accessibility permission)
+                    // -1743: Error: Not authorized to send Apple events to System Events. (needs Automation permission)
+                    let permissionType = errorNumber == 1002 ? "Accessibility" : "Automation"
                     self.alert(
-                        msg: "Error: \(errorBriefMessage)\n\nPlease grant Accessibility permissions to Spaceman in \(settingsName) → Privacy and Security.",
-                        withSettingsButton: true)
+                        msg: "Error: \(errorBriefMessage)\n\nPlease grant \(permissionType) permissions to Spaceman in \(settingsName) → Privacy and Security.",
+                        permissionTypeName: permissionType)
                 }
             }
         }
@@ -56,13 +60,13 @@ class SpaceSwitcher {
         }
     }
     
-    private func alert(msg: String, withSettingsButton: Bool) {
+    private func alert(msg: String, permissionTypeName: String) {
         DispatchQueue.main.async {
             let alert = NSAlert.init()
             alert.messageText = "Spaceman"
             alert.informativeText = "\(msg)"
             alert.addButton(withTitle: "Dismiss")
-            if withSettingsButton {
+            if permissionTypeName != "" {
                 let settingsName = self.systemSettingsName()
                 alert.addButton(withTitle: "\(settingsName)...")
             }
@@ -70,7 +74,7 @@ class SpaceSwitcher {
             if (response == .alertSecondButtonReturn) {
                 let task = Process()
                 task.launchPath = "/usr/bin/open"
-                task.arguments = ["x-apple.systempreferences:com.apple.preference.security?Privacy_Accessibility"]
+                task.arguments = ["x-apple.systempreferences:com.apple.preference.security?Privacy_\(permissionTypeName)"]
                 try? task.run()
             }
         }
