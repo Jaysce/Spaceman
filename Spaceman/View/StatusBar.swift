@@ -17,6 +17,7 @@ class StatusBar: NSObject, NSMenuDelegate {
     private var prefsWindow: PreferencesWindow!
     private var spaceSwitcher: SpaceSwitcher!
     private var shortcutHelper: ShortcutHelper!
+    private var updaterController: SPUStandardUpdaterController!
     
     public var iconCreator: IconCreator!
 
@@ -25,6 +26,7 @@ class StatusBar: NSObject, NSMenuDelegate {
         
         shortcutHelper = ShortcutHelper()
         spaceSwitcher = SpaceSwitcher()
+        updaterController = SPUStandardUpdaterController(startingUpdater: true, updaterDelegate: nil, userDriverDelegate: nil)
         
         statusBarItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
         statusBarMenu = NSMenu()
@@ -43,9 +45,9 @@ class StatusBar: NSObject, NSMenuDelegate {
         
         let updates = NSMenuItem(
             title: "Check for updates...",
-            action: #selector(SUUpdater.checkForUpdates(_:)),
+            action: #selector(updaterController.checkForUpdates(_:)),
             keyEquivalent: "")
-        updates.target = SUUpdater.shared()
+        updates.target = updaterController
         
         let pref = NSMenuItem(
             title: "Preferences...",
