@@ -3,25 +3,23 @@
     <channel>
         <title>Spaceman</title>
         <item>
-            <title>v1.6.19: detect which permission type is missing</title>
+            <title>v1.6.20: security update</title>
             <description>
                 <![CDATA[
                     <ul>
-                    <li>Fixed:</li>
-<li>- detect which permission type is missing (Accessibility or Automation) </li>
-<li>- open the correct panel of the System Settings when the button is clicked</li>
+                    <li>Installed security update for Sparkle (2.6.4)</li>
                     </ul>
                 ]]>
             </description>
-            <pubDate>Mon, 30 Dec 2024 14:44:04 +0100</pubDate>
+            <pubDate>Fri, 07 Feb 2025 15:01:27 +0100</pubDate>
             <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
             <enclosure
-                url="https://github.com/ruittenb/Spaceman/releases/download/v1.6.19/Spaceman-1.6.19.dmg"
-                sparkle:version="1.6.19"
-                sparkle:shortVersionString="1.6.19"
+                url="https://github.com/ruittenb/Spaceman/releases/download/v1.6.20/Spaceman-1.6.20.dmg"
+                sparkle:version="1.6.20"
+                sparkle:shortVersionString="1.6.20"
                 type="application/octet-stream"
-                length="2122186"
-sparkle:edSignature="akXc6UchnRA1vql3gTRXCun9EjgsvCqSJPby9MIpfwZHBYXBIQSqSjGlWkXF1KrqMgOCZKvl9SLaXCG6ch+jBw=="
+                length="2118940"
+sparkle:edSignature="b+9Zo51d1JAHxY5aI3+RgIdABJAkAeq/boACEtzwtbsZrBdfoqPLhwxvCbGtB2XxFVGZlcwp8dmc+5eUPQ1ICA=="
             />
         </item>
     </channel>
