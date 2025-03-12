@@ -13,6 +13,8 @@ class SpaceSwitcher {
 
     init() {
         shortcutHelper = ShortcutHelper()
+        // Check if the process has Accessibility permission, and make sure it has been added to the list
+        AXIsProcessTrusted()
     }
 
     public func switchToSpace(spaceNumber: Int, onError: () -> Void) {

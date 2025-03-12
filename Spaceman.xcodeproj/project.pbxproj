@@ -13,6 +13,7 @@
 		E70587F52C827E5600D9B729 /* exportOptions.plist in Resources */ = {isa = PBXBuildFile; fileRef = E70587F42C827E5600D9B729 /* exportOptions.plist */; };
 		E70587F72C864C8A00D9B729 /* SpaceNameCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = E70587F62C864C8A00D9B729 /* SpaceNameCache.swift */; };
 		E73504B42CAD14BE007F62B5 /* IconWidth.swift in Sources */ = {isa = PBXBuildFile; fileRef = E73504B32CAD14BE007F62B5 /* IconWidth.swift */; };
+		E754B2C92D7F03E100F31468 /* Sparkle in Frameworks */ = {isa = PBXBuildFile; productRef = E754B2C82D7F03E100F31468 /* Sparkle */; };
 		E7A066232C7F65F1002DFC52 /* SpaceSwitcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7A066222C7F65F1002DFC52 /* SpaceSwitcher.swift */; };
 		E7B0862F2C8980130016C851 /* OSVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7B0862E2C8980130016C851 /* OSVersion.swift */; };
 		E7DA73A62CA6E74D00212836 /* LayoutMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7DA73A52CA6E74D00212836 /* LayoutMode.swift */; };
@@ -31,7 +32,6 @@
 		E8733511256B779B0012586E /* IconCreator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8733510256B779B0012586E /* IconCreator.swift */; };
 		E8733517256C6F3A0012586E /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8733516256C6F3A0012586E /* Extensions.swift */; };
 		E8C5AFF52580848100614F50 /* AboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8C5AFF42580848100614F50 /* AboutView.swift */; };
-		E8CA0CB82775F35B004A3C75 /* Sparkle in Frameworks */ = {isa = PBXBuildFile; productRef = E8CA0CB72775F35B004A3C75 /* Sparkle */; };
 		E8E2AEF8257CB4D700319BBC /* PreferencesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8E2AEF7257CB4D700319BBC /* PreferencesViewModel.swift */; };
 		E8E2AEFF257CB5AF00319BBC /* DisplayStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8E2AEFE257CB5AF00319BBC /* DisplayStyle.swift */; };
 		E8E2AF03257CB5CE00319BBC /* SpaceNameInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8E2AF02257CB5CE00319BBC /* SpaceNameInfo.swift */; };
@@ -80,7 +80,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E8CA0CB82775F35B004A3C75 /* Sparkle in Frameworks */,
+				E754B2C92D7F03E100F31468 /* Sparkle in Frameworks */,
 				E8EBF08C2575F8E4001BA74F /* LaunchAtLogin in Frameworks */,
 				E8E8D41C2585A80B00671AE9 /* KeyboardShortcuts in Frameworks */,
 			);
@@ -89,6 +89,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		E754B2C72D7F03E100F31468 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		E828E6562737D2CF007075E8 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
@@ -102,6 +109,7 @@
 			children = (
 				E87334E7256B51CF0012586E /* Spaceman */,
 				E87334E6256B51CF0012586E /* Products */,
+				E754B2C72D7F03E100F31468 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -211,7 +219,7 @@
 			packageProductDependencies = (
 				E8EBF08B2575F8E4001BA74F /* LaunchAtLogin */,
 				E8E8D41B2585A80B00671AE9 /* KeyboardShortcuts */,
-				E8CA0CB72775F35B004A3C75 /* Sparkle */,
+				E754B2C82D7F03E100F31468 /* Sparkle */,
 			);
 			productName = Spaceman;
 			productReference = E87334E5256B51CF0012586E /* Spaceman.app */;
@@ -465,7 +473,7 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1.6.20;
+				CURRENT_PROJECT_VERSION = 1.6.21;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"Spaceman/Preview Content\"";
 				DEVELOPMENT_TEAM = "";
@@ -480,7 +488,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 1.6.20;
+				MARKETING_VERSION = 1.6.21;
 				PRODUCT_BUNDLE_IDENTIFIER = dev.ruittenb.Spaceman;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -499,7 +507,7 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1.6.20;
+				CURRENT_PROJECT_VERSION = 1.6.21;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"Spaceman/Preview Content\"";
 				DEVELOPMENT_TEAM = "";
@@ -514,7 +522,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 1.6.20;
+				MARKETING_VERSION = 1.6.21;
 				PRODUCT_BUNDLE_IDENTIFIER = dev.ruittenb.Spaceman;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -574,7 +582,7 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		E8CA0CB72775F35B004A3C75 /* Sparkle */ = {
+		E754B2C82D7F03E100F31468 /* Sparkle */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = E8CA0CB62775F35B004A3C75 /* XCRemoteSwiftPackageReference "Sparkle" */;
 			productName = Sparkle;
