@@ -86,6 +86,6 @@ defaults-clear: ## Clear app defaults
 	defaults delete $(DOMAIN)
 
 .PHONY: defaults-get
-defaults-get: ## Show stored app defauls
+defaults-get: ## Show stored app defaults
 	defaults read $(DOMAIN) # spaceNameCache
 

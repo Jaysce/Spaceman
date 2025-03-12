@@ -3,23 +3,24 @@
     <channel>
         <title>Spaceman</title>
         <item>
-            <title>v1.6.20: security update</title>
+            <title>v1.6.21: automatically add app to settings</title>
             <description>
                 <![CDATA[
                     <ul>
-                    <li>Installed security update for Sparkle (2.6.4)</li>
+                    <li>- Automatically add app to candidates for accessibility settings</li>
+<li>- Updated Sparkle</li>
                     </ul>
                 ]]>
             </description>
-            <pubDate>Fri, 07 Feb 2025 15:01:27 +0100</pubDate>
+            <pubDate>Wed, 12 Mar 2025 08:46:26 +0100</pubDate>
             <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
             <enclosure
-                url="https://github.com/ruittenb/Spaceman/releases/download/v1.6.20/Spaceman-1.6.20.dmg"
-                sparkle:version="1.6.20"
-                sparkle:shortVersionString="1.6.20"
+                url="https://github.com/ruittenb/Spaceman/releases/download/v1.6.21/Spaceman-1.6.21.dmg"
+                sparkle:version="1.6.21"
+                sparkle:shortVersionString="1.6.21"
                 type="application/octet-stream"
-                length="2118940"
-sparkle:edSignature="b+9Zo51d1JAHxY5aI3+RgIdABJAkAeq/boACEtzwtbsZrBdfoqPLhwxvCbGtB2XxFVGZlcwp8dmc+5eUPQ1ICA=="
+                length="2141506"
+sparkle:edSignature="6E/2XFPE5wd8WhDCZm3u32MWMWXRfS9zmXWcSJRLNww8WnIoKqKdSB/goD3Zk5PtnspFR2JRnkbaEcFUwbwxAA=="
             />
         </item>
     </channel>
