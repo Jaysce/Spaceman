@@ -11,6 +11,7 @@ import SwiftUI
 
 class StatusBar: NSObject, NSMenuDelegate {
     @AppStorage("hideInactiveSpaces") private var hideInactiveSpaces = false
+    @AppStorage("schema") private var keySet = KeySet.toprow
     
     private var statusBarItem: NSStatusItem!
     private var statusBarMenu: NSMenu!
@@ -162,7 +163,11 @@ class StatusBar: NSObject, NSMenuDelegate {
         
         let mask = shortcutHelper.getModifiersAsFlags()
         var shortcutKey = ""
-        if spaceByDesktopID < 10 {
+        if space.spaceByDesktopID == "F1" {
+            shortcutKey = "-"
+        } else if space.spaceByDesktopID == "F2" {
+            shortcutKey = (keySet == KeySet.numpad ? "+" : "=")
+        } else if spaceByDesktopID < 10 {
             shortcutKey = space.spaceByDesktopID
         } else if spaceByDesktopID == 10 {
             shortcutKey = "0"
@@ -180,7 +185,14 @@ class StatusBar: NSObject, NSMenuDelegate {
             keyEquivalent: shortcutKey)
         item.keyEquivalentModifierMask = mask
         item.target = self
-        item.tag = spaceNumber
+        switch space.spaceByDesktopID {
+        case "F1":
+            item.tag = -1
+        case "F2":
+            item.tag = -2
+        default:
+            item.tag = spaceNumber
+        }
         item.image = menuIcon
         if space.isCurrentSpace || shortcutKey == "" {
             item.isEnabled = false
@@ -197,7 +209,7 @@ class StatusBar: NSObject, NSMenuDelegate {
 
     @objc func switchToSpace(_ sender: NSMenuItem) {
         let spaceNumber = sender.tag
-        guard (spaceNumber >= 1 && spaceNumber <= 10) else {
+        guard (spaceNumber >= -2 && spaceNumber != 0 && spaceNumber <= 10) else {
             return
         }
         spaceSwitcher.switchToSpace(spaceNumber: spaceNumber, onError: flashStatusBar)
