@@ -219,6 +219,8 @@ class IconCreator {
         image.lockFocus()
         var left = CGFloat.zero
         var right: CGFloat
+        var currentSpaceNumber = 1
+        var currentFullScreenSpaceNumber = 1
         iconWidths = []
         for icon in iconsWithDisplayProperties {
             icon.image.draw(
@@ -232,7 +234,11 @@ class IconCreator {
                 right = left + icon.image.size.width + gapWidth
             }
             if !icon.isFullScreen {
-                iconWidths.append(IconWidth(left: left + leftMargin, right: right + leftMargin))
+                iconWidths.append(IconWidth(left: left + leftMargin, right: right + leftMargin, index: currentSpaceNumber))
+                currentSpaceNumber += 1
+            } else {
+                iconWidths.append(IconWidth(left: left + leftMargin, right: right + leftMargin, index: -currentFullScreenSpaceNumber))
+                currentFullScreenSpaceNumber += 1
             }
             left = right
         }

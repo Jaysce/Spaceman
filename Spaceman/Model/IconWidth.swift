@@ -10,4 +10,5 @@ import Foundation
 struct IconWidth: Codable {
     let left: CGFloat
     let right: CGFloat
+    let index: Int
 }
