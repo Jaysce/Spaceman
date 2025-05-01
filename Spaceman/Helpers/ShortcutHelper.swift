@@ -24,25 +24,29 @@ class ShortcutHelper {
         let keyCode: Int
         switch (spaceNumber) {
         case 1:
-            keyCode = 18 // kVK_ANSI_1
+            keyCode = 18 // VK_ANSI_1
         case 2:
-            keyCode = 19 // kVK_ANSI_2
+            keyCode = 19 // VK_ANSI_2
         case 3:
-            keyCode = 20 // kVK_ANSI_3
+            keyCode = 20 // VK_ANSI_3
         case 4:
-            keyCode = 21 // kVK_ANSI_4
+            keyCode = 21 // VK_ANSI_4
         case 5:
-            keyCode = 23 // kVK_ANSI_5 (!)
+            keyCode = 23 // VK_ANSI_5 (!)
         case 6:
-            keyCode = 22 // kVK_ANSI_6
+            keyCode = 22 // VK_ANSI_6
         case 7:
-            keyCode = 26 // kVK_ANSI_7
+            keyCode = 26 // VK_ANSI_7
         case 8:
-            keyCode = 28 // kVK_ANSI_8
+            keyCode = 28 // VK_ANSI_8
         case 9:
-            keyCode = 25 // kVK_ANSI_9
+            keyCode = 25 // VK_ANSI_9
         case 10:
-            keyCode = 29 // kVK_ANSI_0
+            keyCode = 29 // VK_ANSI_0
+        case -1:
+            keyCode = 27 // VK_ANSI_Minus (minus and underscore)
+        case -2:
+            keyCode = 24 // VK_ANSI_Equal (equals and plus)
         default:
             keyCode = -1
         }
@@ -56,25 +60,29 @@ class ShortcutHelper {
         let keyCode: Int
         switch (spaceNumber) {
         case 1:
-            keyCode = 83 // kVK_ANSI_Keypad1
+            keyCode = 83 // VK_ANSI_Keypad1
         case 2:
-            keyCode = 84 // kVK_ANSI_Keypad2
+            keyCode = 84 // VK_ANSI_Keypad2
         case 3:
-            keyCode = 85 // kVK_ANSI_Keypad3
+            keyCode = 85 // VK_ANSI_Keypad3
         case 4:
-            keyCode = 86 // kVK_ANSI_Keypad4
+            keyCode = 86 // VK_ANSI_Keypad4
         case 5:
-            keyCode = 87 // kVK_ANSI_Keypad5
+            keyCode = 87 // VK_ANSI_Keypad5
         case 6:
-            keyCode = 88 // kVK_ANSI_Keypad6
+            keyCode = 88 // VK_ANSI_Keypad6
         case 7:
-            keyCode = 89 // kVK_ANSI_Keypad7
+            keyCode = 89 // VK_ANSI_Keypad7
         case 8:
-            keyCode = 91 // kVK_ANSI_Keypad8 (!)
+            keyCode = 91 // VK_ANSI_Keypad8 (!)
         case 9:
-            keyCode = 92 // kVK_ANSI_Keypad9
+            keyCode = 92 // VK_ANSI_Keypad9
         case 10:
-            keyCode = 82 // kVK_ANSI_Keypad0
+            keyCode = 82 // VK_ANSI_Keypad0
+        case -1:
+            keyCode = 78 // VK_ANSI_KeypadMinus
+        case -2:
+            keyCode = 69 // VK_ANSI_KeypadPlus
         default:
             keyCode = -1
         }
