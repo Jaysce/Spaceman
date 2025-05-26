@@ -106,7 +106,7 @@ $ defaults delete dev.ruittenb.Spaceman
   - [René Uittenbogaard](https://github.com/ruittenb/Spaceman)
 - Contributions by:
   - [Dmitry Poznyak](https://github.com/triangular-sneaky/Spaceman)
-  - [Grzegorz Milka](https://github.com/gregorias)
+  - [Grzegorz Milka](https://github.com/gregorias/Spaceman)
   - [Michael Lehenauer](https://github.com/mike-jl/Spaceman)
   - [Logan Savage](https://github.com/lxsavage/Spaceman)
   - [Yakir Lugasy](https://github.com/yakirlog/Spaceman)
