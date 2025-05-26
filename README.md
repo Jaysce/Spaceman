@@ -55,12 +55,17 @@ The menu shows a list of space names. Selecting one will cause Spaceman to switc
 
 <img src="images/Menu.png" width="auto" height="auto">
 
-Spaceman switches spaces by sending a keyboard shortcut to Mission Control using Applescript.
-Note that only the first ten spaces will have shortcut keys assigned.
+Spaceman switches spaces by sending a keyboard shortcut to System Events using Applescript.
+
+The first ten non-fullscreen spaces will have shortcut keys 0-9 assigned.
+
+The first two fullscreen spaces will have keyboard shortcuts, but these are not recognized
+by Mission Control. For making use of these, you would have to use an application like
+[Apptivate](http://www.apptivateapp.com/).
+
 For extra spaces, switching will not be available; the status bar icon will flash if
 selected, and the menu option will be disabled.
 
-Switching is also not supported for fullscreen spaces.
 
 **For switching to work successfully, the following things need to be configured:**
 
@@ -89,7 +94,8 @@ For details on how to maximize usefulness of this, see [MikeJL's Comments](READM
 
 ## Troubleshooting
 
-If Spaceman does not start, or does not run correctly, after an upgrade: you may need to delete the application defaults:
+If Spaceman does not start, or does not run correctly, after an upgrade:
+you may need to delete the application defaults:
 
 ```sh
 $ defaults delete dev.ruittenb.Spaceman
@@ -115,4 +121,5 @@ $ defaults delete dev.ruittenb.Spaceman
 ## Mentions
 
 - [Softpedia](https://mac.softpedia.com/get/System-Utilities/Spaceman.shtml)
+
 
