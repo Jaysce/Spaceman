@@ -11,7 +11,7 @@ import SwiftUI
 
 struct PreferencesView: View {
     
-    weak var parentWindow: PreferencesWindow!
+    weak var parentWindow: PreferencesWindow?
     
     @AppStorage("displayStyle") private var displayStyle = DisplayStyle.numbersAndRects
     @AppStorage("spaceNames") private var data = Data()
@@ -56,13 +56,15 @@ struct PreferencesView: View {
         VStack {
             Spacer()
             HStack {
-                Button {
-                    parentWindow.close()
-                } label: {
-                    Image(systemName: "xmark.circle.fill")
+                if let parentWindow = parentWindow {
+                    Button {
+                        parentWindow.close()
+                    } label: {
+                        Image(systemName: "xmark.circle.fill")
+                    }
+                    .buttonStyle(BorderlessButtonStyle())
+                    .padding(.leading, 12)
                 }
-                .buttonStyle(BorderlessButtonStyle())
-                .padding(.leading, 12)
                 Spacer()
             }
             Spacer()
@@ -281,6 +283,6 @@ struct PreferencesView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        PreferencesView()
+        PreferencesView(parentWindow: nil)
     }
 }
