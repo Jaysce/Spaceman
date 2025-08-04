@@ -50,7 +50,14 @@ struct SpacemanApp: App {
     
     var body: some Scene {
         Settings {
-            EmptyView()
+            SettingsView()
         }
+    }
+}
+
+struct SettingsView: View {
+    var body: some View {
+        PreferencesView(parentWindow: nil)
+            .frame(width: 400, height: 330)
     }
 }
