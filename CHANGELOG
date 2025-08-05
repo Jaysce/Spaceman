@@ -1,3 +1,8 @@
+1.8.3 : Bugfix for automatic opening empty Preferences window
+1.8.2 : Bugfix for automatic opening empty Preferences window
+1.8.1 : Corrected window size
+1.8.0 : Bugfix for automatic opening empty Preferences window
+1.7.0 : Add some shortcuts for Fullscreen spaces
 1.6.21: Automatically add app to candidates for accessibility permissions
 1.6.20: Installed security update for Sparkle
 1.6.19: Fixed detecting the permission type needed
