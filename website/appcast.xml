@@ -3,11 +3,11 @@
     <channel>
         <title>Spaceman</title>
         <item>
-            <title>v1.8.3: Fix for automatic opening Preferences window</title>
+            <title>v1.8.3: Fix for unwanted opening of blank window</title>
             <description>
                 <![CDATA[
                     <ul>
-                    <li>On some versions of MacOS, the Preferences window automatically opens when starting up the app. This release should fix that.</li>
+                    <li>On some versions of MacOS, a blank Preferences window automatically opens when starting up the app. This release fixes that.</li>
                     </ul>
                 ]]>
             </description>
