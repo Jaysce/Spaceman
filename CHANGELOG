@@ -1,3 +1,8 @@
+1.8.3 : Fixed unwanted opening of blank window
+1.8.2 : Attempt at fixing unwanted opening of blank window
+1.8.1 : Fixed window size
+1.8.0 : Attempt at fixing unwanted opening of blank window
+1.7.0 : Add some shortcuts for Fullscreen spaces
 1.6.21: Automatically add app to candidates for accessibility permissions
 1.6.20: Installed security update for Sparkle
 1.6.19: Fixed detecting the permission type needed
