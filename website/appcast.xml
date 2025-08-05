@@ -3,24 +3,23 @@
     <channel>
         <title>Spaceman</title>
         <item>
-            <title>v1.6.21: automatically add app to settings</title>
+            <title>v1.8.3: Fix for automatic opening Preferences window</title>
             <description>
                 <![CDATA[
                     <ul>
-                    <li>- Automatically add app to candidates for accessibility settings</li>
-<li>- Updated Sparkle</li>
+                    <li>On some versions of MacOS, the Preferences window automatically opens when starting up the app. This release should fix that.</li>
                     </ul>
                 ]]>
             </description>
-            <pubDate>Wed, 12 Mar 2025 08:46:26 +0100</pubDate>
+            <pubDate>Tue, 05 Aug 2025 09:37:53 +0200</pubDate>
             <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
             <enclosure
-                url="https://github.com/ruittenb/Spaceman/releases/download/v1.6.21/Spaceman-1.6.21.dmg"
-                sparkle:version="1.6.21"
-                sparkle:shortVersionString="1.6.21"
+                url="https://github.com/ruittenb/Spaceman/releases/download/v1.8.3/Spaceman-1.8.3.dmg"
+                sparkle:version="1.8.3"
+                sparkle:shortVersionString="1.8.3"
                 type="application/octet-stream"
-                length="2141506"
-sparkle:edSignature="6E/2XFPE5wd8WhDCZm3u32MWMWXRfS9zmXWcSJRLNww8WnIoKqKdSB/goD3Zk5PtnspFR2JRnkbaEcFUwbwxAA=="
+                length="2141053"
+sparkle:edSignature="Fffsu5HAt3muAqnYEgMoKMzr62/hDL2N5m54ooZSklQgcEKFOX6JOTehZ7YYvw5zSDTvn1+a8X5N2wknzhquBg=="
             />
         </item>
     </channel>
