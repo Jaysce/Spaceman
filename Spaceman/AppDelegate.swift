@@ -49,14 +49,11 @@ struct SpacemanApp: App {
     @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     
     var body: some Scene {
-        Settings {
-            SettingsView()
+        WindowGroup {
+            EmptyView()
+                .frame(width: 0, height: 0)
+                .hidden()
         }
-    }
-}
-
-struct SettingsView: View {
-    var body: some View {
-        PreferencesView(parentWindow: nil)
+        .windowStyle(.hiddenTitleBar)
     }
 }
