@@ -8,7 +8,7 @@
 import SwiftUI
 import KeyboardShortcuts
 
-final class SpacemanCore: NSObject {
+final class AppDelegate: NSObject, NSApplicationDelegate {
 
     private var iconCreator: IconCreator!
     private var statusBar: StatusBar!
@@ -36,7 +36,7 @@ final class SpacemanCore: NSObject {
     }
 }
 
-extension SpacemanCore: SpaceObserverDelegate {
+extension AppDelegate: SpaceObserverDelegate {
     func didUpdateSpaces(spaces: [Space]) {
         let icon = iconCreator.getIcon(for: spaces)
         statusBar.updateStatusBar(withIcon: icon, withSpaces: spaces)
@@ -44,23 +44,26 @@ extension SpacemanCore: SpaceObserverDelegate {
 }
 
 @main
-final class SpacemanApp: NSObject, NSApplicationDelegate {
+struct SpacemanApp: App {
     
-    private var spacemanCore: SpacemanCore!
+    @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     
-    func applicationDidFinishLaunching(_ notification: Notification) {
-        spacemanCore = SpacemanCore()
-        spacemanCore.applicationDidFinishLaunching(notification)
+    var body: some Scene {
+        if #available(macOS 15.0, *) {
+            Settings {
+                SettingsView()
+            }
+            .defaultLaunchBehavior(.suppressed)
+        } else {
+            Settings {
+                SettingsView()
+            }
+        }
     }
-    
-    func applicationWillTerminate(_ notification: Notification) {
-        spacemanCore?.applicationWillTerminate(notification)
-    }
-    
-    static func main() {
-        let app = NSApplication.shared
-        let delegate = SpacemanApp()
-        app.delegate = delegate
-        app.run()
+}
+
+struct SettingsView: View {
+    var body: some View {
+        PreferencesView(parentWindow: nil)
     }
 }
