@@ -58,6 +58,5 @@ struct SpacemanApp: App {
 struct SettingsView: View {
     var body: some View {
         PreferencesView(parentWindow: nil)
-            .frame(width: 400, height: 330)
     }
 }
