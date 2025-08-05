@@ -49,11 +49,21 @@ struct SpacemanApp: App {
     @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     
     var body: some Scene {
-        WindowGroup {
-            EmptyView()
-                .frame(width: 0, height: 0)
-                .hidden()
+        if #available(macOS 15.0, *) {
+            Settings {
+                SettingsView()
+            }
+            .defaultLaunchBehavior(.suppressed)
+        } else {
+            Settings {
+                SettingsView()
+            }
         }
-        .windowStyle(.hiddenTitleBar)
+    }
+}
+
+struct SettingsView: View {
+    var body: some View {
+        PreferencesView(parentWindow: nil)
     }
 }
