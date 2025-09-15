@@ -176,7 +176,15 @@ class StatusBar: NSObject, NSMenuDelegate {
             }
             return self.visibleSpacesMode
         }()
-        let spaceName = (mode == .all) ? String(rawName.prefix(4)) : rawName
+        let spaceName: String
+        switch mode {
+        case .all:
+            spaceName = String(rawName.prefix(4))
+        case .neighbors:
+            spaceName = String(rawName.prefix(6))
+        case .currentOnly:
+            spaceName = rawName
+        }
         let spaceByDesktopID = Int(space.spaceByDesktopID) ?? 99
         
         let mask = shortcutHelper.getModifiersAsFlags()

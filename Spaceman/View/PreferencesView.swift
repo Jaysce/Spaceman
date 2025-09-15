@@ -167,7 +167,9 @@ struct PreferencesView: View {
                 .font(.title2)
                 .fontWeight(.semibold)
             spacesStylePicker
-            spaceNameEditor
+            if displayStyle == .names || displayStyle == .numbersAndNames {
+                spaceNameListEditor
+            }
             
             Picker(selection: Binding(
                 get: { visibleSpacesMode },
@@ -229,33 +231,37 @@ struct PreferencesView: View {
         }
     }
     
-    // MARK: - Space Name Editor
-    private var spaceNameEditor: some View {
-        HStack {
-            Picker(selection: $prefsVM.selectedSpace, label: Text("Space")) {
+    // MARK: - Space Name List Editor
+    private var spaceNameListEditor: some View {
+        VStack(alignment: .leading, spacing: 6) {
+            if prefsVM.sortedSpaceNamesDict.count == 0 {
+                Text("No spaces detected yet.")
+                    .foregroundColor(.secondary)
+            } else {
+                // Show a text field per space entry
                 ForEach(0..<prefsVM.sortedSpaceNamesDict.count, id: \.self) { index in
-                    Text(String(prefsVM.sortedSpaceNamesDict[index].value.spaceByDesktopID))
-                }
-            }
-            .onChange(of: prefsVM.selectedSpace) { val in
-                if (prefsVM.sortedSpaceNamesDict.count > val) {
-                    prefsVM.spaceName = prefsVM.sortedSpaceNamesDict[val].value.spaceName
-                } else {
-                    prefsVM.spaceName = "-"
-                }
-            }
-            
-            TextField(
-                visibleSpacesMode == .all ? "Name (4 shown in All)" : "Name",
-                text: Binding(
-                    get: { prefsVM.spaceName },
-                    set: {
-                        // Always store full name; display-time may shorten in All mode
-                        prefsVM.spaceName = $0.trimmingCharacters(in: .whitespacesAndNewlines)
-                        updateName()
+                    let entry = prefsVM.sortedSpaceNamesDict[index]
+                    HStack(spacing: 8) {
+                        Text("Desktop \(entry.value.spaceByDesktopID):")
+                            .frame(width: 120, alignment: .trailing)
+                            .foregroundColor(.secondary)
+                        TextField(
+                            visibleSpacesMode == .all ? "Name (4 shown in All)" : (visibleSpacesMode == .neighbors ? "Name (6 shown in Neighbors)" : "Name"),
+                            text: Binding(
+                                get: { prefsVM.sortedSpaceNamesDict[index].value.spaceName },
+                                set: { newVal in
+                                    let trimmed = newVal.trimmingCharacters(in: .whitespacesAndNewlines)
+                                    prefsVM.updateSpace(at: index, to: trimmed)
+                                    // Persist and notify
+                                    self.data = try! PropertyListEncoder().encode(prefsVM.spaceNamesDict)
+                                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
+                                }
+                            )
+                        )
+                        .textFieldStyle(.roundedBorder)
                     }
-                )
-            )
+                }
+            }
         }
     }
     

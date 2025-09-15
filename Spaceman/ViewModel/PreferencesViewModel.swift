@@ -65,6 +65,16 @@ class PreferencesViewModel: ObservableObject {
             spaceName: spaceName.isEmpty ? "-" : spaceName,
             spaceByDesktopID: spaceByDesktopID)
     }
+
+    func updateSpace(at index: Int, to newName: String) {
+        guard index >= 0 && index < sortedSpaceNamesDict.count else { return }
+        let key = sortedSpaceNamesDict[index].key
+        let info = sortedSpaceNamesDict[index].value
+        spaceNamesDict[key] = SpaceNameInfo(
+            spaceNum: info.spaceNum,
+            spaceName: newName.isEmpty ? "-" : newName,
+            spaceByDesktopID: info.spaceByDesktopID)
+    }
     
     func startTimer() {
         timer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(refreshSpaces), userInfo: nil, repeats: true)

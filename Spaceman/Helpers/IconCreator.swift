@@ -209,8 +209,16 @@ class IconCreator {
             let spaceID = s.spaceByDesktopID
             let spaceNumberPrefix = withNumbers ? "\(spaceID):" : ""
             let rawName = s.spaceName.uppercased()
-            // When showing all spaces, keep legacy 4-char display for names to save space
-            let shownName = (visibleSpacesMode == .all) ? String(rawName.prefix(4)) : rawName
+            // Shorten for space-constrained modes
+            let shownName: String
+            switch visibleSpacesMode {
+            case .all:
+                shownName = String(rawName.prefix(4))
+            case .neighbors:
+                shownName = String(rawName.prefix(6))
+            case .currentOnly:
+                shownName = rawName
+            }
             let spaceText = NSString(string: "\(spaceNumberPrefix)\(shownName)")
             let textSize = spaceText.size(withAttributes: getStringAttributes(alpha: 1))
             let textWithMarginSize = NSMakeSize(textSize.width + 4, CGFloat(sizes.ICON_HEIGHT))

@@ -43,7 +43,8 @@ The meaning of the icons from left to right are:
 
 The style and the name of a space can be changed in preferences (shown above).
 
-- Space names: You can enter names of any length. In the “All spaces” view they display shortened to 4 characters to keep the status item compact; in “Current only” and “Current + neighbors” views, the full names are shown.
+- Space names: You can enter names of any length. Edit them directly in a list (one field per desktop). In the “All spaces” view they display shortened to 4 characters to keep the status item compact; in “Current + neighbors” they display up to 6 characters; in “Current only” the full names are shown.
+  - The names editor appears when using the “Names” or “Names with numbers” icon styles.
 
 - Spaces shown: Choose how many spaces to show in the status bar per display:
   - All spaces: shows all, compact 4-char names for the “Names” styles.
@@ -136,4 +137,3 @@ $ defaults delete dev.ruittenb.Spaceman
 ## Mentions
 
 - [Softpedia](https://mac.softpedia.com/get/System-Utilities/Spaceman.shtml)
-
