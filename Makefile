@@ -54,6 +54,7 @@ $(IMAGE): $(APPFILE)
 
 all: image ## Make all of the above
 
+
 ##@ Publishing:
 
 .PHONY: tag
@@ -78,6 +79,32 @@ publish: ## Publish the main branch appcast on Github Pages
 publish-force: ## Publish the main branch appcast on Github Pages (force push)
 	git checkout main
 	git push --force-with-lease origin `git subtree split --prefix website main`:github-pages
+
+
+##@ Homebrew:
+
+.PHONY: brew-update
+brew-update: ## Update the spaceman.rb file with the correct version
+	cd $(shell brew --repo ruittenb/tap)/Casks &&                           \
+	awk -v version=$(VERSION) -v shaout="$(shell shasum -a 256 $(IMAGE))" ' \
+	/version "[0-9.]"/ {                                                    \
+		print "  version \"" version "\""; next                             \
+	}                                                                       \
+	/sha256/ {                                                              \
+		split(shaout, sha);                                                 \
+		print "  sha256 \"" sha[1] "\""; next                               \
+	} {                                                                     \
+		print                                                               \
+	}' < spaceman.rb > spaceman.rb.new
+	mv spaceman.rb.new spaceman.rb
+	@echo "Please verify the file spaceman.rb and run 'make brew-publish'"
+
+.PHONY: brew-publish
+brew-publish: ## Publish the new spaceman.rb so that homebrew can find it
+	cd $(shell brew --repo ruittenb/tap)     && \
+	git commit Casks -m "Version $(VERSION)" && \
+	git push
+
 
 ##@ Defaults:
 
