@@ -38,6 +38,7 @@
 		E8E8D41C2585A80B00671AE9 /* KeyboardShortcuts in Frameworks */ = {isa = PBXBuildFile; productRef = E8E8D41B2585A80B00671AE9 /* KeyboardShortcuts */; };
 		E8EBF08C2575F8E4001BA74F /* LaunchAtLogin in Frameworks */ = {isa = PBXBuildFile; productRef = E8EBF08B2575F8E4001BA74F /* LaunchAtLogin */; };
 		E8EBF091257739ED001BA74F /* PreferencesWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8EBF090257739ED001BA74F /* PreferencesWindow.swift */; };
+		E9A1B2C32D99999900AAA111 /* VisibleSpacesMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9A1B2C22D99999900AAA111 /* VisibleSpacesMode.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -73,6 +74,7 @@
 		E8E2AEFE257CB5AF00319BBC /* DisplayStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayStyle.swift; sourceTree = "<group>"; };
 		E8E2AF02257CB5CE00319BBC /* SpaceNameInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceNameInfo.swift; sourceTree = "<group>"; };
 		E8EBF090257739ED001BA74F /* PreferencesWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesWindow.swift; sourceTree = "<group>"; };
+		E9A1B2C22D99999900AAA111 /* VisibleSpacesMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisibleSpacesMode.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -195,6 +197,7 @@
 				E7DA73A52CA6E74D00212836 /* LayoutMode.swift */,
 				E873350D256B5F0F0012586E /* Space.swift */,
 				E8E2AF02257CB5CE00319BBC /* SpaceNameInfo.swift */,
+				E9A1B2C22D99999900AAA111 /* VisibleSpacesMode.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -327,6 +330,7 @@
 				E7DA73A82CA6E7A700212836 /* GuiSize.swift in Sources */,
 				E828E6552737CBA0007075E8 /* VisualEffectView.swift in Sources */,
 				E8733517256C6F3A0012586E /* Extensions.swift in Sources */,
+				E9A1B2C32D99999900AAA111 /* VisibleSpacesMode.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

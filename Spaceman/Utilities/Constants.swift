@@ -48,6 +48,15 @@ struct Constants {
             ICON_WIDTH_XLARGE: 49,
             ICON_HEIGHT: 14,
             FONT_SIZE: 12
+        ),
+        .extraLarge: GuiSize(
+            GAP_WIDTH_SPACES: 6,
+            GAP_WIDTH_DISPLAYS: 16,
+            ICON_WIDTH_SMALL: 24,
+            ICON_WIDTH_LARGE: 44,
+            ICON_WIDTH_XLARGE: 62,
+            ICON_HEIGHT: 16,
+            FONT_SIZE: 14
         )
     ]
 }

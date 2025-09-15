@@ -131,13 +131,15 @@ class SpaceObserver {
                    let dict = try? PropertyListDecoder().decode([String: SpaceNameInfo].self, from: data),
                    let saved = dict[managedSpaceID]
                 {
+                    // Keep full saved name; apply any display shortening at render time
                     space.spaceName = saved.spaceName
                 } else if isFullScreen {
                     if let pid = s["pid"] as? pid_t,
                        let app = NSRunningApplication(processIdentifier: pid),
                        let name = app.localizedName
                     {
-                        space.spaceName = name.prefix(4).uppercased()
+                        // Use full app name; apply any display shortening at render time
+                        space.spaceName = name.uppercased()
                     } else {
                         space.spaceName = "FULL"
                     }

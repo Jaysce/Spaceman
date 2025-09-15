@@ -21,7 +21,7 @@ Go to the [releases](https://github.com/ruittenb/Spaceman/releases) tab and down
 
 The above image shows the possible icons that you will see depending on the style you choose.
 
-There are five styles to choose from, from top to bottom:
+There are five icon styles to choose from, from top to bottom:
 - Rectangles
 - Numbers
 - Rectangles with Numbers
@@ -41,7 +41,18 @@ The meaning of the icons from left to right are:
 
 <img src="images/Preferences-4a.png" width="66%" height="auto">
 
-The style and the name of a space can be changed in preferences (shown above). A space is named by selecting the space from the dropdown and editing its name (up to 4 characters).
+The style and the name of a space can be changed in preferences (shown above).
+
+- Space names: You can enter names of any length. In the “All spaces” view they display shortened to 4 characters to keep the status item compact; in “Current only” and “Current + neighbors” views, the full names are shown.
+
+- Spaces shown: Choose how many spaces to show in the status bar per display:
+  - All spaces: shows all, compact 4-char names for the “Names” styles.
+  - Current only: shows only the active space on each display.
+  - Current + neighbors: shows the active space plus one on either side on each display.
+
+- Layout size: Choose Compact, Medium, Large, or Extra Large to change icon and font sizes.
+
+Note: When using the “Rectangles” icon style, the “Spaces shown” control is disabled and behaves like “All spaces”.
 
 If the icon fails to update, you can choose to force a refresh of the icon using a custom keyboard shortcut or allow Spaceman to refresh them automatically every 5 seconds by enabling 'Refresh spaces in background'.
 
@@ -65,6 +76,10 @@ by Mission Control. For making use of these, you would have to use an applicatio
 
 For extra spaces, switching will not be available; the status bar icon will flash if
 selected, and the menu option will be disabled.
+
+Switching notes for filtered views:
+- If you select “Current only”, clicking the status bar won’t switch (only one item is visible).
+- In “Current + neighbors”, clicking still switches to the correct desktop number.
 
 
 **For switching to work successfully, the following things need to be configured:**
@@ -121,5 +136,4 @@ $ defaults delete dev.ruittenb.Spaceman
 ## Mentions
 
 - [Softpedia](https://mac.softpedia.com/get/System-Utilities/Spaceman.shtml)
-
 

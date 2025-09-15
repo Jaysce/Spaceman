@@ -12,7 +12,13 @@ import SwiftUI
 class IconCreator {
     @AppStorage("layoutMode") private var layoutMode = LayoutMode.medium
     @AppStorage("displayStyle") private var displayStyle = DisplayStyle.numbersAndRects
+    // Legacy flag kept for backward compatibility; use visibleSpacesMode instead
     @AppStorage("hideInactiveSpaces") private var hideInactiveSpaces = false
+    @AppStorage("visibleSpacesMode") private var visibleSpacesModeRaw: Int = VisibleSpacesMode.all.rawValue
+    private var visibleSpacesMode: VisibleSpacesMode {
+        get { VisibleSpacesMode(rawValue: visibleSpacesModeRaw) ?? .all }
+        set { visibleSpacesModeRaw = newValue.rawValue }
+    }
     
     private let leftMargin = CGFloat(7)  /* FIXME determine actual left margin */
     private var displayCount = 1
@@ -32,8 +38,30 @@ class IconCreator {
             height: sizes.ICON_HEIGHT)
         
         var icons = [NSImage]()
-        
+
+        // Precompute switch indices for all spaces (global mapping)
+        var switchIndexBySpaceID: [String: Int] = [:]
+        var nonFullIndex = 1
+        var fullIndex = 1
         for s in spaces {
+            if s.isFullScreen {
+                // Map first two fullscreen spaces to -1 and -2
+                if fullIndex <= 2 {
+                    switchIndexBySpaceID[s.spaceID] = -fullIndex
+                }
+                fullIndex += 1
+            } else {
+                if nonFullIndex <= 10 {
+                    switchIndexBySpaceID[s.spaceID] = nonFullIndex
+                }
+                nonFullIndex += 1
+            }
+        }
+
+        // Determine which spaces to include based on mode
+        let filteredSpaces = filterSpaces(spaces)
+
+        for s in filteredSpaces {
             let iconResourceName: String
             switch (s.isCurrentSpace, s.isFullScreen, displayStyle) {
             case (true, true, .names):
@@ -60,15 +88,53 @@ class IconCreator {
             //icons = resizeIcons(spaces, icons, layoutMode)
             break
         case .numbers:
-            icons = createNumberedIcons(spaces)
+            icons = createNumberedIcons(filteredSpaces)
         case .numbersAndRects:
-            icons = createRectWithNumbersIcons(icons, spaces)
+            icons = createRectWithNumbersIcons(icons, filteredSpaces)
         case .names, .numbersAndNames:
-            icons = createNamedIcons(icons, spaces, withNumbers: displayStyle == .numbersAndNames)
+            icons = createNamedIcons(icons, filteredSpaces, withNumbers: displayStyle == .numbersAndNames)
         }
         
-        let iconsWithDisplayProperties = getIconsWithDisplayProps(icons: icons, spaces: spaces)
-        return mergeIcons(iconsWithDisplayProperties)
+        let iconsWithDisplayProperties = getIconsWithDisplayProps(icons: icons, spaces: filteredSpaces)
+        return mergeIcons(iconsWithDisplayProperties, indexMap: switchIndexBySpaceID)
+    }
+
+    private func filterSpaces(_ spaces: [Space]) -> [Space] {
+        // Backwards compatibility: if legacy flag is true and visible mode wasn't set explicitly, treat as current only
+        let mode: VisibleSpacesMode = {
+            if UserDefaults.standard.object(forKey: "visibleSpacesMode") == nil && hideInactiveSpaces {
+                return .currentOnly
+            }
+            return visibleSpacesMode
+        }()
+        switch mode {
+        case .all:
+            return spaces
+        case .currentOnly:
+            return spaces.filter { $0.isCurrentSpace }
+        case .neighbors:
+            var filtered: [Space] = []
+            var group: [Space] = []
+            var currentDisplayID = spaces.first?.displayID ?? ""
+            func flushGroup() {
+                guard group.count > 0 else { return }
+                if let activeIndex = group.firstIndex(where: { $0.isCurrentSpace }) {
+                    let start = max(0, activeIndex - 1)
+                    let end = min(group.count - 1, activeIndex + 1)
+                    filtered.append(contentsOf: group[start...end])
+                }
+                group.removeAll(keepingCapacity: true)
+            }
+            for s in spaces {
+                if s.displayID != currentDisplayID {
+                    flushGroup()
+                    currentDisplayID = s.displayID
+                }
+                group.append(s)
+            }
+            flushGroup()
+            return filtered
+        }
     }
 
     private func createNumberedIcons(_ spaces: [Space]) -> [NSImage] {
@@ -142,7 +208,10 @@ class IconCreator {
         for s in spaces {
             let spaceID = s.spaceByDesktopID
             let spaceNumberPrefix = withNumbers ? "\(spaceID):" : ""
-            let spaceText = NSString(string: "\(spaceNumberPrefix)\(s.spaceName.uppercased())")
+            let rawName = s.spaceName.uppercased()
+            // When showing all spaces, keep legacy 4-char display for names to save space
+            let shownName = (visibleSpacesMode == .all) ? String(rawName.prefix(4)) : rawName
+            let spaceText = NSString(string: "\(spaceNumberPrefix)\(shownName)")
             let textSize = spaceText.size(withAttributes: getStringAttributes(alpha: 1))
             let textWithMarginSize = NSMakeSize(textSize.width + 4, CGFloat(sizes.ICON_HEIGHT))
             
@@ -179,34 +248,29 @@ class IconCreator {
         return newIcons
     }
     
-    private func getIconsWithDisplayProps(icons: [NSImage], spaces: [Space]) -> [(NSImage, Bool, Bool)] {
-        var iconsWithDisplayProperties = [(NSImage, Bool, Bool)]()
+    private func getIconsWithDisplayProps(icons: [NSImage], spaces: [Space]) -> [(NSImage, Bool, Bool, String)] {
+        var iconsWithDisplayProperties = [(NSImage, Bool, Bool, String)]()
+        guard spaces.count > 0 else { return iconsWithDisplayProperties }
         var currentDisplayID = spaces[0].displayID
         displayCount = 1
-        
+
         for index in 0 ..< spaces.count {
-            if hideInactiveSpaces && !spaces[index].isCurrentSpace {
-                continue
-            }
-            
             var nextSpaceIsOnDifferentDisplay = false
-            
-            if !hideInactiveSpaces && index + 1 < spaces.count {
-                let thisDisplayID = spaces[index + 1].displayID
-                if thisDisplayID != currentDisplayID {
-                    currentDisplayID = thisDisplayID
+            if index + 1 < spaces.count {
+                let nextDisplayID = spaces[index + 1].displayID
+                if nextDisplayID != currentDisplayID {
+                    currentDisplayID = nextDisplayID
                     displayCount += 1
                     nextSpaceIsOnDifferentDisplay = true
                 }
             }
-            
-            iconsWithDisplayProperties.append((icons[index], nextSpaceIsOnDifferentDisplay, spaces[index].isFullScreen))
+            iconsWithDisplayProperties.append((icons[index], nextSpaceIsOnDifferentDisplay, spaces[index].isFullScreen, spaces[index].spaceID))
         }
-        
+
         return iconsWithDisplayProperties
     }
     
-    private func mergeIcons(_ iconsWithDisplayProperties: [(image: NSImage, nextSpaceOnDifferentDisplay: Bool, isFullScreen: Bool)]) -> NSImage {
+    private func mergeIcons(_ iconsWithDisplayProperties: [(image: NSImage, nextSpaceOnDifferentDisplay: Bool, isFullScreen: Bool, spaceID: String)], indexMap: [String: Int]) -> NSImage {
         let numIcons = iconsWithDisplayProperties.count
         let combinedIconWidth = CGFloat(iconsWithDisplayProperties.reduce(0) { (result, icon) in
             result + icon.image.size.width
@@ -219,8 +283,6 @@ class IconCreator {
         image.lockFocus()
         var left = CGFloat.zero
         var right: CGFloat
-        var currentSpaceNumber = 1
-        var currentFullScreenSpaceNumber = 1
         iconWidths = []
         for icon in iconsWithDisplayProperties {
             icon.image.draw(
@@ -233,13 +295,9 @@ class IconCreator {
             } else {
                 right = left + icon.image.size.width + gapWidth
             }
-            if !icon.isFullScreen {
-                iconWidths.append(IconWidth(left: left + leftMargin, right: right + leftMargin, index: currentSpaceNumber))
-                currentSpaceNumber += 1
-            } else {
-                iconWidths.append(IconWidth(left: left + leftMargin, right: right + leftMargin, index: -currentFullScreenSpaceNumber))
-                currentFullScreenSpaceNumber += 1
-            }
+            // Use precomputed index mapping to preserve correct switching
+            let targetIndex = indexMap[icon.spaceID] ?? -99 // invalid => onError
+            iconWidths.append(IconWidth(left: left + leftMargin, right: right + leftMargin, index: targetIndex))
             left = right
         }
         image.isTemplate = true

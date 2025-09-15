@@ -48,3 +48,8 @@
 1.2.1-R: Better support for space names consisting of four characters
 1.2.0-R: Show space numbers in menu
 1.1.1-R: Desktop switcher using menu options
+Unreleased
+  - Add “Spaces shown” setting with: All spaces, Current only, Current + neighbors
+  - Names now store full length; in All spaces they display in 4-char compact form
+  - Add Extra Large layout size
+  - Improve click switching mapping for filtered views
