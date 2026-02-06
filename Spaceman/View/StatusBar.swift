@@ -9,13 +9,16 @@ import Foundation
 import SwiftUI
 import Sparkle
 
-class StatusBar {
+final class StatusBar: NSObject, SPUStandardUserDriverDelegate {
     private var statusBarItem: NSStatusItem!
     private var statusBarMenu: NSMenu!
     private var prefsWindow: PreferencesWindow!
-    private let updaterController = SPUStandardUpdaterController(startingUpdater: true, updaterDelegate: nil, userDriverDelegate: nil)
+    private var updatesMenuItem: NSMenuItem!
+    private lazy var updaterController = SPUStandardUpdaterController(startingUpdater: true, updaterDelegate: nil, userDriverDelegate: self)
+    private var hasPendingScheduledUpdate = false
     
-    init() {
+    override init() {
+        super.init()
         
         statusBarItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
         statusBarMenu = NSMenu()
@@ -30,11 +33,11 @@ class StatusBar {
         view.frame = NSRect(x: 0, y: 0, width: 220, height: 70)
         about.view = view
         
-        let updates = NSMenuItem(
+        updatesMenuItem = NSMenuItem(
             title: "Check for updates...",
             action: #selector(SPUStandardUpdaterController.checkForUpdates(_:)),
             keyEquivalent: "")
-        updates.target = updaterController
+        updatesMenuItem.target = updaterController
         
         let pref = NSMenuItem(
             title: "Preferences...",
@@ -49,7 +52,7 @@ class StatusBar {
         
         statusBarMenu.addItem(about)
         statusBarMenu.addItem(NSMenuItem.separator())
-        statusBarMenu.addItem(updates)
+        statusBarMenu.addItem(updatesMenuItem)
         statusBarMenu.addItem(pref)
         statusBarMenu.addItem(quit)
         statusBarItem.menu = statusBarMenu
@@ -72,5 +75,43 @@ class StatusBar {
         prefsWindow.center()
         prefsWindow.makeKeyAndOrderFront(nil)
         NSApplication.shared.activate(ignoringOtherApps: true)
+    }
+
+    var supportsGentleScheduledUpdateReminders: Bool {
+        true
+    }
+
+    func standardUserDriverShouldHandleShowingScheduledUpdate(_ update: SUAppcastItem, andInImmediateFocus immediateFocus: Bool) -> Bool {
+        immediateFocus
+    }
+
+    func standardUserDriverWillHandleShowingUpdate(_ handleShowingUpdate: Bool, forUpdate update: SUAppcastItem, state: SPUUserUpdateState) {
+        guard !state.userInitiated else {
+            return
+        }
+
+        if handleShowingUpdate {
+            clearGentleReminderState()
+        } else {
+            hasPendingScheduledUpdate = true
+            updatesMenuItem.title = "Update available..."
+        }
+    }
+
+    func standardUserDriverDidReceiveUserAttention(forUpdate update: SUAppcastItem) {
+        clearGentleReminderState()
+    }
+
+    func standardUserDriverWillFinishUpdateSession() {
+        clearGentleReminderState()
+    }
+
+    private func clearGentleReminderState() {
+        guard hasPendingScheduledUpdate else {
+            return
+        }
+
+        hasPendingScheduledUpdate = false
+        updatesMenuItem.title = "Check for updates..."
     }
 }
