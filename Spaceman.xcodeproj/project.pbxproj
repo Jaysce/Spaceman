@@ -165,6 +165,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = E87334F8256B51CF0012586E /* Build configuration list for PBXNativeTarget "Spaceman" */;
 			buildPhases = (
+				F0A5D6B72C4E4A6900A1B2C3 /* SwiftLint */,
 				E87334E1256B51CF0012586E /* Sources */,
 				E87334E2256B51CF0012586E /* Frameworks */,
 				E87334E3256B51CF0012586E /* Resources */,
@@ -233,6 +234,30 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		F0A5D6B72C4E4A6900A1B2C3 /* SwiftLint */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/.swiftlint.yml",
+				"$(SRCROOT)/Spaceman",
+			);
+			name = SwiftLint;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+				shellScript = "PATH=\"/opt/homebrew/bin:/usr/local/bin:${PATH}\"\nSWIFTLINT=\"$(command -v swiftlint || true)\"\nif [ -z \"${SWIFTLINT}\" ]; then\n  echo \"warning: SwiftLint is not installed. Install it from https://github.com/realm/SwiftLint\"\n  exit 0\nfi\n\"${SWIFTLINT}\" lint \"${SRCROOT}/Spaceman\" --config \"${SRCROOT}/.swiftlint.yml\" --reporter xcode --lenient --no-cache\n";
+			};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		E87334E1256B51CF0012586E /* Sources */ = {

@@ -1,0 +1,30 @@
+included:
+  - Spaceman
+
+excluded:
+  - Spaceman.xcodeproj
+  - Images
+
+disabled_rules:
+  - todo
+
+opt_in_rules:
+  - force_cast
+  - force_try
+  - force_unwrapping
+  - implicitly_unwrapped_optional
+  - empty_count
+  - empty_string
+  - redundant_nil_coalescing
+  - contains_over_filter_count
+  - contains_over_filter_is_empty
+
+line_length:
+  warning: 120
+  error: 200
+  ignores_comments: true
+  ignores_urls: true
+  ignores_function_declarations: true
+  ignores_interpolated_strings: true
+
+reporter: xcode
