@@ -42,3 +42,6 @@ If the icon fails to update, you can choose to force a refresh of the icon using
 - This project uses [Sparkle](https://sparkle-project.org) for update delivery
 - This project makes use of [LaunchAtLogin](https://github.com/sindresorhus/LaunchAtLogin)
 - This project makes use of [KeyboardShortcuts](https://github.com/sindresorhus/KeyboardShortcuts)
+
+## Releasing
+- See [RELEASING.md](RELEASING.md) for the semantic versioning + tag-triggered Sparkle deploy workflow.
