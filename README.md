@@ -2,7 +2,7 @@
 ## About
 Spaceman is an application for macOS that allows you to view your Spaces / Virtual Desktops in the menu bar. Spaceman allows you to see which space you are currently on (or spaces if you are using multiple displays) relative to the other spaces you have. Naming these spaces is also an option in order to organise separate spaces for your workflow.
 
-**Spaceman requires macOS 11 Big Sur or greater.**
+**Spaceman requires macOS 15 Sequoia or greater.**
 
 ## Install
 ### Homebrew
