@@ -37,7 +37,7 @@ struct PreferencesView: View {
         .ignoresSafeArea()
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
         .onAppear(perform: prefsVM.loadData)
-        .onChange(of: data) { _ in
+        .onChange(of: data) {
             prefsVM.loadData()
         }
         
@@ -113,7 +113,7 @@ struct PreferencesView: View {
                 shortcutRecorder.disabled(autoRefreshSpaces ? true : false)
             }
             .padding()
-            .onChange(of: autoRefreshSpaces) { enabled in
+            .onChange(of: autoRefreshSpaces) { _, enabled in
                 if enabled {
                     prefsVM.startTimer()
                     KeyboardShortcuts.disable(.refresh)
@@ -158,8 +158,7 @@ struct PreferencesView: View {
             Text("Rectangles with desktop numbers").tag(SpacemanStyle.desktopNumbersAndRects.rawValue)
             Text("Named spaces").tag(SpacemanStyle.text.rawValue)
         }
-        .onChange(of: selectedStyle) { val in
-            selectedStyle = val
+        .onChange(of: selectedStyle) {
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
         }
     }
