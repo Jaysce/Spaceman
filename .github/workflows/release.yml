@@ -145,7 +145,7 @@ jobs:
           echo "RELEASE_TAG=$release_tag" >> "$GITHUB_ENV"
           echo "RELEASE_VERSION=${release_tag#v}" >> "$GITHUB_ENV"
           echo "RELEASE_TITLE=Spaceman ${release_tag#v}" >> "$GITHUB_ENV"
-          echo "SPARKLE_PUBLIC_BASE_URL=https://github.com/${GITHUB_REPOSITORY}/releases/download/$release_tag" >> "$GITHUB_ENV"
+          echo "SPARKLE_PUBLIC_BASE_URL=https://github.com/${GITHUB_REPOSITORY}/releases/download/$release_tag/" >> "$GITHUB_ENV"
           echo "TARGET_REF=$target_ref" >> "$GITHUB_ENV"
           echo "DRY_RUN=$dry_run" >> "$GITHUB_ENV"
 
@@ -206,6 +206,19 @@ jobs:
 
       - name: Generate appcast
         run: ./scripts/release/generate_appcast.sh "$ARTIFACTS_DIR"
+
+      - name: Validate generated appcast URLs
+        run: |
+          appcast_path="$ARTIFACTS_DIR/appcast.xml"
+          expected_segment="/releases/download/${RELEASE_TAG}/"
+
+          [[ -f "$appcast_path" ]] || { echo "::error::Missing generated appcast at $appcast_path"; exit 1; }
+          if ! grep -q "$expected_segment" "$appcast_path"; then
+            echo "::error::Generated appcast is missing expected release URL segment: $expected_segment"
+            echo "Current URLs:"
+            grep -Eo 'https://github.com/[^"]+' "$appcast_path" || true
+            exit 1
+          fi
 
       - name: Publish GitHub release assets
         if: env.DRY_RUN != 'true'
