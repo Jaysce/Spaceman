@@ -96,6 +96,8 @@ jobs:
       SCHEME_NAME: Spaceman
       ARTIFACTS_DIR: release-artifacts
       RELEASE_CODE_SIGN_IDENTITY: Developer ID Application
+      RELEASE_CODE_SIGN_STYLE: Manual
+      RELEASE_DEVELOPMENT_TEAM: ${{ secrets.APPLE_DEVELOPER_TEAM_ID }}
       SPARKLE_PRIVATE_ED_KEY: ${{ secrets.SPARKLE_PRIVATE_ED_KEY }}
       INPUT_RELEASE_TAG: ${{ github.event.inputs.release_tag }}
       INPUT_TARGET_REF: ${{ github.event.inputs.target_ref }}
@@ -150,6 +152,7 @@ jobs:
       - name: Validate required configuration
         run: |
           [[ -n "$SPARKLE_PRIVATE_ED_KEY" ]] || { echo "::error::Missing secret SPARKLE_PRIVATE_ED_KEY"; exit 1; }
+          [[ -n "$RELEASE_DEVELOPMENT_TEAM" ]] || { echo "::error::Missing secret APPLE_DEVELOPER_TEAM_ID"; exit 1; }
 
       - name: Validate release version
         run: ./scripts/release/validate_release_version.sh "$RELEASE_TAG"
