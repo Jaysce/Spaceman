@@ -1,0 +1,217 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+  workflow_dispatch:
+    inputs:
+      release_tag:
+        description: "Release tag (vMAJOR.MINOR.PATCH)"
+        required: false
+        type: string
+      target_ref:
+        description: "Branch, tag, or commit to run release steps from (dry-run only)"
+        required: false
+        default: "main"
+        type: string
+      dry_run:
+        description: "Build/package/appcast without publishing a GitHub release"
+        required: true
+        default: true
+        type: boolean
+
+permissions:
+  contents: write
+
+jobs:
+  validate-tag:
+    name: Validate Tag Origin
+    runs-on: macos-15
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Verify tag commit is on main
+        env:
+          INPUT_RELEASE_TAG: ${{ github.event.inputs.release_tag }}
+          INPUT_DRY_RUN: ${{ github.event.inputs.dry_run }}
+        run: |
+          if [[ "${GITHUB_EVENT_NAME}" == "push" ]]; then
+            release_tag="${GITHUB_REF_NAME}"
+            dry_run="false"
+          else
+            release_tag="${INPUT_RELEASE_TAG}"
+            dry_run="${INPUT_DRY_RUN}"
+          fi
+
+          if [[ "$dry_run" == "true" ]]; then
+            echo "Dry-run selected. Skipping release tag ancestry validation."
+            exit 0
+          fi
+
+          [[ -n "$release_tag" ]] || { echo "::error::Missing release tag"; exit 1; }
+
+          git fetch --tags origin
+          git fetch --no-tags origin main
+          tag_sha="$(git rev-list -n 1 "refs/tags/${release_tag}" 2>/dev/null || true)"
+          [[ -n "$tag_sha" ]] || { echo "::error::Tag ${release_tag} does not exist in repository."; exit 1; }
+
+          if ! git merge-base --is-ancestor "$tag_sha" "origin/main"; then
+            echo "::error::Tag ${release_tag} must point to a commit reachable from main."
+            exit 1
+          fi
+
+  lint:
+    name: Lint
+    runs-on: macos-15
+    needs: validate-tag
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event_name == 'workflow_dispatch' && (github.event.inputs.dry_run == 'true' && github.event.inputs.target_ref || github.event.inputs.release_tag) || github.ref }}
+
+      - name: Install SwiftLint
+        run: |
+          if ! command -v swiftlint >/dev/null 2>&1; then
+            brew install swiftlint
+          fi
+
+      - name: Run SwiftLint
+        run: swiftlint lint Spaceman --config .swiftlint.yml --reporter github-actions-logging --strict --no-cache
+
+  release:
+    name: Archive and Publish
+    runs-on: macos-15
+    needs: lint
+    env:
+      APP_NAME: Spaceman
+      PROJECT_PATH: Spaceman.xcodeproj
+      SCHEME_NAME: Spaceman
+      ARTIFACTS_DIR: release-artifacts
+      RELEASE_CODE_SIGN_IDENTITY: Developer ID Application
+      SPARKLE_PRIVATE_ED_KEY: ${{ secrets.SPARKLE_PRIVATE_ED_KEY }}
+      INPUT_RELEASE_TAG: ${{ github.event.inputs.release_tag }}
+      INPUT_TARGET_REF: ${{ github.event.inputs.target_ref }}
+      INPUT_DRY_RUN: ${{ github.event.inputs.dry_run }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event_name == 'workflow_dispatch' && (github.event.inputs.dry_run == 'true' && github.event.inputs.target_ref || github.event.inputs.release_tag) || github.ref }}
+
+      - name: Set release context
+        run: |
+          if [[ "${GITHUB_EVENT_NAME}" == "push" ]]; then
+            release_tag="${GITHUB_REF_NAME}"
+            dry_run="false"
+            target_ref="${GITHUB_REF_NAME}"
+          else
+            release_tag="${INPUT_RELEASE_TAG}"
+            dry_run="${INPUT_DRY_RUN}"
+            target_ref="${INPUT_TARGET_REF}"
+          fi
+
+          [[ -n "$target_ref" ]] || { echo "::error::Missing target_ref"; exit 1; }
+          [[ "$dry_run" == "true" || "$dry_run" == "false" ]] || { echo "::error::dry_run must be true or false"; exit 1; }
+
+          if [[ "$dry_run" == "true" && -z "$release_tag" ]]; then
+            marketing_versions="$(
+              grep -Eo 'MARKETING_VERSION = [^;]+' "$PROJECT_PATH/project.pbxproj" \
+                | awk '{print $3}' \
+                | sort -u
+            )"
+            marketing_count="$(printf '%s\n' "$marketing_versions" | wc -l | tr -d ' ')"
+            if [[ "$marketing_count" != "1" ]]; then
+              echo "::error::Expected one MARKETING_VERSION in $PROJECT_PATH/project.pbxproj, found: $marketing_versions"
+              exit 1
+            fi
+
+            release_tag="v$(printf '%s\n' "$marketing_versions" | head -n 1)"
+          fi
+
+          [[ -n "$release_tag" ]] || { echo "::error::Missing release_tag"; exit 1; }
+
+          echo "RELEASE_TAG=$release_tag" >> "$GITHUB_ENV"
+          echo "RELEASE_VERSION=${release_tag#v}" >> "$GITHUB_ENV"
+          echo "RELEASE_TITLE=Spaceman ${release_tag#v}" >> "$GITHUB_ENV"
+          echo "SPARKLE_PUBLIC_BASE_URL=https://github.com/${GITHUB_REPOSITORY}/releases/download/$release_tag" >> "$GITHUB_ENV"
+          echo "TARGET_REF=$target_ref" >> "$GITHUB_ENV"
+          echo "DRY_RUN=$dry_run" >> "$GITHUB_ENV"
+
+      - name: Validate required configuration
+        run: |
+          [[ -n "$SPARKLE_PRIVATE_ED_KEY" ]] || { echo "::error::Missing secret SPARKLE_PRIVATE_ED_KEY"; exit 1; }
+
+      - name: Validate release version
+        run: ./scripts/release/validate_release_version.sh "$RELEASE_TAG"
+
+      - name: Import Developer ID certificate
+        env:
+          APPLE_DEVELOPER_ID_CERT_P12_BASE64: ${{ secrets.APPLE_DEVELOPER_ID_CERT_P12_BASE64 }}
+          APPLE_DEVELOPER_ID_CERT_PASSWORD: ${{ secrets.APPLE_DEVELOPER_ID_CERT_PASSWORD }}
+          APPLE_KEYCHAIN_PASSWORD: ${{ secrets.APPLE_KEYCHAIN_PASSWORD }}
+        run: |
+          [[ -n "$APPLE_DEVELOPER_ID_CERT_P12_BASE64" ]] || { echo "::error::Missing secret APPLE_DEVELOPER_ID_CERT_P12_BASE64"; exit 1; }
+          [[ -n "$APPLE_DEVELOPER_ID_CERT_PASSWORD" ]] || { echo "::error::Missing secret APPLE_DEVELOPER_ID_CERT_PASSWORD"; exit 1; }
+          [[ -n "$APPLE_KEYCHAIN_PASSWORD" ]] || { echo "::error::Missing secret APPLE_KEYCHAIN_PASSWORD"; exit 1; }
+
+          KEYCHAIN_PATH="$RUNNER_TEMP/build-signing.keychain-db"
+          CERT_PATH="$RUNNER_TEMP/developer-id.p12"
+
+          echo "$APPLE_DEVELOPER_ID_CERT_P12_BASE64" | base64 --decode > "$CERT_PATH"
+
+          security create-keychain -p "$APPLE_KEYCHAIN_PASSWORD" "$KEYCHAIN_PATH"
+          security set-keychain-settings -lut 21600 "$KEYCHAIN_PATH"
+          security unlock-keychain -p "$APPLE_KEYCHAIN_PASSWORD" "$KEYCHAIN_PATH"
+          security import "$CERT_PATH" -k "$KEYCHAIN_PATH" -P "$APPLE_DEVELOPER_ID_CERT_PASSWORD" -T /usr/bin/codesign -T /usr/bin/security
+          security set-key-partition-list -S apple-tool:,apple: -s -k "$APPLE_KEYCHAIN_PASSWORD" "$KEYCHAIN_PATH"
+          security list-keychains -d user -s "$KEYCHAIN_PATH"
+
+          echo "RELEASE_OTHER_CODE_SIGN_FLAGS=--keychain $KEYCHAIN_PATH" >> "$GITHUB_ENV"
+
+      - name: Prepare release directory
+        run: mkdir -p "$ARTIFACTS_DIR"
+
+      - name: Download existing appcast
+        if: env.DRY_RUN != 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if gh release download --repo "$GITHUB_REPOSITORY" --pattern appcast.xml --dir "$ARTIFACTS_DIR"; then
+            echo "Downloaded existing appcast.xml from latest GitHub release"
+          else
+            echo "No existing appcast.xml found in latest release, creating a new feed."
+          fi
+
+      - name: Generate release notes from changelog
+        run: ./scripts/release/extract_release_notes.sh "$RELEASE_VERSION" "$ARTIFACTS_DIR/Spaceman-$RELEASE_VERSION.txt"
+
+      - name: Archive app and create DMG
+        run: ./scripts/release/build_dmg.sh "$RELEASE_VERSION" "$ARTIFACTS_DIR"
+
+      - name: Build Sparkle tool
+        run: echo "GENERATE_APPCAST_BIN=$(./scripts/release/build_sparkle_tool.sh generate_appcast)" >> "$GITHUB_ENV"
+
+      - name: Generate appcast
+        run: ./scripts/release/generate_appcast.sh "$ARTIFACTS_DIR"
+
+      - name: Publish GitHub release assets
+        if: env.DRY_RUN != 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: ./scripts/release/upload_to_github_release.sh "$ARTIFACTS_DIR"
+
+      - name: Upload workflow artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: sparkle-release-${{ env.RELEASE_VERSION }}
+          path: release-artifacts/
