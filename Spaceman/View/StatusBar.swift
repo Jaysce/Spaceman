@@ -13,6 +13,7 @@ class StatusBar {
     private var statusBarItem: NSStatusItem!
     private var statusBarMenu: NSMenu!
     private var prefsWindow: PreferencesWindow!
+    private let updaterController = SPUStandardUpdaterController(startingUpdater: true, updaterDelegate: nil, userDriverDelegate: nil)
     
     init() {
         
@@ -31,9 +32,9 @@ class StatusBar {
         
         let updates = NSMenuItem(
             title: "Check for updates...",
-            action: #selector(SUUpdater.checkForUpdates(_:)),
+            action: #selector(SPUStandardUpdaterController.checkForUpdates(_:)),
             keyEquivalent: "")
-        updates.target = SUUpdater.shared()
+        updates.target = updaterController
         
         let pref = NSMenuItem(
             title: "Preferences...",
