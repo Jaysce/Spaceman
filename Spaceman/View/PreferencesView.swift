@@ -10,17 +10,17 @@ import LaunchAtLogin
 import KeyboardShortcuts
 
 struct PreferencesView: View {
-    
-    weak var parentWindow: PreferencesWindow!
-    
+
+    weak var parentWindow: PreferencesWindow?
+
     @AppStorage("displayStyle") private var selectedStyle = 0
     @AppStorage("spaceNames") private var data = Data()
     @AppStorage("autoRefreshSpaces") private var autoRefreshSpaces = false
     @StateObject private var prefsVM = PreferencesViewModel()
-    
+
     // MARK: - Main Body
     var body: some View {
-        
+
         VStack(spacing: 0) {
             ZStack {
                 VisualEffectView(material: .sidebar, blendingMode: .behindWindow)
@@ -29,9 +29,9 @@ struct PreferencesView: View {
             }
             .frame(maxWidth: .infinity, minHeight: 60, maxHeight: 60, alignment: .center)
             .offset(y: 1) // Looked like it was off center
-            
+
             Divider()
-                        
+
             preferencePanes
         }
         .ignoresSafeArea()
@@ -40,16 +40,16 @@ struct PreferencesView: View {
         .onChange(of: data) {
             prefsVM.loadData()
         }
-        
+
     }
-    
+
     // MARK: - Close Button
     private var closeButton: some View {
         VStack {
             Spacer()
             HStack {
                 Button {
-                    parentWindow.close()
+                    parentWindow?.close()
                 } label: {
                     Image(systemName: "xmark.circle.fill")
                 }
@@ -60,7 +60,7 @@ struct PreferencesView: View {
             Spacer()
         }
     }
-    
+
     // MARK: - App Info
     private var appInfo: some View {
         HStack(spacing: 8) {
@@ -77,9 +77,9 @@ struct PreferencesView: View {
                 }
             }
             .padding(.leading)
-            
+
             Spacer()
-            
+
             HStack {
                 Button {
                     NSWorkspace.shared.open(Constants.AppInfo.repo)
@@ -87,7 +87,7 @@ struct PreferencesView: View {
                     Text("GitHub").font(.system(size: 12))
                 }
                 .buttonStyle(LinkButtonStyle())
-                
+
                 Button {
                     NSWorkspace.shared.open(Constants.AppInfo.website)
                 } label: {
@@ -98,17 +98,17 @@ struct PreferencesView: View {
         }
         .padding(.horizontal, 18)
     }
-    
+
     // MARK: - Preference Panes
     private var preferencePanes: some View {
         VStack(alignment: .leading, spacing: 0) {
-            
+
             // General Pane
             VStack(alignment: .leading) {
                 Text("General")
                     .font(.title2)
                     .fontWeight(.semibold)
-                LaunchAtLogin.Toggle(){Text("Launch Spaceman at login")}
+                LaunchAtLogin.Toggle {Text("Launch Spaceman at login")}
                 Toggle("Refresh spaces in background", isOn: $autoRefreshSpaces)
                 shortcutRecorder.disabled(autoRefreshSpaces ? true : false)
             }
@@ -117,15 +117,14 @@ struct PreferencesView: View {
                 if enabled {
                     prefsVM.startTimer()
                     KeyboardShortcuts.disable(.refresh)
-                }
-                else {
+                } else {
                     prefsVM.pauseTimer()
                     KeyboardShortcuts.enable(.refresh)
                 }
             }
-            
+
             Divider()
-            
+
             // Spaces Pane
             VStack(alignment: .leading) {
                 Text("Spaces")
@@ -136,10 +135,10 @@ struct PreferencesView: View {
                 spaceNameEditor.disabled(selectedStyle != SpacemanStyle.text.rawValue ? true : false)
             }
             .padding()
-            
+
         }
     }
-    
+
     // MARK: - Shortcut Recorder
     private var shortcutRecorder: some View {
         HStack {
@@ -148,7 +147,7 @@ struct PreferencesView: View {
             KeyboardShortcuts.Recorder(for: .refresh)
         }
     }
-    
+
     // MARK: - Style Picker
     private var spacesStylePicker: some View {
         Picker(selection: $selectedStyle, label: Text("Style")) {
@@ -162,7 +161,7 @@ struct PreferencesView: View {
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
         }
     }
-    
+
     // MARK: - Space Name Editor
     private var spaceNameEditor: some View {
         HStack {
@@ -177,17 +176,19 @@ struct PreferencesView: View {
                     get: {prefsVM.spaceName},
                     set: {prefsVM.spaceName = $0.prefix(3).trimmingCharacters(in: .whitespacesAndNewlines)}),
                 onCommit: updateName)
-            
+
             Button("Update name") {
                 updateName()
             }
         }
     }
-    
+
     // MARK: - Update Name Method
     private func updateName() {
         prefsVM.updateSpace()
-        self.data = try! PropertyListEncoder().encode(prefsVM.spaceNamesDict)
+        if let encoded = try? PropertyListEncoder().encode(prefsVM.spaceNamesDict) {
+            self.data = encoded
+        }
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ButtonPressed"), object: nil)
     }
 }

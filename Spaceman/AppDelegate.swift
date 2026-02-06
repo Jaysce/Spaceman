@@ -10,16 +10,12 @@ import KeyboardShortcuts
 
 final class AppDelegate: NSObject, NSApplicationDelegate {
 
-    private var statusBar: StatusBar!
-    private var spaceObserver: SpaceObserver!
-    private var iconCreator: IconCreator!
+    private let statusBar = StatusBar()
+    private let spaceObserver = SpaceObserver()
+    private let iconCreator = IconCreator()
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
-        
-        statusBar = StatusBar()
-        spaceObserver = SpaceObserver()
-        iconCreator = IconCreator()
-        
+
         spaceObserver.delegate = self
         spaceObserver.updateSpaceInformation()
         NSApp.activate(ignoringOtherApps: true)
@@ -42,15 +38,15 @@ extension AppDelegate: SpaceObserverDelegate {
 
 @main
 struct SpacemanApp: App {
-    
+
     @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
-    
+
     var body: some Scene {
-        
+
         Settings {
             EmptyView()
         }
-        
+
     }
-    
+
 }
