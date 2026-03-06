@@ -140,7 +140,7 @@ class SpaceObserver {
         if let pid = spaceInfo["pid"] as? pid_t,
            let app = NSRunningApplication(processIdentifier: pid),
            let name = app.localizedName {
-            return name.prefix(3).uppercased()
+            return name.prefix(10).uppercased()
         }
 
         return "FUL"

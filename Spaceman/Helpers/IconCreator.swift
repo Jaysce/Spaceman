@@ -44,7 +44,6 @@ class IconCreator {
         case .desktopNumbersAndRects:
             icons = createRectWithNumbersIcons(icons, spaces, desktopsOnly: true)
         case .text:
-            iconSize.width = 49
             icons = createNamedIcons(icons, spaces)
         default:
             break
@@ -117,37 +116,58 @@ class IconCreator {
     }
 
     private func createNamedIcons(_ icons: [NSImage], _ spaces: [Space]) -> [NSImage] {
-        var index = 0
         var newIcons = [NSImage]()
+        let padding = CGFloat(12)
+        let cornerRadius = CGFloat(3)
 
         for space in spaces {
-            let textRect = NSRect(origin: CGPoint.zero, size: iconSize)
             let spaceText = NSString(string: "\(space.spaceNumber): \(space.spaceName.uppercased())")
-            let iconImage = NSImage(size: iconSize)
-            let textImage = NSImage(size: iconSize)
+            let isActive = space.isCurrentSpace
 
-            textImage.lockFocus()
-            spaceText.drawVerticallyCentered(
-                in: textRect,
-                withAttributes: getStringAttributes(alpha: 1))
-            textImage.unlockFocus()
+            let textAttrs = getStringAttributes(alpha: 1, fontSize: 10)
+            let textSize = spaceText.size(withAttributes: textAttrs)
+            let dynamicWidth = max(textSize.width + padding, 49)
+            let dynamicSize = NSSize(width: dynamicWidth, height: iconSize.height)
+            let iconImage = NSImage(size: dynamicSize)
 
             iconImage.lockFocus()
-            icons[index].draw(
-                in: textRect,
-                from: NSRect.zero,
-                operation: NSCompositingOperation.sourceOver,
-                fraction: 1.0)
-            textImage.draw(
-                in: textRect,
-                from: NSRect.zero,
-                operation: NSCompositingOperation.destinationOut,
-                fraction: 1.0)
+
+            let bgRect = NSRect(origin: CGPoint.zero, size: dynamicSize)
+            let bgPath = NSBezierPath(roundedRect: bgRect.insetBy(dx: 1, dy: 0.5), xRadius: cornerRadius, yRadius: cornerRadius)
+
+            if isActive {
+                // Active: filled background, text cut out via destinationOut
+                NSColor.black.setFill()
+                bgPath.fill()
+
+                let textImage = NSImage(size: dynamicSize)
+                textImage.lockFocus()
+                spaceText.drawVerticallyCentered(
+                    in: bgRect,
+                    withAttributes: textAttrs)
+                textImage.unlockFocus()
+
+                textImage.draw(
+                    in: bgRect,
+                    from: NSRect.zero,
+                    operation: NSCompositingOperation.destinationOut,
+                    fraction: 1.0)
+            } else {
+                // Inactive: border + direct text, all in black (template handles color)
+                NSColor.black.withAlphaComponent(0.6).setStroke()
+                bgPath.lineWidth = 1.0
+                bgPath.stroke()
+
+                let inactiveAttrs = getStringAttributes(alpha: 0.6, fontSize: 10)
+                spaceText.drawVerticallyCentered(
+                    in: bgRect,
+                    withAttributes: inactiveAttrs)
+            }
+
             iconImage.isTemplate = true
             iconImage.unlockFocus()
 
             newIcons.append(iconImage)
-            index += 1
         }
 
         return newIcons
@@ -177,8 +197,8 @@ class IconCreator {
     }
 
     func mergeIcons(_ iconsWithDisplayProperties: [(image: NSImage, nextSpaceOnDifferentDisplay: Bool)]) -> NSImage {
+        let combinedIconWidth = iconsWithDisplayProperties.reduce(CGFloat.zero) { $0 + $1.image.size.width }
         let numIcons = iconsWithDisplayProperties.count
-        let combinedIconWidth = CGFloat(numIcons) * iconSize.width
         let accomodatingGapWidth = CGFloat(numIcons - 1) * gapWidth
         let accomodatingDisplayGapWidth = CGFloat(displayCount - 1) * displayGapWidth
         let totalWidth = combinedIconWidth + accomodatingGapWidth + accomodatingDisplayGapWidth
@@ -193,9 +213,9 @@ class IconCreator {
                 operation: NSCompositingOperation.sourceOver,
                 fraction: 1.0)
             if icon.nextSpaceOnDifferentDisplay {
-                xOffset += iconSize.width + displayGapWidth
+                xOffset += icon.image.size.width + displayGapWidth
             } else {
-                xOffset += iconSize.width + gapWidth
+                xOffset += icon.image.size.width + gapWidth
             }
         }
         image.isTemplate = true
